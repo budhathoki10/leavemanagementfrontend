@@ -1,0 +1,125 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300;400;500;600&display=swap");
+
+* {
+  font-family: "Roboto Flex", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: hsl(216, 33%, 97%);
+  color: #333;
+}
+
+/* HEADER */
+.dashboard-header {
+  margin: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard {
+  font-size: 36px;
+  font-weight: 700;
+  color: #2d2d2d;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.icons span {
+  font-size: 28px;
+  color: #555;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.icons span:hover {
+  transform: scale(1.1);
+}
+
+.username {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.username-user {
+  margin-top: 3px;
+  font-size: 14px;
+  color: gray;
+}
+
+/* PARTING LINE */
+.parting-line {
+  margin: 20px 30px;
+  border: none;
+  height: 1px;
+  background-color: #ddd;
+}
+
+/* TODAY SECTION */
+.today-section {
+  margin: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.today {
+  font-size: 28px;
+  font-weight: 600;
+  color: hsl(0, 0%, 18%);
+}
+
+.date {
+  font-size: 16px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.today-btn button {
+  width: 150px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+/* BUTTONS */
+.apply-for-leave-btn {
+  background-color: hsl(134, 61%, 41%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-right: 12px;
+}
+
+.apply-for-leave-btn:hover {
+  background-color: #1f7f37;
+}
+
+.view-calendar-btn {
+  background-color: hsl(134, 61%, 41%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  border-radius: 8px;
+}
+
+.view-calendar-btn:hover {
+  background-color: hsl(135, 61%, 31%);
+}

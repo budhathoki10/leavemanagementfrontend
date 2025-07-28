@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300;400;500;600&display=swap");
+
+* {
+  font-family: "Roboto Flex", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.sidebar {
+  color: white;
+  background-color: hsl(141, 100%, 17%);
+  width: 270px;
+  height: auto;
+}
+
+.sidebar img {
+  margin-top: 30px;
+  margin-left: -20px;
+  width: 300px;
+  height: 60px;
+}
+
+.sidebar ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  font-size: 18px;
+  margin-top: 50px;
+  display: grid;
+  gap: 20px;
+  width: 270px;
+}
+.sidebar ul li:hover {
+  background-color: hsl(146, 71%, 38%);
+  cursor: pointer;
+  border-radius: 18px;
+}
+.dashboard-sidebar {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 235px;
+  height: 44px;
+}
+.apply-for-leave {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 235px;
+  height: 44px;
+}
+.calendar {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 235px;
+  height: 44px;
+}
+.leave-history {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 235px;
+  height: 44px;
+}
+.settings {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 235px;
+  height: 44px;
+}
+.signout {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 235px;
+  height: 44px;
+}
+
+.gap-li {
+  margin-top: 200px;
+  display: grid;
+  gap: 20px;
+}

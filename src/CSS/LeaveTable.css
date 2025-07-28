@@ -1,0 +1,54 @@
+.leave-table {
+  margin-top: 50px;
+}
+
+.leave-table h3 {
+  font-size: 25px;
+  margin-left: 30px;
+}
+.leave-table table {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-left: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 80%;
+  border-collapse: separate; /* Important */
+  border-spacing: 0; /* Prevents weird gaps */
+  overflow: hidden; /* Ensures border-radius clips children */
+}
+
+.leave-table th,
+.leave-table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #ccc;
+}
+.tr {
+  background-color: rgba(177, 176, 198, 0.2);
+  border: none;
+}
+
+.status {
+  width: 95px;
+  height: 35px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.status.pending {
+  background-color: #fff8cc;
+  color: #b59f00;
+}
+
+.status.approved {
+  background-color: #ccffd9;
+  color: #118c4f;
+}
+
+.status.rejected {
+  background-color: #ffe1e1;
+  color: #d11a1a;
+}
