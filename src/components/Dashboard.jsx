@@ -1,8 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import "../CSS/Dashboard.css";
 import "../components/LeaveCards";
 import LeaveCards from "../components/LeaveCards";
 import LeaveTable from "./LeaveTable";
 export default function Dashboard() {
+  const navigate = useNavigate();
+
+  const goToCalendar = () => {
+    navigate("/calendar");
+  };
   return (
     <div className="dashboard-content">
       <link
@@ -33,7 +39,9 @@ export default function Dashboard() {
         </div>
         <div className="today-btn">
           <button className="apply-for-leave-btn">Apply for leave</button>
-          <button className="view-calendar-btn">View Calendar</button>
+          <button className="view-calendar-btn" onClick={goToCalendar}>
+            View Calendar
+          </button>
         </div>
       </section>
       <LeaveCards />

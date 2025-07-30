@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import "../CSS/SideBar.css";
 
 const SideBar = () => {
@@ -13,13 +14,28 @@ const SideBar = () => {
       </div>
       <ul>
         <li className="dashboard-sidebar">
-          <span class="material-symbols-outlined">dashboard</span>Dashboard
+          <NavLink
+            to="/dashboard"
+            className={({ isActive }) =>
+              isActive ? "sidebar-link active" : "sidebar-link"
+            }
+          >
+            <span class="material-symbols-outlined">dashboard</span>Dashboard
+          </NavLink>
         </li>
         <li className="apply-for-leave">
           <span class="material-symbols-outlined">post_add</span>Apply For Leave
         </li>
         <li className="calendar">
-          <span class="material-symbols-outlined">calendar_month</span>Calendar
+          <NavLink
+            to="/calendar"
+            className={({ isActive }) =>
+              isActive ? "sidebar-link active" : "sidebar-link"
+            }
+          >
+            <span class="material-symbols-outlined">calendar_month</span>
+            Calendar
+          </NavLink>
         </li>
         <li className="leave-history">
           <span class="material-symbols-outlined">history_2</span>Pending
