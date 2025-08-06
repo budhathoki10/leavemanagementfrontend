@@ -6,7 +6,6 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 
-// Helper functions
 const monthNames = [
   "January",
   "February",
@@ -23,7 +22,6 @@ const monthNames = [
 ];
 
 const getDaysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
-
 const getFirstDayOfMonth = (month, year) => new Date(year, month, 1).getDay();
 
 const Calendar = () => {
@@ -51,7 +49,6 @@ const Calendar = () => {
 
   const totalDays = getDaysInMonth(currentMonth, currentYear);
   const startDay = getFirstDayOfMonth(currentMonth, currentYear);
-
   const days = Array(startDay)
     .fill("")
     .concat(
@@ -60,19 +57,12 @@ const Calendar = () => {
       )
     );
 
-  const daysOfWeek = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   return (
     <div style={styles.wrapper}>
       <div style={styles.container}>
+        {/* Header */}
         <div style={styles.header}>
           <h2 style={styles.title}>Calendar</h2>
           <div style={styles.userIcons}>
@@ -87,8 +77,7 @@ const Calendar = () => {
           </div>
         </div>
 
-        <hr style={{ marginBottom: 10 }} />
-
+        {/* Navigation */}
         <div style={styles.monthRow}>
           <h3 style={styles.monthText}>
             {monthNames[currentMonth]}, {currentYear}
@@ -103,6 +92,7 @@ const Calendar = () => {
           </div>
         </div>
 
+        {/* Calendar Grid */}
         <div style={styles.calendarBox}>
           <div style={styles.weekRow}>
             {daysOfWeek.map((day, index) => (
@@ -111,7 +101,6 @@ const Calendar = () => {
               </div>
             ))}
           </div>
-
           <div style={styles.dayGrid}>
             {days.map((day, index) => (
               <div key={index} style={styles.dayCell}>
@@ -128,32 +117,30 @@ const Calendar = () => {
 const styles = {
   wrapper: {
     minHeight: "100vh",
-    width: "100vw",
+    width: "100%", // FIXED: removed horizontal scrollbar
     backgroundColor: "#A1E8AF",
-    padding: "20px 0",
-    fontFamily: "Roboto, sans-serif",
-    color: "#000",
+    padding: "20px 16px",
+    boxSizing: "border-box",
     overflowY: "auto",
   },
   container: {
     backgroundColor: "#fff",
-    borderRadius: "12px",
-    padding: "20px 40px",
+    borderRadius: "16px",
+    padding: "24px",
     maxWidth: "1000px",
-    width: "100%",
     margin: "0 auto",
-    boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+    boxShadow: "0 6px 12px rgba(0,0,0,0.1)",
   },
   header: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: "10px",
+    marginBottom: "16px",
   },
   title: {
-    fontSize: "24px",
+    fontSize: "28px",
     margin: 0,
-    color: "#000",
+    color: "#1a1a1a",
   },
   userIcons: {
     display: "flex",
@@ -163,7 +150,7 @@ const styles = {
   icon: {
     fontSize: "18px",
     cursor: "pointer",
-    color: "#000",
+    color: "#333",
   },
   userInfo: {
     display: "flex",
@@ -181,18 +168,19 @@ const styles = {
     color: "#000",
   },
   userRole: {
-    color: "#000",
+    color: "#666",
   },
   monthRow: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: "10px",
+    marginBottom: "16px",
   },
   monthText: {
     margin: 0,
-    fontSize: "18px",
-    color: "#000",
+    fontSize: "20px",
+    fontWeight: "600",
+    color: "#1a1a1a",
   },
   chevronButtons: {
     display: "flex",
@@ -202,14 +190,15 @@ const styles = {
     border: "none",
     backgroundColor: "#1B9C1B",
     color: "#fff",
-    padding: "6px 10px",
-    borderRadius: "4px",
+    padding: "8px 12px",
+    borderRadius: "6px",
     cursor: "pointer",
+    transition: "background-color 0.2s",
   },
   calendarBox: {
-    border: "1px solid #ccc",
-    borderRadius: "10px",
-    padding: "10px",
+    border: "1px solid #ddd",
+    borderRadius: "12px",
+    padding: "16px",
     backgroundColor: "#fff",
     width: "100%",
   },
@@ -218,20 +207,21 @@ const styles = {
     gridTemplateColumns: "repeat(7, 1fr)",
     textAlign: "center",
     fontWeight: "bold",
-    marginBottom: "10px",
+    marginBottom: "12px",
+    fontSize: "14px",
+    color: "#333",
   },
   dayLabel: {
-    padding: "10px 0",
-    fontSize: "14px",
+    padding: "8px 0",
   },
   dayGrid: {
     display: "grid",
     gridTemplateColumns: "repeat(7, 1fr)",
-    gap: "8px",
+    gap: "10px",
   },
   dayCell: {
     border: "1px solid #ccc",
-    borderRadius: "6px",
+    borderRadius: "8px",
     padding: "6px",
     height: "60px",
     display: "flex",
@@ -239,7 +229,7 @@ const styles = {
     alignItems: "flex-start",
     fontSize: "14px",
     fontWeight: "bold",
-    backgroundColor: "#fff",
+    backgroundColor: "#fafafa",
   },
 };
 

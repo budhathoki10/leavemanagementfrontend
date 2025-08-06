@@ -1,3 +1,23 @@
+/* Layout container takes full screen height */
 .layout {
   display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Sidebar fixed width */
+.sidebar {
+  width: 240px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* Main content area takes remaining space */
+.main {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #f6f6f6; /* match leave-form background */
 }

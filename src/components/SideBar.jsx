@@ -1,7 +1,12 @@
 import { NavLink } from "react-router-dom";
 import "../CSS/SideBar.css";
+import leavoLogo from "../assets/leavo-logo.png";
+import { useState } from "react";
+import SettingSideBar from "../components/SettingSideBar";
 
 const SideBar = () => {
+  const [showSettingMenu, setShowSettingMenu] = useState(false);
+
   return (
     <div className="sidebar">
       <link
@@ -10,9 +15,9 @@ const SideBar = () => {
       />
 
       <div className="leavo-logo">
-        <img src="src\assets\leavo-logo.png" alt="leavo-logo" />
+        <img src={leavoLogo} alt="leavo-logo" />
       </div>
-      <ul>
+      <ul className="sidebar-ul">
         <li className="dashboard-sidebar">
           <NavLink
             to="/dashboard"
@@ -23,9 +28,19 @@ const SideBar = () => {
             <span class="material-symbols-outlined">dashboard</span>Dashboard
           </NavLink>
         </li>
+
         <li className="apply-for-leave">
-          <span class="material-symbols-outlined">post_add</span>Apply For Leave
+          <NavLink
+            to="/applyforleave"
+            className={({ isActive }) =>
+              isActive ? "sidebar-link active" : "sidebar-link"
+            }
+          >
+            <span class="material-symbols-outlined">post_add</span>Apply For
+            Leave
+          </NavLink>
         </li>
+
         <li className="calendar">
           <NavLink
             to="/calendar"
@@ -37,14 +52,23 @@ const SideBar = () => {
             Calendar
           </NavLink>
         </li>
+
         <li className="leave-history">
           <span class="material-symbols-outlined">history_2</span>Pending
           Request
         </li>
+
         <div className="gap-li">
-          <li className="settings">
+          <li
+            className="settings"
+            onClick={() => setShowSettingMenu(!showSettingMenu)}
+          >
             <span class="material-symbols-outlined">settings</span>Settings
           </li>
+          {showSettingMenu && (
+            <SettingSideBar onClose={() => setShowSettingMenu(false)} />
+          )}
+
           <li className="signout">
             <span class="material-symbols-outlined">exit_to_app</span>Signout
           </li>

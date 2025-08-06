@@ -1,0 +1,196 @@
+.leave-form-full {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  padding: 40px;
+  box-sizing: border-box;
+  background-color: #f6f6f6;
+  overflow-y: auto;
+}
+.form-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 30px;
+}
+
+.leave-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.leave-form label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.leave-form select,
+.leave-form input[type="text"],
+.leave-form input[type="file"] {
+  padding: 12px 14px;
+  margin-bottom: 24px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #fafafa;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Wrapper for custom date input + icon */
+.input-with-icon {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+/* Read-only date input styling */
+.custom-datepicker-input {
+  width: 100%;
+  padding: 12px 40px 12px 14px; /* Right padding for icon */
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fafafa;
+  box-sizing: border-box;
+  color: #222;
+}
+
+/* Calendar icon inside the input */
+.calendar-icon-inside {
+  position: absolute;
+  right: 14px;
+  top: 30%;
+  transform: translateY(-50%);
+  color: #007a38;
+  font-size: 18px;
+  pointer-events: none; /* so clicks go to wrapper div */
+}
+
+.leave-form input[type="file"] {
+  padding: 10px;
+}
+
+.submit-btn {
+  background-color: #007a38;
+  color: white;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #005e2c;
+}
+
+/* Popup background and border radius */
+.react-datepicker {
+  background-color: #d9ead3; /* light green */
+  border-radius: 12px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+  padding: 12px 16px;
+  width: auto !important;
+}
+
+/* Header container for month/year with no bottom border */
+.react-datepicker__header {
+  background-color: transparent;
+  border-bottom: none;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+/* Month and Year text styling */
+.react-datepicker__current-month {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #000000;
+  text-align: center;
+}
+
+/* Hide default arrows */
+.react-datepicker__navigation-icon::before {
+  border: none !important;
+}
+
+/* Custom header container */
+.custom-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px 8px 10px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #000;
+}
+
+/* Custom nav buttons */
+.custom-nav-btn {
+  background-color: white;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #007a38;
+  transition: background-color 0.3s ease;
+}
+
+.custom-nav-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+.custom-nav-btn:hover:not(:disabled) {
+  background-color: #a4d7a7;
+  color: white;
+}
+
+/* Weekday names styling */
+.react-datepicker__day-name {
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 6px;
+}
+
+/* Days grid container spacing */
+.react-datepicker__month {
+  margin: 0;
+  padding: 0;
+}
+
+/* Normal day styling */
+.react-datepicker__day {
+  color: #000000;
+  font-weight: 600;
+}
+
+/* Days outside current month faded */
+.react-datepicker__day--outside-month {
+  color: rgba(0, 0, 0, 0.25);
+}
+
+/* Hover day */
+.react-datepicker__day:hover {
+  background-color: #a4d7a7 !important; /* slightly darker green */
+  color: #fff !important;
+  border-radius: 8px;
+}
+
+/* Selected day */
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: #007a38 !important; /* theme green */
+  color: white !important;
+  border-radius: 8px;
+}

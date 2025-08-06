@@ -9,6 +9,10 @@ export default function Dashboard() {
   const goToCalendar = () => {
     navigate("/calendar");
   };
+
+  const goToApplyForLeave = () => {
+    navigate("/applyforleave");
+  };
   return (
     <div className="dashboard-content">
       <link
@@ -38,7 +42,9 @@ export default function Dashboard() {
           <p className="date">22 July, 2025</p>
         </div>
         <div className="today-btn">
-          <button className="apply-for-leave-btn">Apply for leave</button>
+          <button className="apply-for-leave-btn" onClick={goToApplyForLeave}>
+            Apply for leave
+          </button>
           <button className="view-calendar-btn" onClick={goToCalendar}>
             View Calendar
           </button>
