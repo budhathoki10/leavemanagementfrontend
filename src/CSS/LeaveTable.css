@@ -6,6 +6,7 @@
   font-size: 25px;
   margin-left: 30px;
 }
+
 .leave-table table {
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -13,17 +14,18 @@
   margin-top: 20px;
   margin-bottom: 20px;
   width: 80%;
-  border-collapse: separate; /* Important */
-  border-spacing: 0; /* Prevents weird gaps */
-  overflow: hidden; /* Ensures border-radius clips children */
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
 }
 
 .leave-table th,
 .leave-table td {
   text-align: left;
-  padding: 12px;
+  padding: 18px 12px; /* ⬅ Increased vertical padding */
   border-bottom: 1px solid #ccc;
 }
+
 .tr {
   background-color: rgba(177, 176, 198, 0.2);
   border: none;
