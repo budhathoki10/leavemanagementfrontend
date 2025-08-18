@@ -33,10 +33,13 @@ const leaves = [
 export default function LeaveTable() {
   return (
     <div className="leave-table">
-      <h3>Recent Leave Requests</h3>
+      <div className="leave-table-header">
+        <h3>Recent Leave Requests</h3>
+        <a href="/leavehistory/approvedleave">View all &gt;</a>
+      </div>
       <table>
         <thead>
-          <tr className="tr">
+          <tr>
             <th>Leave Type</th>
             <th>From</th>
             <th>To</th>
@@ -49,8 +52,10 @@ export default function LeaveTable() {
               <td>{leave.type}</td>
               <td>{leave.from}</td>
               <td>{leave.to}</td>
-              <td className={`status ${leave.status.toLowerCase()}`}>
-                {leave.status}
+              <td>
+                <span className={`status ${leave.status.toLowerCase()}`}>
+                  {leave.status}
+                </span>
               </td>
             </tr>
           ))}

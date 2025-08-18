@@ -3,7 +3,7 @@ import PendingLeaveBarDetails from "./PendingLeaveBarDetails";
 const PendingLeave = () => {
   return (
     <div>
-      <section className="leave-history-header">
+      <section className="leave-history-pending-leave-header">
         <p className="lh-pl">Leave History</p>
         <div className="icons">
           <div className="notifications">
@@ -22,7 +22,9 @@ const PendingLeave = () => {
 
       <section className="pending-request-section">
         <p className="pending-requests-header">Pending-Requests</p>
-        <PendingLeaveBarDetails />
+        <div className="pending-leave-bar">
+          <PendingLeaveBarDetails />
+        </div>
       </section>
     </div>
   );

@@ -1,56 +1,82 @@
 .leave-table {
-  margin-top: 50px;
+  margin: 30px;
 }
 
-.leave-table h3 {
-  font-size: 25px;
-  margin-left: 30px;
+/* Header row with title + "View all" link */
+.leave-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.leave-table-header h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.leave-table-header a {
+  font-size: 14px;
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.leave-table-header a:hover {
+  text-decoration: underline;
 }
 
 .leave-table table {
-  border: 1px solid #ccc;
+  width: 100%;
+  border: 1px solid #ddd;
   border-radius: 10px;
-  margin-left: 30px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  width: 80%;
   border-collapse: separate;
   border-spacing: 0;
   overflow: hidden;
+  background-color: #fff;
 }
 
 .leave-table th,
 .leave-table td {
   text-align: left;
-  padding: 18px 12px; /* ⬅ Increased vertical padding */
-  border-bottom: 1px solid #ccc;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
 }
 
-.tr {
-  background-color: rgba(177, 176, 198, 0.2);
-  border: none;
-}
-
-.status {
-  width: 95px;
-  height: 35px;
-  padding: 6px 12px;
-  border-radius: 6px;
+.leave-table th {
+  background-color: #f9f9f9;
   font-weight: 600;
+}
+
+.leave-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* ✅ Status pill styles */
+.status {
+  display: inline-block;
+  min-width: 85px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 500;
   text-align: center;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 .status.pending {
   background-color: #fff8cc;
-  color: #b59f00;
+  color: #8a6d00;
 }
 
 .status.approved {
   background-color: #ccffd9;
-  color: #118c4f;
+  color: #0a7a3f;
 }
 
 .status.rejected {
   background-color: #ffe1e1;
-  color: #d11a1a;
+  color: #b80000;
 }

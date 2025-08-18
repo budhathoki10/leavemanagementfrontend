@@ -12,7 +12,7 @@ body {
   color: #333;
 }
 
-.leave-history-header {
+.leave-history-rejected-leave-header {
   margin-top: 20px;
   margin-left: 30px;
   margin-right: 30px;
@@ -34,6 +34,10 @@ body {
 
 .rejected-requests-header {
   font-size: 28px;
-  margin-left: 60px;
+  margin-left: 30px;
   color: #2d2d2d;
+}
+
+.rejected-leave-bar{
+  margin-top: 50px;
 }

@@ -1,10 +1,10 @@
 .approved-expanded-view {
   position: relative;
   margin-top: 30px;
-  margin-left: 100px;
+  margin-left: 50px;
   margin-right: 30px;
-  width: 1017px;
-  height: 420px;
+  max-width: auto;
+  height: auto;
   background-color: hsl(0, 0%, 97%);
   padding: 20px 30px;
   border-radius: 12px;
@@ -35,27 +35,31 @@
 .lbvb-close-btn:hover {
   transform: scale(1.1);
 }
+
 .lbvb-close-btn span {
   font-size: 35;
 }
 
-.reason-box {
+.approved-reason-box {
+  /* border: 1px solid; */
   margin-top: 60px;
   display: grid;
-  max-width: 756px;
+  max-width: auto;
 }
 
-.reason-label {
+.approved-reason-label {
   font-size: 18px;
   font-weight: bold;
 }
 
-.reason-brief {
+.approved-reason-brief {
   padding: 8px 12px;
   margin-top: 20px;
-  max-width: 756px;
+  max-width: auto;
   height: auto;
-  border: 2px solid hsl(0, 0%, 60%);
+  border: 2px solid hsl(0, 1%, 68%);
+  border-radius: 10px;
+  background-color: white;
 }
 
 .posted-time {

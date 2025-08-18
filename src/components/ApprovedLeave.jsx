@@ -3,7 +3,7 @@ import ApprovedLeaveBarDetails from "./ApprovedLeaveBarDetails";
 const ApprovedLeave = () => {
   return (
     <div>
-      <section className="leave-history-header">
+      <section className="leave-history-approved-leave-header">
         <p className="lh-al">Leave History</p>
         <div className="icons">
           <div className="notifications">
@@ -22,17 +22,19 @@ const ApprovedLeave = () => {
 
       <section className="approved-request-section">
         <p className="approved-requests-header">Approved Leaves</p>
-        <ApprovedLeaveBarDetails />
-        <ApprovedLeaveBarDetails
-          moduleName="Software Engineering"
-          week={6}
-          classType="Lab"
-          leaveType="Personal"
-          leavesTaken="8/24"
-          reason="Family function"
-          postedTime="2:30 PM"
-          documents={[]}
-        />
+        <div className="approved-leave-bar">
+          <ApprovedLeaveBarDetails />
+          <ApprovedLeaveBarDetails
+            moduleName="Software Engineering"
+            week={6}
+            classType="Lab"
+            leaveType="Personal"
+            leavesTaken="8/24"
+            reason="Family function"
+            postedTime="2:30 PM"
+            documents={[]}
+          />
+        </div>
       </section>
     </div>
   );

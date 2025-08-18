@@ -49,9 +49,9 @@ const RejectedLeaveBarViewDetails = ({ onClose }) => {
           <p className="leaves-taken">5/24</p>
         </div>
 
-        <div className="reason-box">
-          <p className="reason-label">Reason</p>
-          <p className="reason-brief">
+        <div className="rejected-reason-box">
+          <p className="rejected-reason-label">Reason</p>
+          <p className="rejected-reason-brief">
             I would like to inform you that I will not be able to attend classes
             from July 21st to July 28th due to high fever along with persistent
             cough. Pictures of prescribed medicine and lab reports are attached
