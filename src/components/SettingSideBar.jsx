@@ -28,7 +28,7 @@ const SettingSideBar = ({ onClose }) => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="#" className="settings-sidebar-link">
+          <NavLink to="/settings/feedback" className="settings-sidebar-link">
             <p>Feedback and Support</p>
           </NavLink>
         </li>
