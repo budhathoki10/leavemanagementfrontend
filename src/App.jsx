@@ -8,6 +8,9 @@ import Dashboard from "./components/Dashboard";
 import Calendar from "./components/Calendar.jsx";
 import ApplyForLeavePage from "./components/ApplyForLeavePage.jsx";
 import Profile from "./components/Profile.jsx";
+import PendingLeave from "./components/PendingLeave.jsx";
+import ApprovedLeave from "./components/ApprovedLeave.jsx";
+import RejectedLeave from "./components/RejectedLeave.jsx";
 
 function App() {
   return (
@@ -22,6 +25,15 @@ function App() {
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/applyforleave" element={<ApplyForLeavePage />} />
           <Route path="/settings/profile" element={<Profile />} />
+          <Route path="/leavehistory/pendingleave" element={<PendingLeave />} />
+          <Route
+            path="/leavehistory/approvedleave"
+            element={<ApprovedLeave />}
+          />
+          <Route
+            path="/leavehistory/rejectedleave"
+            element={<RejectedLeave />}
+          />
         </Routes>
       </div>
     </div>

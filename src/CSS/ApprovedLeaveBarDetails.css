@@ -1,0 +1,117 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300;400;500;600&display=swap");
+
+* {
+  font-family: "Roboto Flex", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.approved-leave-bar-details {
+  position: relative;
+  margin-top: 30px;
+  margin-left: 100px;
+  margin-right: 30px;
+  max-width: 1017px;
+  height: 121px;
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.approved-leave-bar-details:before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 10px;
+  background: hsl(122, 100%, 20%);
+  top: 0;
+  left: 0;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.leave-bar-top {
+  margin-top: -10px;
+  width: 100%;
+  /* border: 1px solid; */
+}
+.approved-view {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  margin-right: 40px;
+}
+
+.approved-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 187px;
+  height: 30px;
+  background-color: hsl(122, 100%, 85%);
+  font-weight: bold;
+  color: hsl(39, 100%, 20%);
+}
+
+.view-details {
+  margin-right: -40px;
+  width: 80px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  color: #1f7f37;
+  font-weight: bold;
+  border: 2px solid #1f7f37;
+  border-radius: 17px;
+  transition: 0.3s ease;
+}
+
+.view-details:hover {
+  cursor: pointer;
+  background-color: #1f7f37;
+  color: white;
+}
+
+.leave-bar-bottom {
+  display: flex;
+  gap: 70px;
+  margin-top: 20px;
+}
+
+.details-label-info {
+  display: grid;
+}
+
+.details-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.details-label span {
+  color: #1f7f37;
+}
+
+.module {
+  color: rgba(0, 0, 0, 0.578);
+  font-weight: 100;
+  font-size: 14px;
+  margin-left: 20px;
+}
+
+.leaves-taken {
+  margin-left: auto;
+  width: 128px;
+  height: 23px;
+  background-color: hsl(242, 100%, 94%, 0.85);
+  color: rgb(104, 101, 101);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: transparent;
+  border-radius: 30px;
+}

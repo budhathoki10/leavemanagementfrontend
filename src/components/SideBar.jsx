@@ -1,11 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../CSS/SideBar.css";
 import leavoLogo from "../assets/leavo-logo.png";
 import { useState } from "react";
 import SettingSideBar from "../components/SettingSideBar";
+import { Navigate } from "react-router-dom";
+import LeaveHistoryBar from "./LeaveHistoryBar";
 
 const SideBar = () => {
   const [showSettingMenu, setShowSettingMenu] = useState(false);
+  const [showLeaveHisotryMenu, setShowLeaveHistoryMenu] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="sidebar">
@@ -14,7 +18,11 @@ const SideBar = () => {
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
       />
 
-      <div className="leavo-logo">
+      <div
+        className="leavo-logo"
+        onClick={() => navigate("/")}
+        style={{ cursor: "pointer" }}
+      >
         <img src={leavoLogo} alt="leavo-logo" />
       </div>
       <ul className="sidebar-ul">
@@ -53,10 +61,15 @@ const SideBar = () => {
           </NavLink>
         </li>
 
-        <li className="leave-history">
-          <span class="material-symbols-outlined">history_2</span>Pending
-          Request
+        <li
+          className="leave-history"
+          onClick={() => setShowLeaveHistoryMenu(!showLeaveHisotryMenu)}
+        >
+          <span class="material-symbols-outlined">history_2</span>Leave history
         </li>
+        {showLeaveHisotryMenu && (
+          <LeaveHistoryBar onClose={() => setShowLeaveHistoryMenu(false)} />
+        )}
 
         <div className="gap-li">
           <li

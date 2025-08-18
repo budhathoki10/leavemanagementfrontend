@@ -25,7 +25,7 @@ export default function Dashboard() {
           <div className="notifications">
             <span class="material-symbols-outlined">notifications</span>
           </div>
-          <hr className="vr-line"></hr>
+          {/* <hr className="vr-line"></hr> */}
           <div className="user">
             <span class="material-symbols-outlined">account_circle</span>{" "}
           </div>
