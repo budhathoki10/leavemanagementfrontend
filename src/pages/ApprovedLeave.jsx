@@ -1,5 +1,5 @@
 import "../CSS/ApprovedLeave.css";
-import ApprovedLeaveBarDetails from "./ApprovedLeaveBarDetails";
+import ApprovedLeaveBarDetails from "../components/ApprovedLeaveBarDetails";
 const ApprovedLeave = () => {
   return (
     <div>

@@ -1,17 +1,17 @@
 import "./App.css";
-import "./components/Calendar.jsx";
+import "./pages/Calendar.jsx";
 import "./CSS/Registration.css";
-import "./components/ApplyForLeavePage.jsx";
+import "./pages/ApplyForLeavePage.jsx";
 import { Routes, Route, Navigate } from "react-router-dom";
 import SideBar from "./components/SideBar";
-import Dashboard from "./components/Dashboard";
-import Calendar from "./components/Calendar.jsx";
-import ApplyForLeavePage from "./components/ApplyForLeavePage.jsx";
-import Profile from "./components/Profile.jsx";
-import PendingLeave from "./components/PendingLeave.jsx";
-import ApprovedLeave from "./components/ApprovedLeave.jsx";
-import RejectedLeave from "./components/RejectedLeave.jsx";
-import Feedback from "./components/Feedback.jsx";
+import Dashboard from "./pages/Dashboard";
+import Calendar from "./pages/Calendar.jsx";
+import ApplyForLeavePage from "./pages/ApplyForLeavePage.jsx";
+import Profile from "./setting-pages/Profile.jsx";
+import PendingLeave from "./pages/PendingLeave.jsx";
+import ApprovedLeave from "./pages/ApprovedLeave.jsx";
+import RejectedLeave from "./pages/RejectedLeave.jsx";
+import Feedback from "./setting-pages/Feedback.jsx";
 
 function App() {
   return (

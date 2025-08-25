@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "../CSS/SideBar.css";
 import leavoLogo from "../assets/leavo-logo.png";
 import { useState } from "react";
-import SettingSideBar from "../components/SettingSideBar";
+import SettingSideBar from "./SettingSideBar";
 import { Navigate } from "react-router-dom";
 import LeaveHistoryBar from "./LeaveHistoryBar";
 

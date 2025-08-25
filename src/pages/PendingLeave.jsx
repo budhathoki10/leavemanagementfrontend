@@ -1,16 +1,16 @@
-import "../CSS/RejectedLeave.css";
-import RejectedLeaveBarDetails from "./RejectedLeaveBarDetails";
-const RejectedLeave = () => {
+import "../CSS/PendingLeave.css";
+import PendingLeaveBarDetails from "../components/PendingLeaveBarDetails";
+const PendingLeave = () => {
   return (
     <div>
-      <section className="leave-history-rejected-leave-header">
+      <section className="leave-history-pending-leave-header">
         <p className="lh-pl">Leave History</p>
         <div className="icons">
           <div className="notifications">
             <span class="material-symbols-outlined">notifications</span>
           </div>
           <div className="user">
-            <span class="material-symbols-outlined">account_circle</span>
+            <span class="material-symbols-outlined">account_circle</span>{" "}
           </div>
           <div className="user-text">
             <p className="username">John Snow</p>
@@ -20,15 +20,14 @@ const RejectedLeave = () => {
       </section>
       <hr className="parting-line"></hr>
 
-      <section className="rejected-request-section">
-        <p className="rejected-requests-header">Rejected Requests</p>
-        <div className="rejected-leave-bar">
-          {" "}
-          <RejectedLeaveBarDetails />
+      <section className="pending-request-section">
+        <p className="pending-requests-header">Pending-Requests</p>
+        <div className="pending-leave-bar">
+          <PendingLeaveBarDetails />
         </div>
       </section>
     </div>
   );
 };
 
-export default RejectedLeave;
+export default PendingLeave;

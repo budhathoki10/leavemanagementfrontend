@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "../CSS/Dashboard.css";
 import "../components/LeaveCards";
 import LeaveCards from "../components/LeaveCards";
-import LeaveTable from "./LeaveTable";
+import LeaveTable from "../components/LeaveTable";
 export default function Dashboard() {
   const navigate = useNavigate();
 
