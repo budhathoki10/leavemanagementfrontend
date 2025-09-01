@@ -21,6 +21,8 @@
   height: 60px;
 }
 .sidebar-link {
+  width: 270px;
+
   display: flex;
   align-items: center;
   gap: 20px;

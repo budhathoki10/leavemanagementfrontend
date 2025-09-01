@@ -1,0 +1,258 @@
+
+
+.login-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  overflow: hidden;
+  background-color: #ffffff;
+  gap: 30px;
+  padding: 20px; /* keeps edges clean */
+}
+
+/* Left side */
+.login-left {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  min-width: 776px;
+  border-radius: 30px;
+  height: 95vh;
+  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.9); /* ✅ White shadow */
+}
+
+/* Background image */
+.login-left::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("../assets/bg.png");
+  background-size: cover;
+  background-position: center;
+  filter: blur(4px);
+  z-index: 0;
+  transform: scale(1.05);
+}
+
+/* Overlay content */
+.login-left .overlay {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.4);
+  white-space: normal;
+
+  /* ✅ White shadow only top & bottom */
+  box-shadow: 0 -10px 20px rgba(255, 255, 255, 0.8),
+    0 10px 20px rgba(255, 255, 255, 0.8);
+}
+
+.overlay h1,
+.overlay h2 {
+  font-size: 64px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+}
+
+.logo-section {
+  margin-top: 40px;
+}
+
+.logo-section img {
+  width: 170px;
+  height: auto;
+}
+
+/* Right Side */
+.login-right {
+  flex: 1;
+  background-color: #fff;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 547px;
+  height: 95vh;
+  border-radius: 30px;
+  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.9); /* ✅ White shadow */
+}
+
+.top-logos {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 30px;
+  padding: 0 20px;
+}
+
+.top-logos img {
+  height: 60px;
+  object-fit: contain;
+}
+
+.form-container {
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+form label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #444;
+}
+
+form input[type="email"],
+form input[type="password"],
+.password-field input {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-size: 15px;
+
+  /* ✅ Fix jump when toggling password visibility */
+  font-family: monospace;
+  box-sizing: border-box;
+  padding-right: 40px; /* space for icon */
+}
+
+.term {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+
+.forgot-link {
+  color: #141514;
+  text-decoration: none;
+  text-align: right;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #1ca859;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #3c911d;
+}
+
+p {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+p a {
+  color: #5be249;
+  text-decoration: underline;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+.or-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+  margin: 20px 0 10px;
+}
+
+.or-divider::before,
+.or-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1.5px solid #ccc;
+  margin: 0 10px;
+}
+
+.google-signin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+  color: black;
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+.google-signin img {
+  height: 20px;
+}
+
+.google-signin:hover {
+  background-color: #f2f2f2;
+}
+
+/* ✅ Password Field */
+.password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-icon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #666;
+
+  /* ✅ Fix eye icon size so UI doesn’t shift */
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

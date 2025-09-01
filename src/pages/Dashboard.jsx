@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import "../CSS/Dashboard.css";
 import userImage from "../assets/user.jpeg";
@@ -29,15 +28,12 @@ const leavesTakenData = [
 ];
 
 export default function Dashboard() {
-  const navigate = useNavigate();
-
-  const goToCalendar = () => {
-    navigate("/calendar");
-  };
-
-  const goToApplyForLeave = () => {
-    navigate("/applyforleave");
-  };
+    const today = new Date();
+  const formattedDate = today.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
 
   return (
     <div className="dashboard-content">
@@ -67,7 +63,7 @@ export default function Dashboard() {
           <div className="inner-top">
             <div className="level-date">
               <p className="level">Level 5</p>
-              <p className="date">December 25, 2025</p>
+              <p className="date">{formattedDate}</p>
             </div>
             <div className="clg-logo">
               <img src={clgLogo}></img>

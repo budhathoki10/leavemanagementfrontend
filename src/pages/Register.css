@@ -1,0 +1,238 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f4f4f4; /* softer background */
+}
+
+.register-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 10px;
+  background-color: #ffffff;
+}
+
+/* Left Section */
+.register-left {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px 20px 20px 20px;
+  min-width: 700px;
+  height: 95vh;
+}
+
+.register-left,
+.register-right {
+  background: white;
+  box-shadow: 0 0 30px white(255, 255, 255, 0.9);
+}
+
+.register-left::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-image: url("../assets/bg.png");
+  background-size: cover;
+  background-position: center;
+  filter: blur(3px);
+  transform: scale(1.05);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.overlay {
+  position: relative;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.4);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.overlay h1 {
+  font-size: 64px;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  color: #ffffff;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+
+  white-space: nowrap; /* ✅ Forces all words in one line */
+  overflow: hidden; /* ✅ Prevents breaking */
+  text-overflow: ellipsis; /* Optional: shows "..." if it doesn’t fit */
+}
+
+.logo-section {
+  margin-top: 40px;
+}
+
+.logo-section img {
+  width: 170px;
+  height: auto;
+}
+
+/* Right Section */
+.register-right {
+  flex: 1;
+  background-color: white;
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
+  width: 547px;
+  height: 95vh;
+}
+
+.top-logos {
+  display: flex;
+  justify-content: space-between;
+  width: 250px;
+  margin-bottom: 30px;
+  padding: 0 10px;
+}
+
+.top-logos img {
+  height: 60px;
+  object-fit: contain;
+}
+
+h2 {
+  font-size: 34px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  text-align: center;
+  line-height: 100%;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+}
+
+.register-form label {
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Inputs */
+.register-form input {
+  margin-bottom: 20px;
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-size: 14px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.register-form input:focus {
+  outline: none;
+  border-color: #3eca2b;
+  box-shadow: 0px 2px 8px rgba(62, 202, 43, 0.3);
+}
+
+/* Password Field with Eye Icon */
+.password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-field input {
+  flex: 1;
+  padding-right: 40px;
+}
+
+.toggle-icon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #666;
+}
+
+/* Terms */
+.terms {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  gap: 4px;
+  line-height: 1;
+  padding: 10px 0 20px 0;
+}
+
+.terms input[type="checkbox"] {
+  margin: 0 4px 0 0;
+  width: 14px;
+  height: 14px;
+}
+
+/* Button */
+.signup-button {
+  background-color: #1ca859;
+  width: 100%;
+  padding: 16px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.signup-button:hover {
+  background-color: #2d9921;
+}
+
+/* Login link */
+.login-link {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.login-link a {
+  color: #5be249;
+  text-decoration: none;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Error Messages */
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaBell, FaUserCircle, FaPlus, FaMinus } from "react-icons/fa";
+import userImage from "../assets/user.jpeg";
+
 import "../CSS/ApplyForLeavePage.css";
 const ApplyForLeave = () => {
   const [leaveType, setLeaveType] = useState("");
@@ -105,20 +107,21 @@ const ApplyForLeave = () => {
   return (
     <div className="apply-leave-wrapper">
       {/* Top Bar */}
-      <div className="top-bar">
-        <h1 className="page-title">Apply for Leave</h1>
-        <div className="user-section">
-          <FaBell className="icon bell" />
-          <div className="divider-vertical"></div>
-          <div className="user-profile">
-            <FaUserCircle className="icon user-icon" />
-            <div className="user-info">
-              <span className="name">John Snow</span>
-              <span className="role">User</span>
-            </div>
+      <section className="dashboard-header">
+        <p className="dashboard">Apply for leave</p>
+        <div className="icons">
+          <div className="notifications">
+            <span className="material-symbols-outlined">notifications</span>
+          </div>
+          <div className="user-pfp">
+            <img src={userImage} alt="user" />
+          </div>
+          <div className="user-text">
+            <p className="username">John Snow</p>
+            <p className="username-user">User</p>
           </div>
         </div>
-      </div>
+      </section>
 
       <hr className="divider" />
 
