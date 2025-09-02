@@ -98,10 +98,10 @@ const ApplyForLeave = () => {
               innerRadius={60}
               outerRadius={80}
               dataKey="value"
-              isAnimationActive={true} // turn animation on
-              animationBegin={0} // delay before animation starts
-              animationDuration={1200} // how long the animation runs
-              animationEasing="ease-out" // easing style
+              isAnimationActive={true}
+              animationBegin={0}
+              animationDuration={1200}
+              animationEasing="ease-out"
             >
               {pieData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index]} />
@@ -201,11 +201,10 @@ const ApplyForLeave = () => {
               </div>
             </div>
 
-            <p className="module-extra">
-              Date: 2025-08-14 | Module Remaining Leave: 7
-            </p>
+            <p className="module-extra">Module Remaining Leave: 7</p>
           </div>
         ))}
+
         {/* Reason */}
         <div className="form-group">
           <label>Reason</label>
@@ -215,6 +214,7 @@ const ApplyForLeave = () => {
             onChange={(e) => setReason(e.target.value)}
           />
         </div>
+
         {/* File Upload */}
         <div className="form-group">
           <label>Upload Documents (Optional)</label>
@@ -247,6 +247,7 @@ const ApplyForLeave = () => {
             style={{ display: "none" }}
           />
         </div>
+
         {/* Picture Upload */}
         <div className="form-group">
           <label>Upload Pictures (Optional)</label>
