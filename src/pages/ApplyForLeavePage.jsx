@@ -1,114 +1,75 @@
-import React, { useState, useEffect } from "react";
-import { FaBell, FaUserCircle, FaPlus, FaMinus } from "react-icons/fa";
+import React, { useState } from "react";
+import { PieChart, Pie, Cell } from "recharts";
 import userImage from "../assets/user.jpeg";
 
 import "../CSS/ApplyForLeavePage.css";
+
 const ApplyForLeave = () => {
   const [leaveType, setLeaveType] = useState("");
   const [moduleDetails, setModuleDetails] = useState([
     { moduleName: "", week: "", classType: "" },
   ]);
   const [reason, setReason] = useState("");
-  const [uploadFiles, setUploadFiles] = useState([{ fileName: "" }]);
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
-  const [popupType, setPopupType] = useState("");
+  const [files, setFiles] = useState([]);
+  const [pictures, setPictures] = useState([]);
+
+  const leavesTaken = 4;
+  const totalLeaves = 24;
+
+  const pieData = [
+    { name: "Taken", value: leavesTaken },
+    { name: "Remaining", value: totalLeaves - leavesTaken },
+  ];
+  const COLORS = ["#00571e", "#e0e0e0"];
 
   const handleModuleChange = (index, field, value) => {
-    const newModuleDetails = [...moduleDetails];
-    newModuleDetails[index][field] = value;
-    setModuleDetails(newModuleDetails);
+    const newModules = [...moduleDetails];
+    newModules[index][field] = value;
+    setModuleDetails(newModules);
   };
 
-  const addModuleDetail = () => {
+  const handleAddModule = () => {
     setModuleDetails([
       ...moduleDetails,
       { moduleName: "", week: "", classType: "" },
     ]);
   };
 
-  const removeModuleDetail = (index) => {
-    if (moduleDetails.length > 1) {
-      const newModuleDetails = moduleDetails.filter((_, i) => i !== index);
-      setModuleDetails(newModuleDetails);
-    }
+  const handleRemoveModule = (index) => {
+    const newModules = [...moduleDetails];
+    newModules.splice(index, 1);
+    setModuleDetails(newModules);
   };
 
-  const handleFileChange = (index, e) => {
-    if (e.target.files.length > 0) {
-      const newUploadFiles = [...uploadFiles];
-      newUploadFiles[index].fileName = e.target.files[0].name;
-      setUploadFiles(newUploadFiles);
-    }
+  const handleFileChange = (e) => {
+    setFiles([...files, ...Array.from(e.target.files)]);
   };
 
-  const addUploadField = () => {
-    setUploadFiles([...uploadFiles, { fileName: "" }]);
+  const handleRemoveFile = (index) => {
+    const newFiles = [...files];
+    newFiles.splice(index, 1);
+    setFiles(newFiles);
   };
 
-  const removeUploadField = (index) => {
-    if (uploadFiles.length > 1) {
-      const newUploadFiles = uploadFiles.filter((_, i) => i !== index);
-      setUploadFiles(newUploadFiles);
-    }
+  const handlePictureChange = (e) => {
+    setPictures([...pictures, ...Array.from(e.target.files)]);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Check if required fields are filled
-    if (!leaveType) {
-      setPopupMessage("Please select a Leave Type.");
-      setPopupType("error");
-      setShowPopup(true);
-      return;
-    }
-
-    const hasIncompleteModule = moduleDetails.some(
-      (detail) => !detail.moduleName || !detail.week || !detail.classType
-    );
-    if (hasIncompleteModule) {
-      setPopupMessage(
-        "Please fill all Module Details (Module Name, Week, Class Type)."
-      );
-      setPopupType("error");
-      setShowPopup(true);
-      return;
-    }
-
-    if (!reason.trim()) {
-      setPopupMessage("Please enter a Reason.");
-      setPopupType("error");
-      setShowPopup(true);
-      return;
-    }
-
-    // If all required fields are filled, show success popup
-    setPopupMessage("Leave request submitted successfully!");
-    setPopupType("success");
-    setShowPopup(true);
-
-    // Reset form after success (optional, can be removed if you want to keep data)
-    setLeaveType("");
-    setModuleDetails([{ moduleName: "", week: "", classType: "" }]);
-    setReason("");
-    setUploadFiles([{ fileName: "" }]);
+  const handleRemovePicture = (index) => {
+    const newPics = [...pictures];
+    newPics.splice(index, 1);
+    setPictures(newPics);
   };
-
-  useEffect(() => {
-    if (showPopup) {
-      const timer = setTimeout(() => {
-        setShowPopup(false);
-      }, 3500); // 3.5 seconds
-      return () => clearTimeout(timer);
-    }
-  }, [showPopup]);
 
   return (
-    <div className="apply-leave-wrapper">
-      {/* Top Bar */}
+    <div className="apply-content">
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      />
+      {/* Top Header */}
       <section className="dashboard-header">
-        <p className="dashboard">Apply for leave</p>
+        <p className="dashboard">Apply for Leave</p>
         <div className="icons">
           <div className="notifications">
             <span className="material-symbols-outlined">notifications</span>
@@ -123,182 +84,225 @@ const ApplyForLeave = () => {
         </div>
       </section>
 
-      <hr className="divider" />
-
       {/* Leave Stats */}
-      <div className="leave-stats-box">
-        <div className="leave-stats-numbers">
-          <span className="taken">4</span>/<span className="total">24</span>
-        </div>
-        <p className="leave-stats-text">Leaves Taken This Semester</p>
-        <div className="progress-bar">
-          <div className="progress-fill" style={{ width: "16%" }}></div>
+      <div className="leaves-section">
+        <h3>Leaves Taken This Semester</h3>
+        <div className="pie-chart">
+          <PieChart width={200} height={200}>
+            <Pie
+              data={pieData}
+              cx="50%"
+              cy="50%"
+              startAngle={180}
+              endAngle={0}
+              innerRadius={60}
+              outerRadius={80}
+              dataKey="value"
+              isAnimationActive={true} // turn animation on
+              animationBegin={0} // delay before animation starts
+              animationDuration={1200} // how long the animation runs
+              animationEasing="ease-out" // easing style
+            >
+              {pieData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index]} />
+              ))}
+            </Pie>
+          </PieChart>
+
+          <div className="pie-center">
+            <span className="leaves-count">{leavesTaken}</span>
+            <span className="leaves-total">/{totalLeaves}</span>
+          </div>
         </div>
       </div>
 
       {/* Leave Request Form */}
-      <form className="leave-form" onSubmit={handleSubmit}>
-        <h2 className="form-title">Leave Request</h2>
-
+      <div className="leave-form">
+        <h4>Leave Request</h4>
+        {/* Leave Type */}
         <div className="form-group">
           <label>Leave Type</label>
           <select
             value={leaveType}
             onChange={(e) => setLeaveType(e.target.value)}
-            className="full-width"
           >
             <option value="">Select your leave type</option>
-            <option>Academic Leave</option>
-            <option>Medical Leave</option>
-            <option>Personal Leave</option>
-            <option>Professional Leave</option>
+            <option value="Medical Leave">Medical Leave</option>
+            <option value="Personal Leave">Personal Leave</option>
+            <option value="Emergency Leave">Emergency Leave</option>
           </select>
         </div>
-
-        {moduleDetails.map((detail, index) => (
-          <div className="form-group module-container" key={index}>
-            <div className="form-row bordered">
+        {/* Module Info */}
+        {moduleDetails.map((module, index) => (
+          <div key={index} className="module-box">
+            <div className="form-row">
               <div className="form-group">
                 <label>Module Name</label>
                 <select
-                  value={detail.moduleName}
+                  value={module.moduleName}
                   onChange={(e) =>
                     handleModuleChange(index, "moduleName", e.target.value)
                   }
-                  className="third-width"
                 >
-                  <option value="">Select your module name</option>
-                  <option>Computation Mathematics</option>
-                  <option>Introduction to Object Oriented Programming</option>
-                  <option>
-                    Interactive 3D Application and Academic Skills
+                  <option value="">Enter Module name to be missed.</option>
+                  <option value="Computational Mathematics">
+                    Computational Mathematics
                   </option>
+                  <option value="Physics">Physics</option>
+                  <option value="Chemistry">Chemistry</option>
                 </select>
               </div>
-              <div className="form-group">
+
+              <div className="form-group small">
                 <label>Week</label>
-                <select
-                  value={detail.week}
+                <input
+                  type="number"
+                  placeholder="Eg. 6"
+                  value={module.week}
                   onChange={(e) =>
                     handleModuleChange(index, "week", e.target.value)
                   }
-                  className="third-width"
-                >
-                  <option value="">Select week</option>
-                  {Array.from({ length: 12 }, (_, i) => i + 1).map((week) => (
-                    <option key={week} value={week}>
-                      {week}
-                    </option>
-                  ))}
-                </select>
+                />
               </div>
+
               <div className="form-group">
                 <label>Class Type</label>
                 <select
-                  value={detail.classType}
+                  value={module.classType}
                   onChange={(e) =>
                     handleModuleChange(index, "classType", e.target.value)
                   }
-                  className="third-width"
                 >
                   <option value="">Select class type</option>
-                  <option>Lecture</option>
-                  <option>Tutorial</option>
-                  <option>Workshop</option>
+                  <option value="Lecture">Lecture</option>
+                  <option value="Tutorial">Tutorial</option>
+                  <option value="Lab">Lab</option>
                 </select>
               </div>
-              <div className="button-group">
-                {index === moduleDetails.length - 1 && (
-                  <button
-                    type="button"
-                    className="add-btn"
-                    onClick={addModuleDetail}
-                  >
-                    <FaPlus />
-                  </button>
-                )}
+
+              {/* + - inside module box */}
+              <div className="inline-actions">
+                <button
+                  type="button"
+                  className="icon-btn"
+                  onClick={handleAddModule}
+                >
+                  <span className="material-symbols-outlined">add</span>
+                </button>
                 {moduleDetails.length > 1 && (
                   <button
                     type="button"
-                    className="remove-btn"
-                    onClick={() => removeModuleDetail(index)}
+                    className="icon-btn"
+                    onClick={() => handleRemoveModule(index)}
                   >
-                    <FaMinus />
+                    <span className="material-symbols-outlined">remove</span>
                   </button>
                 )}
               </div>
             </div>
+
+            <p className="module-extra">
+              Date: 2025-08-14 | Module Remaining Leave: 7
+            </p>
           </div>
         ))}
-
+        {/* Reason */}
         <div className="form-group">
           <label>Reason</label>
           <textarea
             placeholder="Enter your reason."
             value={reason}
             onChange={(e) => setReason(e.target.value)}
-            className="full-width"
+          />
+        </div>
+        {/* File Upload */}
+        <div className="form-group">
+          <label>Upload Documents (Optional)</label>
+          {files.map((file, index) => (
+            <div key={index} className="file-box">
+              <span>{file.name}</span>
+              <div className="inline-actions">
+                <button
+                  type="button"
+                  className="icon-btn"
+                  onClick={() => document.getElementById("fileInput").click()}
+                >
+                  <span className="material-symbols-outlined">add</span>
+                </button>
+                <button
+                  type="button"
+                  className="icon-btn"
+                  onClick={() => handleRemoveFile(index)}
+                >
+                  <span className="material-symbols-outlined">remove</span>
+                </button>
+              </div>
+            </div>
+          ))}
+          <input
+            type="file"
+            multiple
+            id="fileInput"
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
+        </div>
+        {/* Picture Upload */}
+        <div className="form-group">
+          <label>Upload Pictures (Optional)</label>
+
+          {/* Preview uploaded pictures */}
+          <div className="picture-preview-list">
+            {pictures.map((pic, index) => (
+              <div key={index} className="picture-box">
+                <img
+                  src={URL.createObjectURL(pic)}
+                  alt="uploaded"
+                  className="preview-img"
+                />
+                <div className="inline-actions">
+                  <button
+                    type="button"
+                    className="icon-btn"
+                    onClick={() => handleRemovePicture(index)}
+                  >
+                    <span className="material-symbols-outlined">remove</span>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Single upload button */}
+          <button
+            type="button"
+            className="upload-btn"
+            onClick={() => document.getElementById("pictureInput").click()}
+          >
+            <span className="material-symbols-outlined">add_a_photo</span>{" "}
+            Upload Pictures
+          </button>
+
+          {/* Hidden input field */}
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            id="pictureInput"
+            onChange={handlePictureChange}
+            style={{ display: "none" }}
           />
         </div>
 
-        {uploadFiles.map((file, index) => (
-          <div className="form-group upload-container" key={index}>
-            <label>
-              Upload Documents <span className="optional">(Optional)</span>
-            </label>
-            <div className="file-upload bordered">
-              <input
-                type="file"
-                id={`file-${index}`}
-                onChange={(e) => handleFileChange(index, e)}
-                hidden
-              />
-              <label htmlFor={`file-${index}`} className="upload-btn">
-                Upload File
-              </label>
-              <span className="file-name">{file.fileName}</span>
-              <div className="button-group">
-                {index === uploadFiles.length - 1 && (
-                  <button
-                    type="button"
-                    className="add-btn"
-                    onClick={addUploadField}
-                  >
-                    <FaPlus />
-                  </button>
-                )}
-                {uploadFiles.length > 1 && (
-                  <button
-                    type="button"
-                    className="remove-btn"
-                    onClick={() => removeUploadField(index)}
-                  >
-                    <FaMinus />
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
-
+        {/* Actions */}
         <div className="form-actions">
-          <button type="button" className="cancel-btn">
-            Cancel
-          </button>
-          <button type="submit" className="submit-btn">
-            ✓ Send Request
+          <button className="cancel-btn">Cancel</button>
+          <button className="submit-btn">
+            <span className="material-symbols-outlined">check</span>
+            Send Request
           </button>
         </div>
-      </form>
-
-      {showPopup && (
-        <div className={`popup ${popupType}`}>
-          <div className="popup-content">
-            <p>{popupMessage}</p>
-            <div className="timer-bar"></div>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 };

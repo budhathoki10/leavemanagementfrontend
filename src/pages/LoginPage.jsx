@@ -25,7 +25,7 @@ function LoginPage() {
   const loginAPI = async () => {
     try {
       const response = await fetch(
-        "https://leave-management-backend-8qav.onrender.com/api/user/login",
+        "https://devplat.heraldcollege.edu.np/leavo-api/api/user/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -80,7 +80,7 @@ function LoginPage() {
 
       // Send to backend
       const response = await axios.post(
-        "https://leave-management-backend-8qav.onrender.com/api/loginwithmicrosoft",
+        "https://devplat.heraldcollege.edu.np/leavo-api/api/loginwithmicrosoft",
         userData,
         {
           withCredentials: true,
