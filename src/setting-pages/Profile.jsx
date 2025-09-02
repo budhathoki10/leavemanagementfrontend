@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FiEdit2 } from "react-icons/fi"; 
 import "../CSS/Profile.css";
 
 const Profile = () => {
@@ -13,6 +14,7 @@ const Profile = () => {
     role: "User",
   });
 
+ 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser) {
@@ -20,7 +22,7 @@ const Profile = () => {
     }
   }, []);
 
-
+ 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
@@ -30,6 +32,7 @@ const Profile = () => {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setUser({ ...user, profilePic: imageUrl });
+      setShowUpload(false); 
     }
   };
 
@@ -40,7 +43,41 @@ const Profile = () => {
           <h2 className="main-title">My Profile</h2>
 
           <div className="profile-header">
-            <img src={user.profilePic} alt="Profile" className="avatar-img" />
+            {/* Profile Picture */}
+            <div className="avatar-wrapper">
+              <img src={user.profilePic} alt="Profile" className="avatar-img" />
+
+              {/* Show either pen OR upload button */}
+              {!showUpload ? (
+                <button
+                  className="edit-icon"
+                  onClick={() => setShowUpload(true)}
+                >
+                  <FiEdit2 size={16} />
+                </button>
+              ) : (
+                <div className="upload-box">
+                  <label htmlFor="upload-input" className="upload-btn">
+                    Upload New Picture
+                  </label>
+                  <input
+                    type="file"
+                    id="upload-input"
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    onChange={handleFileChange}
+                  />
+                  <button
+                    className="cancel-btn"
+                    onClick={() => setShowUpload(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
+            </div>
+
+            
             <div className="user-info">
               {editingName ? (
                 <div className="name-edit">
@@ -82,33 +119,10 @@ const Profile = () => {
               )}
               <p>{user.role}</p>
               <p>Kathmandu</p>
-
-              <div className="profile-actions">
-                <button
-                  className="change-btn"
-                  onClick={() => setShowUpload(!showUpload)}
-                >
-                  Change Profile Picture
-                </button>
-
-                {showUpload && (
-                  <>
-                    <label htmlFor="upload-input" className="upload-btn">
-                      Upload from Device
-                    </label>
-                    <input
-                      type="file"
-                      id="upload-input"
-                      accept="image/*"
-                      style={{ display: "none" }}
-                      onChange={handleFileChange}
-                    />
-                  </>
-                )}
-              </div>
             </div>
           </div>
 
+          {/* Personal Info */}
           <div className="info-box">
             <h4>Personal Information</h4>
             <div className="info-grid">
@@ -153,6 +167,7 @@ const Profile = () => {
             </div>
           </div>
 
+          
           <div className="info-box">
             <h4>Address</h4>
             <div className="info-grid">
