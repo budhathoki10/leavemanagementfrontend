@@ -17,6 +17,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false); //overlay
 
   const navigate = useNavigate();
 
@@ -64,6 +65,8 @@ function LoginPage() {
       setEmail("");
       setPassword("");
       setRememberMe(false);
+    }else{
+      setLoading(false);
     }
   };
 
@@ -99,6 +102,15 @@ function LoginPage() {
 
   return (
     <div className="login-container">
+
+      {loading && (
+        <div className="loading-overlay">
+          <div className="loading">
+            <p>Loading...</p>
+          </div>
+        </div>
+      )}
+
       {/* Left Section */}
       <div className="login-left">
         <div className="overlay">

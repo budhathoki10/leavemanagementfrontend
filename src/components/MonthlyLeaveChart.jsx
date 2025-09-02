@@ -24,25 +24,19 @@ ChartJS.register(
 const MonthlyLeaveChart = () => {
   const data = {
     labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
+      
+      "Full Stack Development",
+      "Concepts and technologies of AI",
+      "Object Oriented Programming",
+      
     ],
     datasets: [
       {
         label: "Leaves Taken",
-        data: [2, 4, 2, 3, 2, 2, 3, 1, 2, 1, 2, 2], // Example data
+        data: [2, 8, 2, 3, 2, 2, 3, 1, 2, 1, 2, 2], // Example data
         backgroundColor: "rgba(16, 185, 129, 0.7)", // teal
         borderRadius: 6,
+        barThickness: 60,
       },
     ],
   };
@@ -55,11 +49,12 @@ const MonthlyLeaveChart = () => {
         position: "top",
         labels: {
           color: "#374151",
+          // font: {size: 14, weight: "bold"}
         },
       },
       title: {
         display: true,
-        text: "Monthly Leave Trends",
+        text: "Leaves Per Module",
         color: "#111827",
         font: { size: 18, weight: "bold" },
       },
@@ -82,8 +77,8 @@ const MonthlyLeaveChart = () => {
       <ChartBg>
         {" "}
         <div
-          className="flex-1 bg-white p-6 rounded-2xl shadow"
-          style={{ height: "350px", width: "700px" }}
+          className="flex-1 bg-white p-60 rounded-2xl shadow"
+          style={{ height: "350px", width: "600px" }}
         >
           <Bar data={data} options={options} />
         </div>
