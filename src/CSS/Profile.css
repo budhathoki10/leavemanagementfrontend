@@ -39,14 +39,89 @@ body, html {
   margin-bottom: 35px;
 }
 
+
+.avatar-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
 .avatar-img {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #87b56c;
+  transition: transform 0.2s ease;
 }
 
+.avatar-img:hover {
+  transform: scale(1.03);
+}
+
+
+.edit-icon {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background-color: #4a90e2;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.edit-icon:hover {
+  background-color: #357ac8;
+  transform: scale(1.05);
+}
+
+/* Upload Section */
+.upload-box {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.upload-btn {
+  background-color: #87b56c;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  transition: background-color 0.2s ease;
+}
+
+.upload-btn:hover {
+  background-color: #6fa75b;
+}
+
+.cancel-btn {
+  background-color: #ccc;
+  color: #000;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background-color: #aaa;
+}
+
+/* User Info */
 .user-info h3 {
   font-size: 20px;
   font-weight: 700;
@@ -60,15 +135,6 @@ body, html {
   margin: 4px 0;
 }
 
-.profile-actions {
-  margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.change-btn,
-.upload-btn,
 .edit-btn,
 .save-btn {
   padding: 8px 16px;
@@ -78,31 +144,18 @@ body, html {
   font-size: 14px;
   font-weight: 500;
   transition: background-color 0.2s ease;
+  margin-top: 5px;
 }
-
-.change-btn {
-  background-color: #70e188;
-  color: #000;
-}
-.change-btn:hover { background-color: #5cd37b; }
-
-.upload-btn {
-  background-color: #87b56c;
-  color: #fff;
-}
-.upload-btn:hover { background-color: #6fa75b; }
 
 .edit-btn {
   background-color: #4a90e2;
   color: #fff;
-  margin-top: 5px;
 }
 .edit-btn:hover { background-color: #357ac8; }
 
 .save-btn {
   background-color: #28a745;
   color: #fff;
-  margin-top: 5px;
 }
 .save-btn:hover { background-color: #1e7e34; }
 
@@ -114,6 +167,7 @@ body, html {
   font-size: 14px;
 }
 
+/* Info Sections */
 .info-box {
   border: none;
   border-radius: 12px;
