@@ -34,13 +34,11 @@ function MainLayout() {
 function App() {
   return (
     <Routes>
-
       <Route path="/" element={<Navigate to="/register" />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/logout" element={<Logout />} />
 
- 
       <Route element={<MainLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/apply-leave" element={<ApplyForLeavePage />} />
