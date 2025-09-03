@@ -1,16 +1,35 @@
+<<<<<<< HEAD
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import leavoLogo from "../assets/leavo.jpeg";
+import wolverhamptonLogo from "../assets/university-of-wolverhampton-1.png";
+import heraldLogo from "../assets/HeraldFull.png";
+import microsoftLogo from "../assets/Mircosoft.png";
+import axios from "axios";
+import { auth, provider } from "./FireBase";
+import Cookies from "js-cookie";
+import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
+
+import Lottie from "lottie-react"; // animation
+import Login from "../assets/login.json"; // animation
+
+import "./Login.css";
+import { signInWithPopup } from "firebase/auth";
+=======
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import leavoLogo from "../assets/leavo-logo.png";
 import heraldLogo from "../assets/herald-logo.png";
 import wolverhamptonLogo from "../assets/wlv-logo.png";
-import axios from "axios";
+import axios from "axios"
 import microsoftLogo from "../assets/Mircosoft.png";
 import { auth, provider } from "./fireBase";
 import Cookies from "js-cookie";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
 
 import "./Login.css";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth"
+>>>>>>> baa742bae6c2becd34069480f43b25702add12ed
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -21,11 +40,32 @@ function LoginPage() {
 
   const navigate = useNavigate();
 
+<<<<<<< HEAD
+  //save credential if pages loads
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("email");
+    const savedPassword = localStorage.getItem("password");
+    if (savedEmail && savedPassword) {
+      setEmail(savedEmail);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
+  }, []);
+
+  // API call function
+  const loginAPI = async () => {
+    try {
+      setLoading(true);
+
+      const response = await fetch(
+        "https://leave-management-backend-8qav.onrender.com/api/user/login",
+=======
   // API call function
   const loginAPI = async () => {
     try {
       const response = await fetch(
-        "https://leave-management-backend-8qav.onrender.com/api/user/login",
+        "https://devplat.heraldcollege.edu.np/leavo-api/api/user/login",
+>>>>>>> baa742bae6c2becd34069480f43b25702add12ed
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -49,6 +89,18 @@ function LoginPage() {
       const data = await response.json();
       Cookies.set("token", data.accessToken);
 
+<<<<<<< HEAD
+      // Save credentials if "Remember me" is checked
+      if (rememberMe) {
+        localStorage.setItem("email", email);
+        localStorage.setItem("password", password);
+      } else {
+        localStorage.removeItem("email");
+        localStorage.removeItem("password");
+      }
+
+=======
+>>>>>>> baa742bae6c2becd34069480f43b25702add12ed
       navigate("/dashboard");
       return true;
     } catch (error) {
@@ -65,13 +117,21 @@ function LoginPage() {
       setEmail("");
       setPassword("");
       setRememberMe(false);
+<<<<<<< HEAD
     } else {
+=======
+    }else{
+>>>>>>> baa742bae6c2becd34069480f43b25702add12ed
       setLoading(false);
     }
   };
 
   const handleGoogleSignIn = async () => {
     try {
+<<<<<<< HEAD
+      setLoading(true);
+=======
+>>>>>>> baa742bae6c2becd34069480f43b25702add12ed
       const loginResponse = await signInWithPopup(auth, provider);
       const user = loginResponse.user;
       const userData = {
@@ -80,7 +140,11 @@ function LoginPage() {
 
       // Send to backend
       const response = await axios.post(
+<<<<<<< HEAD
         "https://leave-management-backend-8qav.onrender.com/api/loginwithmicrosoft",
+=======
+        "https://devplat.heraldcollege.edu.np/leavo-api/api/loginwithmicrosoft",
+>>>>>>> baa742bae6c2becd34069480f43b25702add12ed
         userData,
         {
           withCredentials: true,
@@ -102,8 +166,20 @@ function LoginPage() {
 
   return (
     <div className="login-container">
+<<<<<<< HEAD
       {loading && (
         <div className="loading-overlay">
+          <Lottie
+            animationData={Login}
+            style={{ width: 200, height: 200 }}
+            loop={true}
+          />
+
+=======
+
+      {loading && (
+        <div className="loading-overlay">
+>>>>>>> baa742bae6c2becd34069480f43b25702add12ed
           <div className="loading">
             <p>Loading...</p>
           </div>
@@ -185,6 +261,10 @@ function LoginPage() {
           </p>
 
           <div className="or-divider">OR</div>
+<<<<<<< HEAD
+
+=======
+>>>>>>> baa742bae6c2becd34069480f43b25702add12ed
           <button className="google-signin" onClick={handleGoogleSignIn}>
             <img src={microsoftLogo} alt="Microsoft logo" />
             Sign in with Microsoft
