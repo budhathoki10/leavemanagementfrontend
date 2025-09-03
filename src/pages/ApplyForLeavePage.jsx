@@ -215,38 +215,6 @@ const ApplyForLeave = () => {
           />
         </div>
 
-        {/* File Upload */}
-        <div className="form-group">
-          <label>Upload Documents (Optional)</label>
-          {files.map((file, index) => (
-            <div key={index} className="file-box">
-              <span>{file.name}</span>
-              <div className="inline-actions">
-                <button
-                  type="button"
-                  className="icon-btn"
-                  onClick={() => document.getElementById("fileInput").click()}
-                >
-                  <span className="material-symbols-outlined">add</span>
-                </button>
-                <button
-                  type="button"
-                  className="icon-btn"
-                  onClick={() => handleRemoveFile(index)}
-                >
-                  <span className="material-symbols-outlined">remove</span>
-                </button>
-              </div>
-            </div>
-          ))}
-          <input
-            type="file"
-            multiple
-            id="fileInput"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-          />
-        </div>
 
         {/* Picture Upload */}
         <div className="form-group">
