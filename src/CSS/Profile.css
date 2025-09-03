@@ -1,215 +1,205 @@
 body, html {
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f5f5f5;
 }
 
-.profile-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  padding: 20px 0;
-}
-
-.profile-container {
+/* Main wrapper */
+.profile-page {
+  padding: 20px;
   flex: 1;
-  max-width: 1100px;
-  width: 100%;
+}
+
+/* Profile Card */
+.profile-card {
+  display: flex;
+  align-items: center;
   background: #fff;
-  border-radius: 15px;
-  padding: 30px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  border-radius: 8px;
+  padding: 25px 30px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-.main-title {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 30px;
-  text-align: center;
-  color: #333;
-}
-
-.profile-header {
-  display: flex;
-  align-items: center;
-  gap: 25px;
-  margin-bottom: 35px;
-}
-
-
-.avatar-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-.avatar-img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #87b56c;
-  transition: transform 0.2s ease;
-}
-
-.avatar-img:hover {
-  transform: scale(1.03);
-}
-
-
-.edit-icon {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  background-color: #4a90e2;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.edit-icon:hover {
-  background-color: #357ac8;
-  transform: scale(1.05);
-}
-
-/* Upload Section */
-.upload-box {
-  margin-top: 12px;
+.profile-left {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  margin-right: 40px;
+}
+
+.profile-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-placeholder {
+  width: 60%;
+  height: 60%;
+  background: #c2c2c2;
+  border-radius: 50%;
+}
+
+.photo-upload {
+  margin-top: 10px;
 }
 
 .upload-btn {
-  background-color: #87b56c;
-  color: #fff;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
+  background-color: #f3f3f3;
+  padding: 6px 12px;
   font-size: 14px;
-  font-weight: 500;
-  text-align: center;
-  transition: background-color 0.2s ease;
-}
-
-.upload-btn:hover {
-  background-color: #6fa75b;
-}
-
-.cancel-btn {
-  background-color: #ccc;
-  color: #000;
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: none;
-  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
-.cancel-btn:hover {
-  background-color: #aaa;
-}
-
-/* User Info */
-.user-info h3 {
-  font-size: 20px;
-  font-weight: 700;
+/* Profile Right Info */
+.profile-right h3 {
   margin: 0;
-  color: #222;
+  font-size: 14px;
+  color: #555;
 }
 
-.user-info p {
-  font-size: 14px;
-  color: #666;
-  margin: 4px 0;
-}
-
-.edit-btn,
-.save-btn {
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
+.profile-right p {
+  font-size: 16px;
   font-weight: 500;
-  transition: background-color 0.2s ease;
-  margin-top: 5px;
+  margin: 5px 0;
 }
 
-.edit-btn {
-  background-color: #4a90e2;
-  color: #fff;
-}
-.edit-btn:hover { background-color: #357ac8; }
-
-.save-btn {
-  background-color: #28a745;
-  color: #fff;
-}
-.save-btn:hover { background-color: #1e7e34; }
-
-.name-edit input {
+.profile-right input {
   padding: 6px 10px;
-  margin-right: 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 14px;
+  margin-top: 5px;
 }
 
-/* Info Sections */
-.info-box {
+/* Links & Buttons */
+.link-btn {
+  background: none;
   border: none;
-  border-radius: 12px;
-  padding: 25px;
-  margin-bottom: 25px;
-  background-color: #fefefe;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  color: #0067c0;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
 }
 
-.info-box h4 {
+.save-btn {
+  background-color: #0067c0;
+  border: none;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Info Box */
+.info-box {
+  background: #fff;
+  border-radius: 8px;
+  padding: 25px 30px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.info-header h4 {
+  margin: 0;
   font-size: 16px;
   font-weight: 600;
-  margin-bottom: 20px;
-  color: #333;
 }
 
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+.info-item {
+  border-top: 1px solid #e0e0e0;
+  padding: 15px 0;
 }
 
-.info-grid label {
-  font-size: 12px;
-  color: #888;
-  margin-bottom: 5px;
+.info-item:first-of-type {
+  border-top: none;
+}
+
+.info-item strong {
   display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 6px;
 }
 
-.info-grid input {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 8px;
+.info-item p {
+  margin: 4px 0;
+  font-size: 15px;
+  color: #000;
+}
+
+.info-item span {
+  font-size: 12px;
+  color: #666;
+}
+
+.info-item input {
+  padding: 6px 10px;
+  border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 14px;
-  color: #000;
-  background-color: #f9f9f9;
-  transition: border 0.2s ease, background-color 0.2s ease;
+  margin-top: 5px;
 }
 
-.info-grid input:focus {
-  border-color: #87b56c;
-  background-color: #fff;
-  outline: none;
+/* Align label + value vertically */
+.info-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.info-value {
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #000;
+}
+
+.info-description {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+/* 🔹 Change Password row */
+.info-item.change-password {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.info-item.change-password:hover {
+  background: #f9f9f9;
+}
+
+.info-item.change-password .arrow {
+  font-size: 16px;
+  font-weight: bold;
+  color: #666;
+  margin-left: 10px;
 }
