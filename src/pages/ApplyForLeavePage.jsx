@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { PieChart, Pie, Cell } from "recharts";
+import axios from "axios";
 import userImage from "../assets/user.jpeg";
 
 import "../CSS/ApplyForLeavePage.css";
@@ -10,7 +11,6 @@ const ApplyForLeave = () => {
     { moduleName: "", week: "", classType: "" },
   ]);
   const [reason, setReason] = useState("");
-  const [files, setFiles] = useState([]);
   const [pictures, setPictures] = useState([]);
 
   const leavesTaken = 4;
@@ -41,16 +41,6 @@ const ApplyForLeave = () => {
     setModuleDetails(newModules);
   };
 
-  const handleFileChange = (e) => {
-    setFiles([...files, ...Array.from(e.target.files)]);
-  };
-
-  const handleRemoveFile = (index) => {
-    const newFiles = [...files];
-    newFiles.splice(index, 1);
-    setFiles(newFiles);
-  };
-
   const handlePictureChange = (e) => {
     setPictures([...pictures, ...Array.from(e.target.files)]);
   };
@@ -59,6 +49,45 @@ const ApplyForLeave = () => {
     const newPics = [...pictures];
     newPics.splice(index, 1);
     setPictures(newPics);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const token = localStorage.getItem("studentToken");
+
+      if (!token) {
+        alert(" No student token found. Please login first.");
+        return;
+      }
+
+      const payload = {
+        level: 6,
+        leaveType: leaveType.toLowerCase(),
+        reason: reason,
+        leaves: moduleDetails.map((m) => ({
+          moduledetails: m.moduleName, // replace with ID mapping
+          week: parseInt(m.week),
+          classtype: m.classType.toLowerCase(),
+        })),
+      };
+
+      const response = await axios.post(
+        "https://leave-management-backend-8qav.onrender.com/api/task/create",
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      alert(" Leave request submitted successfully!");
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.error(" Error submitting leave:", error.response || error);
+      alert("Failed to submit leave request.");
+    }
   };
 
   return (
@@ -119,6 +148,7 @@ const ApplyForLeave = () => {
       {/* Leave Request Form */}
       <div className="leave-form">
         <h4>Leave Request</h4>
+
         {/* Leave Type */}
         <div className="form-group">
           <label>Leave Type</label>
@@ -127,11 +157,12 @@ const ApplyForLeave = () => {
             onChange={(e) => setLeaveType(e.target.value)}
           >
             <option value="">Select your leave type</option>
-            <option value="Medical Leave">Medical Leave</option>
-            <option value="Personal Leave">Personal Leave</option>
-            <option value="Emergency Leave">Emergency Leave</option>
+            <option value="Medical">Medical Leave</option>
+            <option value="Personal">Personal Leave</option>
+            <option value="Emergency">Emergency Leave</option>
           </select>
         </div>
+
         {/* Module Info */}
         {moduleDetails.map((module, index) => (
           <div key={index} className="module-box">
@@ -145,11 +176,12 @@ const ApplyForLeave = () => {
                   }
                 >
                   <option value="">Enter Module name to be missed.</option>
-                  <option value="Computational Mathematics">
+                  {/* ⚠️ In real case, use IDs from backend instead of names */}
+                  <option value="6892fc951b20a07e48284c19">
                     Computational Mathematics
                   </option>
-                  <option value="Physics">Physics</option>
-                  <option value="Chemistry">Chemistry</option>
+                  <option value="6892fc5e1b20a07e48284c17">Physics</option>
+                  <option value="6892fc9b1b20a07e48284c21">Chemistry</option>
                 </select>
               </div>
 
@@ -177,6 +209,7 @@ const ApplyForLeave = () => {
                   <option value="Lecture">Lecture</option>
                   <option value="Tutorial">Tutorial</option>
                   <option value="Lab">Lab</option>
+                  <option value="Workshop">Workshop</option>
                 </select>
               </div>
 
@@ -215,12 +248,10 @@ const ApplyForLeave = () => {
           />
         </div>
 
-
-        {/* Picture Upload */}
+        {/* Picture Upload (optional, but not sent for <8 days) */}
         <div className="form-group">
           <label>Upload Pictures (Optional)</label>
 
-          {/* Preview uploaded pictures */}
           <div className="picture-preview-list">
             {pictures.map((pic, index) => (
               <div key={index} className="picture-box">
@@ -242,7 +273,6 @@ const ApplyForLeave = () => {
             ))}
           </div>
 
-          {/* Single upload button */}
           <button
             type="button"
             className="upload-btn"
@@ -252,7 +282,6 @@ const ApplyForLeave = () => {
             Upload Pictures
           </button>
 
-          {/* Hidden input field */}
           <input
             type="file"
             accept="image/*"
@@ -266,7 +295,7 @@ const ApplyForLeave = () => {
         {/* Actions */}
         <div className="form-actions">
           <button className="cancel-btn">Cancel</button>
-          <button className="submit-btn">
+          <button className="submit-btn" onClick={handleSubmit}>
             <span className="material-symbols-outlined">check</span>
             Send Request
           </button>

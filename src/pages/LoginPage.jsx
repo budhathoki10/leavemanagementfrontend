@@ -3,14 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import leavoLogo from "../assets/leavo-logo.png";
 import heraldLogo from "../assets/herald-logo.png";
 import wolverhamptonLogo from "../assets/wlv-logo.png";
-import axios from "axios"
+import axios from "axios";
 import microsoftLogo from "../assets/Mircosoft.png";
 import { auth, provider } from "./fireBase";
 import Cookies from "js-cookie";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
 
 import "./Login.css";
-import { signInWithPopup } from "firebase/auth"
+import { signInWithPopup } from "firebase/auth";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -65,7 +65,7 @@ function LoginPage() {
       setEmail("");
       setPassword("");
       setRememberMe(false);
-    }else{
+    } else {
       setLoading(false);
     }
   };
@@ -80,7 +80,7 @@ function LoginPage() {
 
       // Send to backend
       const response = await axios.post(
-        "https://devplat.heraldcollege.edu.np/leavo-api/api/loginwithmicrosoft",
+        "https://leave-management-backend-8qav.onrender.com/api/loginwithmicrosoft",
         userData,
         {
           withCredentials: true,
@@ -102,7 +102,6 @@ function LoginPage() {
 
   return (
     <div className="login-container">
-
       {loading && (
         <div className="loading-overlay">
           <div className="loading">
