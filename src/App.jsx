@@ -14,6 +14,7 @@ import Logout from "./pages/Logout";
 import Settings from "./pages/Settings";
 import Profile from "./setting-pages/Profile.jsx";
 import Feedback from "./setting-pages/Feedback.jsx";
+import ChangePassword from "./setting-pages/ChangePassword";
 
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 
@@ -52,6 +53,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/profile" element={<Profile />} />
         <Route path="/settings/feedback" element={<Feedback />} />
+        <Route path="/changeprofile" element={<ChangePassword />} /> 
       </Route>
     </Routes>
   );
