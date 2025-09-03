@@ -187,14 +187,19 @@ const ApplyForLeave = () => {
 
               <div className="form-group small">
                 <label>Week</label>
-                <input
-                  type="number"
-                  placeholder="Eg. 6"
+                <select
                   value={module.week}
                   onChange={(e) =>
                     handleModuleChange(index, "week", e.target.value)
                   }
-                />
+                >
+                  <option value="">Select</option>
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i + 1} value={i + 1}>
+                      Week {i + 1}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="form-group">
@@ -248,7 +253,7 @@ const ApplyForLeave = () => {
           />
         </div>
 
-        {/* Picture Upload (optional, but not sent for <8 days) */}
+        {/* Picture Upload */}
         <div className="form-group">
           <label>Upload Pictures (Optional)</label>
 
