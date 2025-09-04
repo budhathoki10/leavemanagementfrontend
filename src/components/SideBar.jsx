@@ -20,7 +20,7 @@ const SideBar = () => {
 
       <div
         className="leavo-logo"
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/dashboard")}
         style={{ cursor: "pointer" }}
       >
         <img src={leavoLogo} alt="leavo-logo" />
