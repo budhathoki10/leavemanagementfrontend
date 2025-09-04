@@ -58,8 +58,6 @@ function LoginPage() {
       }
 
       const data = await response.json();
-      Cookies.set("token", data.accessToken);
-
       if (rememberMe) {
         localStorage.setItem("email", email);
         localStorage.setItem("password", password);
@@ -89,22 +87,31 @@ function LoginPage() {
   };
 
   const handleGoogleSignIn = async () => {
-    try {
+        try {
       setLoading(true);
       const loginResponse = await signInWithPopup(auth, provider);
       const user = loginResponse.user;
-      const userData = { email: user.email };
+        console.log(loginResponse)
+        console.log(user)
+      const userData = {
+        email: user.email,
+        studentname:user.displayName
+      };
 
       const response = await axios.post(
         "https://leave-management-backend-8qav.onrender.com/api/loginwithmicrosoft",
         userData,
         {
           withCredentials: true,
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
-
-      console.log("Login successful:", response.data.message);
+      console.log(response);
+      const data = response.data;
+      console.log(response);
+      console.log("Login successful:", data.message);
       navigate("/dashboard");
     } catch (error) {
       console.error("Sign-in error:", error);
