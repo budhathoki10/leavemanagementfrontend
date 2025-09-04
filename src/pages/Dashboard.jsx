@@ -13,7 +13,7 @@ const dashboardLeaveData = [
   },
   {
     moduleName: "Full stack development",
-    takenLeaves: "0 / 8",
+    takenLeaves: "4 / 8",
   },
   {
     moduleName: "Object Oriented Programming",
@@ -28,7 +28,7 @@ const leavesTakenData = [
 ];
 
 export default function Dashboard() {
-    const today = new Date();
+  const today = new Date();
   const formattedDate = today.toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
