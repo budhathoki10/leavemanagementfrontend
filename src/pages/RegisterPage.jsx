@@ -31,7 +31,7 @@ function RegisterPage() {
     const { firstname, lastname, email, password, confirm_password } = data;
     try {
       const response = await fetch(
-        "https://leave-management-backend-8qav.onrender.com/api/user/register",
+        "https://devplat.heraldcollege.edu.np/leavo-api/api/user/register",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
