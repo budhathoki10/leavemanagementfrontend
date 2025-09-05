@@ -35,16 +35,15 @@ function MainLayout() {
 function App() {
   return (
     <Routes>
-      {/* Root routes - handle both / and /leavo */}
+      {/* Root redirect */}
       <Route path="/" element={<Navigate to="/register" />} />
-      <Route path="/leavo" element={<Navigate to="/register" />} />
-      
+
       {/* Authentication routes */}
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/logout" element={<Logout />} />
 
-      {/* Main application routes with sidebar */}
+      {/* Main application routes */}
       <Route element={<MainLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/apply-leave" element={<ApplyForLeavePage />} />
@@ -59,7 +58,7 @@ function App() {
         <Route path="/changeprofile" element={<ChangePassword />} />
       </Route>
 
-      {/* Catch all route for 404s */}
+      {/* Catch all */}
       <Route path="*" element={<Navigate to="/register" />} />
     </Routes>
   );
