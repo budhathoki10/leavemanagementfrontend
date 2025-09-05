@@ -6,7 +6,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   return {
-    base: env.BASE_URL || "/", 
+    base: import.meta.env.VITE_BASE_URL || "/leavo/",
     plugins: [react()],
     resolve: {
       alias: {
