@@ -8,8 +8,6 @@ import axios from "axios";
 import { auth, provider } from "./FireBase";
 import Cookies from "js-cookie";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
-import Lottie from "lottie-react";
-import Login from "../assets/login.json";
 import "./Login.css";
 import { signInWithPopup } from "firebase/auth";
 
@@ -123,11 +121,6 @@ function LoginPage() {
     <div className="login-container">
       {loading && (
         <div className="loading-overlay">
-          <Lottie
-            animationData={Login}
-            style={{ width: 200, height: 200 }}
-            loop={true}
-          />
           <div className="loading">
             <p>Loading...</p>
           </div>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { PieChart, Pie, Cell } from "recharts";
 import axios from "axios";
 import userImage from "../assets/user.jpeg";
+import Cookies from "js-cookie";
 
 import "../CSS/ApplyForLeavePage.css";
 
@@ -53,7 +54,7 @@ const ApplyForLeave = () => {
 
   const handleSubmit = async () => {
     try {
-      const token = localStorage.getItem("studentToken");
+      const token = Cookies.get("token");
 
       if (!token) {
         alert(" No student token found. Please login first.");
