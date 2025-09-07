@@ -152,10 +152,9 @@ form input[type="password"],
   border-radius: 12px;
   font-size: 15px;
 
-  /*  password visibility */
   font-family: monospace;
   box-sizing: border-box;
-  padding-right: 40px; /* space for icon */
+  padding-right: 40px; 
 }
 
 .term {
