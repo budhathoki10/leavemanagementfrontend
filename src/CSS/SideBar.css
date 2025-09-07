@@ -131,7 +131,18 @@
 }
 
 .gap-li {
-  margin-top: 200px;
   display: grid;
   gap: 20px;
+}
+
+.right-arrow span {
+  font-size: 16px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.right-arrow.open span {
+  transform: rotate(90deg);
 }
