@@ -34,7 +34,9 @@ function LoginPage() {
     try {
       setLoading(true);
       const response = await fetch(
-        "https://devplat.heraldcollege.edu.np/leavo-api/api/user/login",
+        // "https://devplat.heraldcollege.edu.np/leavo-api/api/user/login",
+        "https://leave-management-backend-8qav.onrender.com/api/user/login",
+        // "http://localhost:5000/api/user/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -97,7 +99,9 @@ function LoginPage() {
       };
 
       const response = await axios.post(
-        "https://devplat.heraldcollege.edu.np/leavo-api/api/loginwithmicrosoft",
+        // "https://devplat.heraldcollege.edu.np/leavo-api/api/loginwithmicrosoft",
+        "https://leave-management-backend-8qav.onrender.com/api/loginwithmicrosoft",
+        // "http://localhost:5000/api/loginwithmicrosoft",
         userData,
         {
           withCredentials: true,
