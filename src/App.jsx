@@ -35,11 +35,14 @@ function MainLayout() {
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/register" />} />
-      <Route path="/register" element={<RegisterPage />} />
+      {/* Render Register page at /leavo (root of basename) */}
+      <Route path="/" element={<RegisterPage />} />
+
+      {/* Authentication routes */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/logout" element={<Logout />} />
 
+      {/* Main app routes */}
       <Route element={<MainLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/apply-leave" element={<ApplyForLeavePage />} />
@@ -51,10 +54,14 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/profile" element={<Profile />} />
         <Route path="/settings/feedback" element={<Feedback />} />
-        <Route path="/changeprofile" element={<ChangePassword />} /> 
+        <Route path="/changeprofile" element={<ChangePassword />} />
       </Route>
+
+      {/* Catch all */}
+      <Route path="*" element={<RegisterPage />} />
     </Routes>
   );
 }
+
 
 export default App;
