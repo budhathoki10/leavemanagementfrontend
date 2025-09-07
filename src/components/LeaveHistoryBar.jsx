@@ -1,35 +1,46 @@
 import React from "react";
 import "../CSS/LeaveHistoryBar.css";
 import { NavLink } from "react-router-dom";
+
 const LeaveHistoryBar = () => {
   return (
     <div className="leave-history-panel">
       <ul className="leave-history-links">
-        <div className="leave-history-options">
-          <li>
-            <NavLink to="/leavehistory/approvedleave">
-              <span class="material-symbols-outlined">approval</span>Approved
-              Leave
-            </NavLink>
-          </li>
-        </div>
+        <li className="leave-history-options">
+          <NavLink
+            to="/leavehistory/approvedleave"
+            className={({ isActive }) =>
+              isActive ? "leave-history-link active" : "leave-history-link"
+            }
+          >
+            <span className="material-symbols-outlined">approval</span>
+            Approved Leave
+          </NavLink>
+        </li>
 
-        <div className="leave-history-options">
-          <li>
-            <NavLink to="/leavehistory/pendingleave">
-              <span class="material-symbols-outlined">pending</span>Pending
-              Leave
-            </NavLink>
-          </li>
-        </div>
+        <li className="leave-history-options">
+          <NavLink
+            to="/leavehistory/pendingleave"
+            className={({ isActive }) =>
+              isActive ? "leave-history-link active" : "leave-history-link"
+            }
+          >
+            <span className="material-symbols-outlined">pending</span>
+            Pending Leave
+          </NavLink>
+        </li>
 
-        <div className="leave-history-options">
-          <li>
-            <NavLink to="/leavehistory/rejectedleave">
-              <span class="material-symbols-outlined">block</span>Rejected Leave
-            </NavLink>
-          </li>
-        </div>
+        <li className="leave-history-options">
+          <NavLink
+            to="/leavehistory/rejectedleave"
+            className={({ isActive }) =>
+              isActive ? "leave-history-link active" : "leave-history-link"
+            }
+          >
+            <span className="material-symbols-outlined">block</span>
+            Rejected Leave
+          </NavLink>
+        </li>
       </ul>
     </div>
   );
