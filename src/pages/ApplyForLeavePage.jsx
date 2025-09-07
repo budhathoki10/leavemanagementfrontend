@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { PieChart, Pie, Cell } from "recharts";
 import axios from "axios";
 import userImage from "../assets/user.jpeg";
-import Cookies from "js-cookie";
 
 import "../CSS/ApplyForLeavePage.css";
 
@@ -43,51 +42,91 @@ const ApplyForLeave = () => {
   };
 
   const handlePictureChange = (e) => {
-    setPictures([...pictures, ...Array.from(e.target.files)]);
+    if (e.target.files.length > 0) {
+      setPictures([e.target.files[0]]); // Single file only
+    }
   };
 
-  const handleRemovePicture = (index) => {
-    const newPics = [...pictures];
-    newPics.splice(index, 1);
-    setPictures(newPics);
+  const handleRemovePicture = () => {
+    setPictures([]);
   };
 
   const handleSubmit = async () => {
+    // Validation
+    if (!leaveType) {
+      alert("Please select a leave type");
+      return;
+    }
+    
+    const invalidModule = moduleDetails.find(m => !m.moduleName || !m.week || !m.classType);
+    if (invalidModule) {
+      alert("Please fill all module details");
+      return;
+    }
+    
+    if (!reason.trim()) {
+      alert("Please provide a reason for leave");
+      return;
+    }
+
     try {
-      const token = Cookies.get("Microsoft-token");
-
-      if (!token) {
-        alert(" No student token found. Please login first.");
-        return;
-      }
-
       const payload = {
         level: 6,
         leaveType: leaveType.toLowerCase(),
         reason: reason,
+        week: parseInt(moduleDetails[0]?.week) || 1,
         leaves: moduleDetails.map((m) => ({
-          moduledetails: m.moduleName, // replace with ID mapping
+          moduledetails: m.moduleName,
           week: parseInt(m.week),
           classtype: m.classType.toLowerCase(),
-        })),
+          leaveday: 1
+        }))
       };
 
-      const response = await axios.post(
-        "https://leave-management-backend-8qav.onrender.com/api/task/create",
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      let response;
 
-      alert(" Leave request submitted successfully!");
+      if (pictures.length > 0) {
+        // WITH FILE: Send as form-data
+        const formData = new FormData();
+        formData.append("data", JSON.stringify(payload));
+        formData.append("myfile", pictures[0]);
+
+        response = await axios.post(
+          "https://leavooooooooooooo.onrender.com/api/task/create",
+          formData,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+      } else {
+        // WITHOUT FILE: Send as JSON
+        response = await axios.post(
+          "https://leavooooooooooooo.onrender.com/api/task/create",
+          payload,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      }
+
+      alert("Leave request submitted successfully!");
       console.log("Response:", response.data);
+      
+      // Reset form after successful submission
+      setLeaveType("");
+      setModuleDetails([{ moduleName: "", week: "", classType: "" }]);
+      setReason("");
+      setPictures([]);
+      
     } catch (error) {
-      console.error(" Error submitting leave:", error.response || error);
-      alert("Failed to submit leave request.");
+      alert("Failed to submit leave request. Please try again.");
+      console.error("Error submitting leave:", error.response?.data || error);
     }
   };
 
@@ -177,7 +216,6 @@ const ApplyForLeave = () => {
                   }
                 >
                   <option value="">Enter Module name to be missed.</option>
-                  {/* ⚠️ In real case, use IDs from backend instead of names */}
                   <option value="6892fc951b20a07e48284c19">
                     Computational Mathematics
                   </option>
@@ -256,7 +294,7 @@ const ApplyForLeave = () => {
 
         {/* Picture Upload */}
         <div className="form-group">
-          <label>Upload Pictures (Optional)</label>
+          <label>Upload Picture (Optional)</label>
 
           <div className="picture-preview-list">
             {pictures.map((pic, index) => (
@@ -270,7 +308,7 @@ const ApplyForLeave = () => {
                   <button
                     type="button"
                     className="icon-btn"
-                    onClick={() => handleRemovePicture(index)}
+                    onClick={handleRemovePicture}
                   >
                     <span className="material-symbols-outlined">remove</span>
                   </button>
@@ -285,13 +323,12 @@ const ApplyForLeave = () => {
             onClick={() => document.getElementById("pictureInput").click()}
           >
             <span className="material-symbols-outlined">add_a_photo</span>{" "}
-            Upload Pictures
+            Upload Picture
           </button>
 
           <input
             type="file"
             accept="image/*"
-            multiple
             id="pictureInput"
             onChange={handlePictureChange}
             style={{ display: "none" }}
@@ -300,8 +337,10 @@ const ApplyForLeave = () => {
 
         {/* Actions */}
         <div className="form-actions">
-          <button className="cancel-btn">Cancel</button>
-          <button className="submit-btn" onClick={handleSubmit}>
+          <button type="button" className="cancel-btn">
+            Cancel
+          </button>
+          <button type="button" className="submit-btn" onClick={handleSubmit}>
             <span className="material-symbols-outlined">check</span>
             Send Request
           </button>
