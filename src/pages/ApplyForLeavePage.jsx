@@ -54,7 +54,7 @@ const ApplyForLeave = () => {
 
   const handleSubmit = async () => {
     try {
-      const token = Cookies.get("mstoken");
+      const token = Cookies.get("Microsoft-token");
 
       if (!token) {
         alert(" No student token found. Please login first.");
