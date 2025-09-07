@@ -3,6 +3,7 @@ import { PieChart, Pie, Cell } from "recharts";
 import axios from "axios";
 import userImage from "../assets/user.jpeg";
 import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 import "../CSS/ApplyForLeavePage.css";
 
@@ -13,6 +14,7 @@ const ApplyForLeave = () => {
   ]);
   const [reason, setReason] = useState("");
   const [pictures, setPictures] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const leavesTaken = 4;
   const totalLeaves = 24;
@@ -57,37 +59,74 @@ const ApplyForLeave = () => {
       const token = Cookies.get("token");
 
       if (!token) {
-        alert(" No student token found. Please login first.");
+        alert("No student token found. Please login first.");
         return;
       }
 
-      const payload = {
-        level: 6,
-        leaveType: leaveType.toLowerCase(),
-        reason: reason,
-        leaves: moduleDetails.map((m) => ({
-          moduledetails: m.moduleName, // replace with ID mapping
-          week: parseInt(m.week),
-          classtype: m.classType.toLowerCase(),
-        })),
-      };
+      const decoded = jwtDecode(token);
+      if (decoded.exp * 1000 < Date.now()) {
+        alert("Session expired. Please login again.");
+        Cookies.remove("token");
+        return;
+      }
+
+      if (
+        !leaveType ||
+        !reason ||
+        moduleDetails.some((m) => !m.moduleName || !m.week || !m.classType)
+      ) {
+        alert("Please fill in all required fields before submitting.");
+        return;
+      }
+
+      setLoading(true);
+
+      const formData = new FormData();
+      formData.append("level", 6);
+      formData.append("leaveType", leaveType.toLowerCase());
+      formData.append("reason", reason);
+
+      // Append modules as JSON
+      formData.append(
+        "leaves",
+        JSON.stringify(
+          moduleDetails.map((m) => ({
+            moduledetails: m.moduleName, // backend ID
+            week: parseInt(m.week),
+            classtype: m.classType.toLowerCase(),
+          }))
+        )
+      );
+
+      // Append uploaded pictures
+      pictures.forEach((pic) => {
+        formData.append("pictures", pic);
+      });
 
       const response = await axios.post(
         "https://leave-management-backend-8qav.onrender.com/api/task/create",
-        payload,
+        formData,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      alert(" Leave request submitted successfully!");
+      alert("Leave request submitted successfully!");
       console.log("Response:", response.data);
+
+      // ✅ Reset form
+      setLeaveType("");
+      setReason("");
+      setModuleDetails([{ moduleName: "", week: "", classType: "" }]);
+      setPictures([]);
     } catch (error) {
-      console.error(" Error submitting leave:", error.response || error);
-      alert("Failed to submit leave request.");
+      console.error("Error submitting leave:", error.response || error);
+      alert(error.response?.data?.message || "Failed to submit leave request.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -177,7 +216,7 @@ const ApplyForLeave = () => {
                   }
                 >
                   <option value="">Enter Module name to be missed.</option>
-                  {/* ⚠️ In real case, use IDs from backend instead of names */}
+                  {/* ⚠️ Replace values with real IDs */}
                   <option value="6892fc951b20a07e48284c19">
                     Computational Mathematics
                   </option>
@@ -300,10 +339,26 @@ const ApplyForLeave = () => {
 
         {/* Actions */}
         <div className="form-actions">
-          <button className="cancel-btn">Cancel</button>
-          <button className="submit-btn" onClick={handleSubmit}>
+          <button
+            className="cancel-btn"
+            type="button"
+            onClick={() => {
+              setLeaveType("");
+              setReason("");
+              setModuleDetails([{ moduleName: "", week: "", classType: "" }]);
+              setPictures([]);
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            className="submit-btn"
+            type="button"
+            disabled={loading}
+            onClick={handleSubmit}
+          >
             <span className="material-symbols-outlined">check</span>
-            Send Request
+            {loading ? "Submitting..." : "Send Request"}
           </button>
         </div>
       </div>

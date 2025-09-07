@@ -52,10 +52,27 @@ function LoginPage() {
           console.error("Error parsing backend response", e);
         }
         alert("Login failed: " + errorMsg);
+        setLoading(false);
         return false;
       }
 
       const data = await response.json();
+      console.log("Login response:", data);
+
+      if (data?.accessToken) {
+        // ✅ Save token to cookie for ApplyForLeave page
+        Cookies.set("token", data.accessToken, {
+          expires: 1, // 1 day
+          secure: true,
+          sameSite: "Strict",
+        });
+        console.log("Token saved:", data.accessToken);
+      } else {
+        alert("No access token received from server.");
+        setLoading(false);
+        return false;
+      }
+
       if (rememberMe) {
         localStorage.setItem("email", email);
         localStorage.setItem("password", password);
@@ -68,6 +85,7 @@ function LoginPage() {
       return true;
     } catch (error) {
       alert("Error during login: " + error.message);
+      setLoading(false);
       return false;
     }
   };
@@ -79,21 +97,18 @@ function LoginPage() {
       setEmail("");
       setPassword("");
       setRememberMe(false);
-    } else {
-      setLoading(false);
     }
   };
 
   const handleGoogleSignIn = async () => {
-        try {
+    try {
       setLoading(true);
       const loginResponse = await signInWithPopup(auth, provider);
       const user = loginResponse.user;
-        console.log(loginResponse)
-        console.log(user)
+
       const userData = {
         email: user.email,
-        studentname:user.displayName
+        studentname: user.displayName,
       };
 
       const response = await axios.post(
@@ -106,14 +121,28 @@ function LoginPage() {
           },
         }
       );
-      console.log(response);
+
       const data = response.data;
-      console.log(response);
       console.log("Login successful:", data.message);
+
+      if (data?.accessToken) {
+        Cookies.set("token", data.accessToken, {
+          expires: 1,
+          secure: true,
+          sameSite: "Strict",
+        });
+        console.log("Token saved (Microsoft):", data.accessToken);
+      } else {
+        alert("No access token received from Microsoft login.");
+        setLoading(false);
+        return;
+      }
+
       navigate("/dashboard");
     } catch (error) {
       console.error("Sign-in error:", error);
       alert("An error occurred during sign-in. Please try again.");
+      setLoading(false);
     }
   };
 
