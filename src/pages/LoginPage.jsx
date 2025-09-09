@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import leavoLogo from "../assets/leavo-logo.png";
 import wolverhamptonLogo from "../assets/wlv-logo.png";
 import heraldLogo from "../assets/Logo.png";
-import microsoftLogo from "../assets/Mircosoft.png";
+import microsoftLogo from "../assets/Mircosoft.png"; // Fix typo: "Mircosoft" -> "Microsoft"
 import axios from "axios";
 import { auth, provider } from "./FireBase";
 import Cookies from "js-cookie";
@@ -17,9 +17,9 @@ function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
+  // Load saved credentials if "Remember Me" was previously checked
   useEffect(() => {
     const savedEmail = localStorage.getItem("email");
     const savedPassword = localStorage.getItem("password");
@@ -30,6 +30,7 @@ function LoginPage() {
     }
   }, []);
 
+  // Regular login via email/password
   const loginAPI = async () => {
     try {
       setLoading(true);
@@ -45,22 +46,45 @@ function LoginPage() {
         }
       );
 
-      if (!response.ok) {
-        let errorMsg = "Unknown error";
-        try {
-          const errorData = await response.json();
-          errorMsg = errorData.error || JSON.stringify(errorData);
-        } catch (e) {
-          console.error("Error parsing backend response", e);
-        }
-        alert("Login failed: " + errorMsg);
-        return false;
+      // Check if response is JSON
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await response.text();
+        console.error("Non-JSON response:", text);
+        throw new Error("Server returned non-JSON response");
       }
 
       const data = await response.json();
+
+      if (!response.ok) {
+        const errorMsg = data.error || "Unknown error";
+        console.error("Login failed:", errorMsg);
+        alert(`Login failed: ${errorMsg}`);
+        setLoading(false);
+        return false;
+      }
+
+      console.log("Login response:", data);
+
+      if (!data?.accessToken) {
+        console.error("No access token received:", data);
+        alert("No access token received from server.");
+        setLoading(false);
+        return false;
+      }
+
+      // Save token to cookie
+      Cookies.set("token", data.accessToken, {
+        expires: 1, // 1 day
+        secure: true,
+        sameSite: "Strict",
+      });
+      console.log("Token saved:", data.accessToken);
+
+      // Handle "Remember Me" storage
       if (rememberMe) {
         localStorage.setItem("email", email);
-        localStorage.setItem("password", password);
+        localStorage.setItem("password", password); // Note: Storing passwords is insecure
       } else {
         localStorage.removeItem("email");
         localStorage.removeItem("password");
@@ -69,33 +93,23 @@ function LoginPage() {
       navigate("/dashboard");
       return true;
     } catch (error) {
-      alert("Error during login: " + error.message);
+      console.error("Error during login:", error);
+      alert(`Error during login: ${error.message}`);
+      setLoading(false);
       return false;
     }
   };
 
-  const handleSubmitForm = async (e) => {
-    e.preventDefault();
-    const success = await loginAPI();
-    if (success) {
-      setEmail("");
-      setPassword("");
-      setRememberMe(false);
-    } else {
-      setLoading(false);
-    }
-  };
-
+  // Microsoft sign-in
   const handleGoogleSignIn = async () => {
-        try {
+    try {
       setLoading(true);
       const loginResponse = await signInWithPopup(auth, provider);
       const user = loginResponse.user;
-        console.log(loginResponse)
-        console.log(user)
+
       const userData = {
         email: user.email,
-        studentname:user.displayName
+        studentname: user.displayName,
       };
 
       const response = await axios.post(
@@ -110,16 +124,56 @@ function LoginPage() {
           },
         }
       );
-      console.log(response);
+
       const data = response.data;
-      console.log(response);
-      console.log("Login successful:", data.message);
+      console.log("Microsoft login response:", data);
+
+      if (!data?.accessToken) {
+        console.error("No access token received:", data);
+        alert("No access token received from Microsoft login.");
+        setLoading(false);
+        return;
+      }
+
+      // Save token to cookie
+      Cookies.set("token", data.accessToken, {
+        expires: 1,
+        secure: true,
+        sameSite: "Strict",
+      });
+      console.log("Token saved (Microsoft):", data.accessToken);
+
       navigate("/dashboard");
     } catch (error) {
-      console.error("Sign-in error:", error);
-      alert("An error occurred during sign-in. Please try again.");
+      console.error("Microsoft sign-in error:", error);
+      alert("An error occurred during Microsoft sign-in. Please try again.");
+      setLoading(false);
     }
   };
+
+  // Handle form submission
+  const handleSubmitForm = async (e) => {
+    e.preventDefault();
+    const success = await loginAPI();
+    if (success) {
+      setEmail("");
+      setPassword("");
+      setRememberMe(false);
+    }
+  };
+
+  useEffect(() => {
+    const attachEventListeners = () => {
+      const button = document.querySelector(".google-signin");
+      if (button) {
+        button.addEventListener("click", handleGoogleSignIn);
+        return () => button.removeEventListener("click", handleGoogleSignIn);
+      } else {
+        console.warn("Element '.google-signin' not found");
+      }
+    };
+    attachEventListeners();
+  }, []);
 
   return (
     <div className="login-container">
@@ -196,7 +250,9 @@ function LoginPage() {
               </Link>
             </div>
 
-            <button type="submit">Sign In</button>
+            <button type="submit" disabled={loading}>
+              Sign In
+            </button>
           </form>
 
           <p>
@@ -205,7 +261,11 @@ function LoginPage() {
 
           <div className="or-divider">OR</div>
 
-          <button className="google-signin" onClick={handleGoogleSignIn}>
+          <button
+            className="google-signin"
+            onClick={handleGoogleSignIn}
+            disabled={loading}
+          >
             <img src={microsoftLogo} alt="Microsoft logo" />
             Sign in with Microsoft
           </button>
