@@ -49,7 +49,7 @@ const SideBar = () => {
           </NavLink>
         </li>
 
-        <li className="calendar">
+        {/* <li className="calendar">
           <NavLink
             to="/calendar"
             className={({ isActive }) =>
@@ -57,15 +57,19 @@ const SideBar = () => {
             }
           >
             <span class="material-symbols-outlined">calendar_month</span>
-            Calendar
+            Calendarssss
           </NavLink>
-        </li>
+        </li> */}
 
         <li
           className="leave-history"
           onClick={() => setShowLeaveHistoryMenu(!showLeaveHisotryMenu)}
         >
-          <span class="material-symbols-outlined">history_2</span>Leave history
+          <span class="material-symbols-outlined">history_2</span>Leave history{" "}
+          <div className={`right-arrow ${showLeaveHisotryMenu ? "open" : ""}`}>
+            {" "}
+            <span className="material-symbols-outlined">arrow_forward_ios</span>
+          </div>
         </li>
         {showLeaveHisotryMenu && (
           <LeaveHistoryBar onClose={() => setShowLeaveHistoryMenu(false)} />

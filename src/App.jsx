@@ -3,7 +3,6 @@ import "./App.css";
 import "./CSS/Registration.css";
 import SideBar from "./components/SideBar";
 import Dashboard from "./pages/Dashboard";
-import Calendar from "./pages/Calendar.jsx";
 import ApplyForLeavePage from "./pages/ApplyForLeavePage.jsx";
 import PendingLeave from "./pages/PendingLeave.jsx";
 import ApprovedLeave from "./pages/ApprovedLeave.jsx";
@@ -46,7 +45,6 @@ function App() {
       <Route element={<MainLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/apply-leave" element={<ApplyForLeavePage />} />
-        <Route path="/calendar" element={<Calendar />} />
         <Route path="/applyforleave" element={<ApplyForLeavePage />} />
         <Route path="/leavehistory/pendingleave" element={<PendingLeave />} />
         <Route path="/leavehistory/approvedleave" element={<ApprovedLeave />} />
@@ -62,6 +60,5 @@ function App() {
     </Routes>
   );
 }
-
 
 export default App;
