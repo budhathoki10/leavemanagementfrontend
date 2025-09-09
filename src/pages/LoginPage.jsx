@@ -35,7 +35,9 @@ function LoginPage() {
     try {
       setLoading(true);
       const response = await fetch(
-        "https://leavooooooooooooo.onrender.com/api/user/login", // Verify URL
+        // "https://devplat.heraldcollege.edu.np/leavo-api/api/user/login",
+      // "https://leave-management-backend-1-mp7s.onrender.com/api/user/login",
+        "http://localhost:5000/api/user/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -111,11 +113,15 @@ function LoginPage() {
       };
 
       const response = await axios.post(
-        "https://leavooooooooooooo.onrender.com/api/loginwithmicrosoft", // Verify URL
+        // "https://devplat.heraldcollege.edu.np/leavo-api/api/loginwithmicrosoft",
+      //  "https://leave-management-backend-1-mp7s.onrender.com/api/loginwithmicrosoft",
+        "http://localhost:5000/api/loginwithmicrosoft",
         userData,
         {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
+           withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
 

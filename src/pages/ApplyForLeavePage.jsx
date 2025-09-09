@@ -13,12 +13,51 @@ const ApplyForLeave = () => {
   ]);
   const [reason, setReason] = useState("");
   const [pictures, setPictures] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [token, setToken] = useState(Cookies.get("token") || null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [leaveStats, setLeaveStats] = useState(null);
 
-  const navigate = useNavigate();
+  // Function to fetch leave statistics
+  const fetchLeaveStats = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/user/dashboard",
+        {
+          withCredentials: true,
+        }
+      );
+      
+      if (response.data.success) {
+        console.log("Updated stats:", response.data.data);
+        setLeaveStats(response.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching leave statistics:", error);
+    }
+  };
 
-  const leavesTaken = 4;
+  // Fetch leave statistics on component mount and set up polling
+  useEffect(() => {
+    // Fetch immediately
+    fetchLeaveStats();
+    
+    // Set up polling to check for updates every 10 seconds
+    const interval = setInterval(fetchLeaveStats, 10000);
+    
+    // Clean up interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
+
+  // Update leave stats after successful submission
+  const updateLeaveStats = async () => {
+    try {
+      await fetchLeaveStats();
+    } catch (error) {
+      console.error("Error updating leave statistics:", error);
+    }
+  };
+
+  // Get data from API response or use defaults
+  const leavesTaken = leaveStats ? leaveStats.totalDaysTaken : 4;
   const totalLeaves = 24;
 
   const pieData = [
@@ -27,17 +66,17 @@ const ApplyForLeave = () => {
   ];
   const COLORS = ["#00571e", "#e0e0e0"];
 
-  // Check token on mount and redirect to login if missing
-  useEffect(() => {
-    const storedToken = Cookies.get("token");
-    if (!storedToken) {
-      navigate("/"); // Redirect to login page if no token
-    } else {
-      setToken(storedToken);
-    }
-  }, [navigate]);
+  // Get remaining leaves for a specific module
+  const getModuleRemainingLeaves = (moduleId) => {
+    if (!leaveStats || !leaveStats.moduleWiseStats) return 7;
+    
+    const moduleStat = leaveStats.moduleWiseStats.find(
+      stat => stat.module._id === moduleId
+    );
+    
+    return moduleStat ? moduleStat.remainingLeaves : 7;
+  };
 
-  // -------------------- FORM HANDLERS --------------------
   const handleModuleChange = (index, field, value) => {
     const newModules = [...moduleDetails];
     newModules[index][field] = value;
@@ -59,22 +98,18 @@ const ApplyForLeave = () => {
 
   const handlePictureChange = (e) => {
     if (e.target.files.length > 0) {
-      setPictures([e.target.files[0]]);
+      setPictures([...e.target.files]); 
     }
   };
 
-  const handleRemovePicture = () => {
-    setPictures([]);
+  const handleRemovePicture = (index) => {
+    const newPictures = [...pictures];
+    newPictures.splice(index, 1);
+    setPictures(newPictures);
   };
 
   // -------------------- SUBMIT --------------------
   const handleSubmit = async () => {
-    if (!token) {
-      alert("Please login first.");
-      navigate("/");
-      return;
-    }
-
     if (!leaveType) {
       alert("Please select a leave type");
       return;
@@ -93,31 +128,29 @@ const ApplyForLeave = () => {
       return;
     }
 
+    setIsSubmitting(true);
+
     try {
-      setLoading(true);
-
-      const payload = {
-        level: 6,
-        leaveType: leaveType.toLowerCase(),
-        reason: reason,
-        week: parseInt(moduleDetails[0]?.week) || 1,
-        leaves: moduleDetails.map((m) => ({
-          moduledetails: m.moduleName,
-          week: parseInt(m.week),
-          classtype: m.classType.toLowerCase(),
-          leaveday: 1,
-        })),
-      };
-
       let response;
 
       if (pictures.length > 0) {
         const formData = new FormData();
-        formData.append("data", JSON.stringify(payload));
+        
+        formData.append("level", "6");
+        formData.append("leaveType", leaveType.toLowerCase());
+        formData.append("reason", reason);
+        
+        moduleDetails.forEach((module, index) => {
+          formData.append(`leaves[${index}][moduledetails]`, module.moduleName);
+          formData.append(`leaves[${index}][week]`, parseInt(module.week));
+          formData.append(`leaves[${index}][classtype]`, module.classType.toLowerCase());
+          formData.append(`leaves[${index}][leaveday]`, "1");
+        });
+        
         formData.append("myfile", pictures[0]);
 
         response = await axios.post(
-          "https://leavooooooooooooo.onrender.com/api/task/create",
+          "http://localhost:5000/api/task/create",
           formData,
           {
             headers: {
@@ -127,8 +160,20 @@ const ApplyForLeave = () => {
           }
         );
       } else {
+        const payload = {
+          level: 6,
+          leaveType: leaveType.toLowerCase(),
+          reason: reason,
+          leaves: moduleDetails.map((m) => ({
+            moduledetails: m.moduleName,
+            week: parseInt(m.week),
+            classtype: m.classType.toLowerCase(),
+            leaveday: 1
+          }))
+        };
+
         response = await axios.post(
-          "https://leavooooooooooooo.onrender.com/api/task/create",
+          "http://localhost:5000/api/task/create",
           payload,
           {
             headers: {
@@ -140,33 +185,29 @@ const ApplyForLeave = () => {
       }
 
       alert("Leave request submitted successfully!");
-      console.log("Response:", response.data);
-
+      
+      // Update leave statistics after successful submission
+      await updateLeaveStats();
+      
       setLeaveType("");
       setModuleDetails([{ moduleName: "", week: "", classType: "" }]);
       setReason("");
       setPictures([]);
     } catch (error) {
-      console.error("Error submitting leave:", error);
-      if (error.response) {
-        console.log("Response status:", error.response.status);
-        console.log("Response data:", error.response.data);
-        alert(
-          `Failed to submit leave request: ${
-            error.response.data?.error || error.message
-          }`
-        );
-      } else {
-        alert("Failed to submit leave request. Please check your network.");
-      }
+      alert("Failed to submit leave request. Please try again.");
+      console.error("Error submitting leave:", error.response?.data || error);
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
-  // -------------------- UI --------------------
   return (
     <div className="apply-content">
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      />
+      
       <section className="dashboard-header">
         <p className="dashboard">Apply for Leave</p>
         <div className="icons">
@@ -213,12 +254,19 @@ const ApplyForLeave = () => {
                 </Pie>
               </PieChart>
 
-              <div className="pie-center">
-                <span className="leaves-count">{leavesTaken}</span>
-                <span className="leaves-total">/{totalLeaves}</span>
-              </div>
-            </div>
+          <div className="pie-center">
+            <span className="leaves-count">{leavesTaken}</span>
+            <span className="leaves-total">/{totalLeaves}</span>
           </div>
+        </div>
+        {leaveStats && (
+          <p style={{fontSize: '12px', color: '#666', marginTop: '10px'}}>
+            Last updated: {new Date(leaveStats.lastUpdated).toLocaleString()}
+            <br />
+            <small>Updates automatically every 10 seconds</small>
+          </p>
+        )}
+      </div>
 
           {/* Leave Request Form */}
           <div className="leave-form">
@@ -237,27 +285,26 @@ const ApplyForLeave = () => {
               </select>
             </div>
 
-            {moduleDetails.map((module, index) => (
-              <div key={index} className="module-box">
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Module Name</label>
-                    <select
-                      value={module.moduleName}
-                      onChange={(e) =>
-                        handleModuleChange(index, "moduleName", e.target.value)
-                      }
-                    >
-                      <option value="">Enter Module name to be missed.</option>
-                      <option value="6892fc951b20a07e48284c19">
-                        Computational Mathematics
-                      </option>
-                      <option value="6892fc5e1b20a07e48284c17">Physics</option>
-                      <option value="6892fc9b1b20a07e48284c21">
-                        Chemistry
-                      </option>
-                    </select>
-                  </div>
+        {/* Module Info */}
+        {moduleDetails.map((module, index) => (
+          <div key={index} className="module-box">
+            <div className="form-row">
+              <div className="form-group">
+                <label>Module Name</label>
+                <select
+                  value={module.moduleName}
+                  onChange={(e) =>
+                    handleModuleChange(index, "moduleName", e.target.value)
+                  }
+                >
+                  <option value="">Enter Module name to be missed.</option>
+                  <option value="6892fbda1b20a07e48284c14">
+                    Computational Mathematics
+                  </option>
+                  <option value="688386ecb65720836a037728">Introduction to Object-Oriented Programming</option>
+                  <option value="68838752b65720836a03772a">Interactive 3D Applications and Academic Skills</option>
+                </select>
+              </div>
 
                   <div className="form-group small">
                     <label>Week</label>
@@ -314,9 +361,11 @@ const ApplyForLeave = () => {
                   </div>
                 </div>
 
-                <p className="module-extra">Module Remaining Leave: 7</p>
-              </div>
-            ))}
+            <p className="module-extra">
+              Module Remaining Leave: {module.moduleName ? getModuleRemainingLeaves(module.moduleName) : 7}
+            </p>
+          </div>
+        ))}
 
             <div className="form-group">
               <label>Reason</label>
@@ -327,30 +376,30 @@ const ApplyForLeave = () => {
               />
             </div>
 
-            <div className="form-group">
-              <label>Upload Picture (Optional)</label>
-              <div className="picture-preview-list">
-                {pictures.map((pic, index) => (
-                  <div key={index} className="picture-box">
-                    <img
-                      src={URL.createObjectURL(pic)}
-                      alt="uploaded"
-                      className="preview-img"
-                    />
-                    <div className="inline-actions">
-                      <button
-                        type="button"
-                        className="icon-btn"
-                        onClick={handleRemovePicture}
-                      >
-                        <span className="material-symbols-outlined">
-                          remove
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                ))}
+        {/* Picture Upload */}
+        <div className="form-group">
+          <label>Upload Picture (Optional)</label>
+
+          <div className="picture-preview-list">
+            {pictures.map((pic, index) => (
+              <div key={index} className="picture-box">
+                <img
+                  src={URL.createObjectURL(pic)}
+                  alt="uploaded"
+                  className="preview-img"
+                />
+                <div className="inline-actions">
+                  <button
+                    type="button"
+                    className="icon-btn"
+                    onClick={() => handleRemovePicture(index)}
+                  >
+                    <span className="material-symbols-outlined">remove</span>
+                  </button>
+                </div>
               </div>
+            ))}
+          </div>
 
               <button
                 type="button"
@@ -361,32 +410,32 @@ const ApplyForLeave = () => {
                 Upload Picture
               </button>
 
-              <input
-                type="file"
-                accept="image/*"
-                id="pictureInput"
-                onChange={handlePictureChange}
-                style={{ display: "none" }}
-              />
-            </div>
+          <input
+            type="file"
+            accept="image/*"
+            id="pictureInput"
+            onChange={handlePictureChange}
+            style={{ display: "none" }}
+            multiple
+          />
+        </div>
 
-            <div className="form-actions">
-              <button type="button" className="cancel-btn">
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="submit-btn"
-                onClick={handleSubmit}
-                disabled={loading}
-              >
-                <span className="material-symbols-outlined">check</span>
-                {loading ? "Submitting..." : "Send Request"}
-              </button>
-            </div>
-          </div>
-        </>
-      )}
+        {/* Actions */}
+        <div className="form-actions">
+          <button type="button" className="cancel-btn">
+            Cancel
+          </button>
+          <button 
+            type="button" 
+            className="submit-btn" 
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+          >
+            <span className="material-symbols-outlined">check</span>
+            {isSubmitting ? "Submitting..." : "Send Request"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

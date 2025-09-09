@@ -4,42 +4,51 @@ import "../CSS/Profile.css";
 
 const Profile = () => {
   const [editing, setEditing] = useState(false);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();   
 
-  const [user, setUser] = useState({
-    fullName: "None",
-    dob: "2005-10-20", 
-    country: "Nepal",
-    language: "English (United States)",
-    profilePic: "",
-  });
-
-
+  // fetch profile from API
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser) {
-      setUser(storedUser);
-    }
+    const fetchProfile = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/profile", {
+          method: "GET",
+          credentials: "include", // include cookies for auth
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await res.json();
+        if (data && data.data) {
+          setUser({
+            fullName: data.data.studentname || "None",
+            email: data.data.email || "",
+            dob: "2005-10-20",
+            country: "Nepal",
+            language: "English (United States)",
+            profilePic: "",
+          });
+        }
+      } catch (err) {
+        console.error("Error fetching profile:", err);
+      }
+    };
+    fetchProfile();
   }, []);
 
-  
-  useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(user));
-  }, [user]);
-
-  
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setUser({ ...user, profilePic: imageUrl });
+      setUser((prev) => ({ ...prev, profilePic: imageUrl }));
     }
   };
 
- 
   const handleSave = () => {
     setEditing(false);
   };
+
+  if (!user) return <p>Loading profile...</p>;
 
   return (
     <div className="profile-page">
@@ -67,28 +76,31 @@ const Profile = () => {
         </div>
 
         <div className="profile-right">
-          <h3>Full name</h3>
+         
           {!editing ? (
             <>
-              <p>{user.fullName}</p>
-              <button
-                className="link-btn"
-                onClick={() => setUser({ ...user, fullName: "John Snow" })}
-              >
-                Add a name
-              </button>
+              <p style={{ fontSize: "32px", fontWeight: "500" }}>
+                {user.fullName}
+              </p>
+              <p style={{ fontSize: "14px", color: "#555" }}>{user.email}</p>
             </>
           ) : (
-            <input
-              type="text"
-              value={user.fullName}
-              onChange={(e) => setUser({ ...user, fullName: e.target.value })}
-            />
+            <>
+              <input
+                type="text"
+                value={user.fullName}
+                onChange={(e) => setUser({ ...user, fullName: e.target.value })}
+              />
+              <input
+                type="email"
+                value={user.email}
+                onChange={(e) => setUser({ ...user, email: e.target.value })}
+              />
+            </>
           )}
         </div>
       </div>
 
-  
       <div className="info-box">
         <div className="info-header">
           <h4>Profile info</h4>
@@ -103,7 +115,6 @@ const Profile = () => {
           )}
         </div>
 
-      
         <div className="info-item">
           <div className="info-content">
             <strong>Date of birth</strong>
@@ -144,18 +155,18 @@ const Profile = () => {
           </span>
         </div>
 
-      
         <div
           className="info-item clickable"
-          onClick={() => navigate("/changeprofile")} 
+          onClick={() => navigate("/changeprofile")}
         >
           <div className="info-content">
             <strong>Change Password</strong>
           </div>
-          <span className="change">Click here to change your current password </span> 
+          <span className="change">
+            Click here to change your current password
+          </span>
         </div>
 
-      
         <div className="info-item">
           <div>
             <strong>Feel free to contact us</strong>
