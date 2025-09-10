@@ -163,7 +163,7 @@ const Profile = () => {
             <strong>Change Password</strong>
           </div>
           <span className="change">
-            Click here to change your current password
+            Click here if u want to change your password
           </span>
         </div>
 
