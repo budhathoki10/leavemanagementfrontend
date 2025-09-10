@@ -129,7 +129,6 @@ export default function Dashboard() {
           </p>
         </LeavesTakenCard>
         <MonthlyLeaveChart />
-        <QuickActions />
       </Bottom>
     </div>
   );
