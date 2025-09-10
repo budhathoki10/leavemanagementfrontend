@@ -4,6 +4,7 @@ import axios from "axios";
 import userImage from "../assets/user.jpeg";
 import "../CSS/ApplyForLeavePage.css";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie"; 
 
 const ApplyForLeave = () => {
   const [leaveType, setLeaveType] = useState("");
@@ -15,49 +16,9 @@ const ApplyForLeave = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [leaveStats, setLeaveStats] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const navigate = useNavigate();
-
-  // Function to fetch leave statistics
-  // const fetchLeaveStats = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       // "https://leave-management-backend-1-mp7s.onrender.com/api/user/dashboard",
-  //              "http://localhost:5000/api/user/dashboard",
-  //       {
-  //         withCredentials: true,
-  //       }
-  //     );
-
-  //     if (response.data.success) {
-  //       console.log("Updated stats:", response.data.data);
-  //       setLeaveStats(response.data.data);
-  //       setIsLoggedIn(true);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching leave statistics:", error);
-  //     setIsLoggedIn(false);
-  //   }
-  // };
-
-  // Fetch leave statistics on component mount and set up polling
-  useEffect(() => {
-    fetchLeaveStats();
-    const interval = setInterval(fetchLeaveStats, 10000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const updateLeaveStats = async () => {
-    try {
-      await fetchLeaveStats();
-    } catch (error) {
-      console.error("Error updating leave statistics:", error);
-    }
-  };
-
-  const leavesTaken = leaveStats ? leaveStats.totalDaysTaken : 4;
+  const leavesTaken = leaveStats ? leaveStats.totalDaysTaken : 0;
   const totalLeaves = 24;
-
+  
   const pieData = [
     { name: "Taken", value: leavesTaken },
     { name: "Remaining", value: totalLeaves - leavesTaken },
@@ -106,100 +67,107 @@ const ApplyForLeave = () => {
   };
 
   // -------------------- SUBMIT --------------------
-  const handleSubmit = async () => {
-    if (!leaveType) {
-      alert("Please select a leave type");
-      return;
-    }
 
-    const invalidModule = moduleDetails.find(
-      (m) => !m.moduleName || !m.week || !m.classType
-    );
-    if (invalidModule) {
-      alert("Please fill all module details");
-      return;
-    }
+const handleSubmit = async () => {
+  if (!leaveType) {
+    alert("Please select a leave type");
+    return;
+  }
 
-    if (!reason.trim()) {
-      alert("Please provide a reason for leave");
-      return;
-    }
+  const invalidModule = moduleDetails.find(
+    (m) => !m.moduleName || !m.week || !m.classType
+  );
+  if (invalidModule) {
+    alert("Please fill all module details");
+    return;
+  }
 
-    setIsSubmitting(true);
+  if (!reason.trim()) {
+    alert("Please provide a reason for leave");
+    return;
+  }
 
-    try {
-      let response;
+  setIsSubmitting(true);
 
-      if (pictures.length > 0) {
-        const formData = new FormData();
-
-        formData.append("level", "6");
-        formData.append("leaveType", leaveType.toLowerCase());
-        formData.append("reason", reason);
-
-        moduleDetails.forEach((module, index) => {
-          formData.append(`leaves[${index}][moduledetails]`, module.moduleName);
-          formData.append(`leaves[${index}][week]`, parseInt(module.week));
-          formData.append(
-            `leaves[${index}][classtype]`,
-            module.classType.toLowerCase()
-          );
-          formData.append(`leaves[${index}][leaveday]`, "1");
-        });
-
-        formData.append("myfile", pictures[0]);
-
-        response = await axios.post(
-          "https://leave-management-backend-1-mp7s.onrender.com/api/task/create",
-          //  "http://localhost:5000/api/task/create",
-          formData,
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-      } else {
-        const payload = {
-          level: 6,
-          leaveType: leaveType.toLowerCase(),
-          reason: reason,
-          leaves: moduleDetails.map((m) => ({
-            moduledetails: m.moduleName,
-            week: parseInt(m.week),
-            classtype: m.classType.toLowerCase(),
-            leaveday: 1,
-          })),
-        };
-
-        response = await axios.post(
-          "https://leave-management-backend-1-mp7s.onrender.com/api/task/create",
-                  //  "http://localhost:5000/api/task/create",
-          payload,
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-      }
-
-      alert("Leave request submitted successfully!");
-      await updateLeaveStats();
-
-      setLeaveType("");
-      setModuleDetails([{ moduleName: "", week: "", classType: "" }]);
-      setReason("");
-      setPictures([]);
-    } catch (error) {
-      alert("Failed to submit leave request. Please try again.");
-      console.error("Error submitting leave:", error.response?.data || error);
-    } finally {
+  try {
+    const token = Cookies.get("token"); // <--- get token from cookie
+    if (!token) {
+      alert("You are not logged in. Please log in first.");
       setIsSubmitting(false);
+      return;
     }
-  };
+
+    let response;
+
+    if (pictures.length > 0) {
+      const formData = new FormData();
+      formData.append("level", 6);
+      formData.append("leaveType", leaveType.toLowerCase());
+      formData.append("reason", reason);
+
+      moduleDetails.forEach((module, index) => {
+        formData.append(`leaves[${index}][moduledetails]`, module.moduleName);
+        formData.append(`leaves[${index}][week]`, parseInt(module.week));
+        formData.append(
+          `leaves[${index}][classtype]`,
+          module.classType.toLowerCase()
+        );
+        formData.append(`leaves[${index}][leaveday]`, 1);
+      });
+
+      formData.append("myfile", pictures[0]);
+
+      response = await axios.post(
+        "https://leave-management-backend-1-mp7s.onrender.com/api/task/create",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`, // <--- send token
+          },
+        }
+      );
+    } else {
+      const payload = {
+        level: 6,
+        leaveType: leaveType.toLowerCase(),
+        reason: reason,
+        leaves: moduleDetails.map((m) => ({
+          moduledetails: m.moduleName,
+          week: parseInt(m.week),
+          classtype: m.classType.toLowerCase(),
+          leaveday: 1,
+        })),
+      };
+
+      response = await axios.post(
+        "https://leave-management-backend-1-mp7s.onrender.com/api/task/create",
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // <--- send token
+          },
+        }
+      );
+    }
+
+    alert("Leave request submitted successfully!");
+
+    // Reset form
+    setLeaveType("");
+    setModuleDetails([{ moduleName: "", week: "", classType: "" }]);
+    setReason("");
+    setPictures([]);
+  } catch (error) {
+    console.error("Error submitting leave:", error.response?.data || error);
+    alert(
+      "Failed to submit leave request. Please check your login or try again."
+    );
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div className="apply-content">
@@ -437,6 +405,7 @@ const ApplyForLeave = () => {
             </div>
           </div>
         </>
+
     </div>
   );
 };

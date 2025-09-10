@@ -1,40 +1,57 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";   
+import Cookies from "js-cookie";
 import "../CSS/Profile.css";
 
 const Profile = () => {
   const [editing, setEditing] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    fullName: "",
+    email: "",
+    dob: "2005-10-20",
+    country: "Nepal",
+    language: "English (United States)",
+    profilePic: "",
+  });
   const navigate = useNavigate();   
 
   // fetch profile from API
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/profile", {
-          method: "GET",
-          credentials: "include", // include cookies for auth
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const token = Cookies.get("token"); // get token from frontend cookie
+        if (!token) {
+          console.error("No token found, redirecting to login");
+          navigate("/login");
+          return;
+        }
+
+        const res = await fetch(
+          "https://leave-management-backend-1-mp7s.onrender.com/api/profile",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`, // attach token
+            },
+          }
+        );
+
         const data = await res.json();
+
         if (data && data.data) {
-          setUser({
-            fullName: data.data.studentname || "None",
-            email: data.data.email || "",
-            dob: "2005-10-20",
-            country: "Nepal",
-            language: "English (United States)",
-            profilePic: "",
-          });
+          setUser((prev) => ({
+            ...prev,
+            fullName: data.data.studentname || prev.fullName,
+            email: data.data.email || prev.email,
+          }));
         }
       } catch (err) {
         console.error("Error fetching profile:", err);
       }
     };
     fetchProfile();
-  }, []);
+  }, [navigate]);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -46,9 +63,8 @@ const Profile = () => {
 
   const handleSave = () => {
     setEditing(false);
+    // Optionally, you can send updated data to backend here
   };
-
-  if (!user) return <p>Loading profile...</p>;
 
   return (
     <div className="profile-page">
@@ -76,7 +92,6 @@ const Profile = () => {
         </div>
 
         <div className="profile-right">
-         
           {!editing ? (
             <>
               <p style={{ fontSize: "32px", fontWeight: "500" }}>
@@ -89,7 +104,9 @@ const Profile = () => {
               <input
                 type="text"
                 value={user.fullName}
-                onChange={(e) => setUser({ ...user, fullName: e.target.value })}
+                onChange={(e) =>
+                  setUser({ ...user, fullName: e.target.value })
+                }
               />
               <input
                 type="email"

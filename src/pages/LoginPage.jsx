@@ -10,7 +10,6 @@ import Cookies from "js-cookie";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
 import "./Login.css";
 import { signInWithPopup } from "firebase/auth";
-
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,7 +54,8 @@ function LoginPage() {
       }
 
       const data = await response.json();
-
+    console.log(data)
+Cookies.set("token", data.token, { expires: 90, path: "/" });
       if (!response.ok) {
         const errorMsg = data.error || "Unknown error";
         console.error("Login failed:", errorMsg);
@@ -112,7 +112,7 @@ function LoginPage() {
 console.log(response)
       const data = response.data;
       console.log("Microsoft login response:", data);
-
+      Cookies.set("token", data.token, { expires: 90, path: "/" });
       navigate("/dashboard");
     } catch (error) {
       console.error("Microsoft sign-in error:", error);
