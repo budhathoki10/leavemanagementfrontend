@@ -1,0 +1,48 @@
+.leave-history-panel {
+  box-sizing: border-box;
+  position: fixed;
+  width: 200px;
+  height: 220px;
+  top: 325px;
+  left: 271px;
+  background-color: hsl(141, 100%, 17%);
+  z-index: 999;
+  border: transparent;
+  border-radius: 7px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.475);
+}
+
+.leave-history-links {
+  list-style-type: none;
+  display: grid;
+  gap: 30px;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.leave-history-options {
+  gap: 15px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.leave-history-options:hover {
+  background-color: hsl(146, 71%, 38%);
+}
+
+.leave-history-options a{
+  font-size: 16px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  gap: 10px;
+}
+
+.leave-history-options span {
+  font-size: 20px;
+}
