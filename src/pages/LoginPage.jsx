@@ -36,8 +36,8 @@ function LoginPage() {
       setLoading(true);
       const response = await fetch(
         // "https://devplat.heraldcollege.edu.np/leavo-api/api/user/login",
-      // "https://leave-management-backend-1-mp7s.onrender.com/api/user/login",
-        "http://localhost:5000/api/user/login",
+      "https://leave-management-backend-1-mp7s.onrender.com/api/user/login",
+        // "http://localhost:5000/api/user/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -65,21 +65,6 @@ function LoginPage() {
       }
 
       console.log("Login response:", data);
-
-      if (!data?.accessToken) {
-        console.error("No access token received:", data);
-        alert("No access token received from server.");
-        setLoading(false);
-        return false;
-      }
-
-      // Save token to cookie
-      Cookies.set("token", data.accessToken, {
-        expires: 1, // 1 day
-        secure: true,
-        sameSite: "Strict",
-      });
-      console.log("Token saved:", data.accessToken);
 
       // Handle "Remember Me" storage
       if (rememberMe) {
@@ -114,8 +99,8 @@ function LoginPage() {
 
       const response = await axios.post(
         // "https://devplat.heraldcollege.edu.np/leavo-api/api/loginwithmicrosoft",
-      //  "https://leave-management-backend-1-mp7s.onrender.com/api/loginwithmicrosoft",
-        "http://localhost:5000/api/loginwithmicrosoft",
+       "https://leave-management-backend-1-mp7s.onrender.com/api/loginwithmicrosoft",
+        // "http://localhost:5000/api/loginwithmicrosoft",
         userData,
         {
            withCredentials: true,
@@ -124,24 +109,9 @@ function LoginPage() {
           },
         }
       );
-
+console.log(response)
       const data = response.data;
       console.log("Microsoft login response:", data);
-
-      if (!data?.accessToken) {
-        console.error("No access token received:", data);
-        alert("No access token received from Microsoft login.");
-        setLoading(false);
-        return;
-      }
-
-      // Save token to cookie
-      Cookies.set("token", data.accessToken, {
-        expires: 1,
-        secure: true,
-        sameSite: "Strict",
-      });
-      console.log("Token saved (Microsoft):", data.accessToken);
 
       navigate("/dashboard");
     } catch (error) {

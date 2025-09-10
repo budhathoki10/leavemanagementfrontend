@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Cell } from "recharts";
 import axios from "axios";
-import Cookies from "js-cookie";
 import userImage from "../assets/user.jpeg";
 import "../CSS/ApplyForLeavePage.css";
 import { useNavigate } from "react-router-dom";
@@ -15,29 +14,31 @@ const ApplyForLeave = () => {
   const [pictures, setPictures] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [leaveStats, setLeaveStats] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // ✅ Fix: get token & navigate
-  const token = Cookies.get("token");
   const navigate = useNavigate();
 
   // Function to fetch leave statistics
-  const fetchLeaveStats = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:5000/api/user/dashboard",
-        {
-          withCredentials: true,
-        }
-      );
+  // const fetchLeaveStats = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       // "https://leave-management-backend-1-mp7s.onrender.com/api/user/dashboard",
+  //              "http://localhost:5000/api/user/dashboard",
+  //       {
+  //         withCredentials: true,
+  //       }
+  //     );
 
-      if (response.data.success) {
-        console.log("Updated stats:", response.data.data);
-        setLeaveStats(response.data.data);
-      }
-    } catch (error) {
-      console.error("Error fetching leave statistics:", error);
-    }
-  };
+  //     if (response.data.success) {
+  //       console.log("Updated stats:", response.data.data);
+  //       setLeaveStats(response.data.data);
+  //       setIsLoggedIn(true);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching leave statistics:", error);
+  //     setIsLoggedIn(false);
+  //   }
+  // };
 
   // Fetch leave statistics on component mount and set up polling
   useEffect(() => {
@@ -149,12 +150,13 @@ const ApplyForLeave = () => {
         formData.append("myfile", pictures[0]);
 
         response = await axios.post(
-          "http://localhost:5000/api/task/create",
+          "https://leave-management-backend-1-mp7s.onrender.com/api/task/create",
+          //  "http://localhost:5000/api/task/create",
           formData,
           {
+            withCredentials: true,
             headers: {
               "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -172,12 +174,13 @@ const ApplyForLeave = () => {
         };
 
         response = await axios.post(
-          "http://localhost:5000/api/task/create",
+          "https://leave-management-backend-1-mp7s.onrender.com/api/task/create",
+                  //  "http://localhost:5000/api/task/create",
           payload,
           {
+            withCredentials: true,
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -214,21 +217,11 @@ const ApplyForLeave = () => {
           <div className="user-text">
             <p className="username">John Snow</p>
             <p className="username-user">
-              {token ? "Logged in" : "Not Logged In"}
+              {isLoggedIn ? "Logged in" : "Not Logged In"}
             </p>
           </div>
         </div>
       </section>
-
-      {!token && (
-        <div className="login-section">
-          <button className="submit-btn" onClick={() => navigate("/")}>
-            Go to Login
-          </button>
-        </div>
-      )}
-
-      {token && (
         <>
           {/* Leave Stats */}
           <div className="leaves-section">
@@ -296,7 +289,7 @@ const ApplyForLeave = () => {
                       }
                     >
                       <option value="">Enter Module name to be missed.</option>
-                      <option value="6892fbda1b20a07e48284c14">
+                      <option value="688386b9b65720836a037725">
                         Computational Mathematics
                       </option>
                       <option value="688386ecb65720836a037728">
@@ -444,7 +437,6 @@ const ApplyForLeave = () => {
             </div>
           </div>
         </>
-      )}
     </div>
   );
 };
