@@ -34,19 +34,8 @@ body {
 
 .approved-requests-header {
   font-size: 28px;
-  margin-left: 60px;
-  color: #2d2d2d;
-  margin-top: 30px;
   margin-left: 30px;
-  margin-right: 30px;
-  margin-bottom: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  padding: 20px 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  color: #2d2d2d;
 }
 
 .approved-leave-bar {

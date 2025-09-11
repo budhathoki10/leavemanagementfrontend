@@ -78,7 +78,7 @@ const MonthlyLeaveChart = () => {
         {" "}
         <div
           className="flex-1 bg-white p-60 rounded-2xl shadow"
-          style={{ height: "350px", width: "600px" }}
+          style={{ height: "340px", width: "920px" }}
         >
           <Bar data={data} options={options} />
         </div>
