@@ -15,11 +15,11 @@ const Profile = () => {
   });
   const navigate = useNavigate();   
 
-  // fetch profile from API
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = Cookies.get("token"); // get token from frontend cookie
+        const token = Cookies.get("token"); 
         if (!token) {
           console.error("No token found, redirecting to login");
           navigate("/login");
@@ -32,7 +32,7 @@ const Profile = () => {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, // attach token
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -63,7 +63,7 @@ const Profile = () => {
 
   const handleSave = () => {
     setEditing(false);
-    // Optionally, you can send updated data to backend here
+
   };
 
   return (
