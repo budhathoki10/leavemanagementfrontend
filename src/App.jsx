@@ -14,6 +14,7 @@ import Settings from "./pages/Settings";
 import Profile from "./setting-pages/Profile.jsx";
 import Feedback from "./setting-pages/Feedback.jsx";
 import ChangePassword from "./setting-pages/ChangePassword";
+import Notification from "./setting-pages/Notification";
 
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 
@@ -44,6 +45,7 @@ function App() {
       {/* Main app routes */}
       <Route element={<MainLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/settings/notification" element={<Notification />} />
         <Route path="/apply-leave" element={<ApplyForLeavePage />} />
         <Route path="/applyforleave" element={<ApplyForLeavePage />} />
         <Route path="/leavehistory/pendingleave" element={<PendingLeave />} />

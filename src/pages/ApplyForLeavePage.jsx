@@ -73,7 +73,7 @@ const ApplyForLeave = () => {
     fetchLeaveStats();
     fetchUserProfile();
 
-    const interval = setInterval(fetchLeaveStats, 10000); 
+    const interval = setInterval(fetchLeaveStats, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -117,7 +117,6 @@ const ApplyForLeave = () => {
     newPictures.splice(index, 1);
     setPictures(newPictures);
   };
-
 
   const handleSubmit = async () => {
     if (!leaveType) {
@@ -205,12 +204,10 @@ const ApplyForLeave = () => {
 
       alert("Leave request submitted successfully!");
 
-
       setLeaveType("");
       setModuleDetails([{ moduleName: "", week: "", classType: "" }]);
       setReason("");
       setPictures([]);
-
 
       fetchLeaveStats();
     } catch (error) {
@@ -242,7 +239,7 @@ const ApplyForLeave = () => {
         </div>
       </section>
 
-
+      {/* Leave Stats */}
       <div className="leaves-section">
         <h3>Leaves Taken This Semester</h3>
         <div className="pie-chart">
@@ -270,7 +267,6 @@ const ApplyForLeave = () => {
         </div>
       </div>
 
-
       <div className="leave-form">
         <h4>Leave Request</h4>
 
@@ -286,6 +282,7 @@ const ApplyForLeave = () => {
             <option value="Emergency">Emergency Leave</option>
           </select>
         </div>
+
         {moduleDetails.map((module, index) => (
           <div key={index} className="module-box">
             <div className="form-row">
@@ -381,7 +378,7 @@ const ApplyForLeave = () => {
         </div>
 
         <div className="form-group">
-          <label>Upload Picture (Optional)</label>
+          <label>Upload Picture</label>
           <div className="picture-preview-list">
             {pictures.map((pic, index) => (
               <div key={index} className="picture-box">
@@ -422,7 +419,6 @@ const ApplyForLeave = () => {
           />
         </div>
 
- 
         <div className="form-actions">
           <button type="button" className="cancel-btn">
             Cancel
