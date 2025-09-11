@@ -1,33 +1,77 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import Cookies from "js-cookie";
 import "../CSS/Dashboard.css";
 import userImage from "../assets/user.jpeg";
 import clgLogo from "../assets/OIP.png";
 import CircularProgressBar from "../components/CircularProgressBar";
 import MonthlyLeaveChart from "../components/MonthlyLeaveChart";
-import QuickActions from "../components/QuickActions";
-
-const dashboardLeaveData = [
-  {
-    moduleName: "Concept and Technologies of AI",
-    takenLeaves: "8 / 8",
-  },
-  {
-    moduleName: "Full stack development",
-    takenLeaves: "4 / 8",
-  },
-  {
-    moduleName: "Object Oriented Programming",
-    takenLeaves: "1 / 8",
-  },
-];
-
-const leavesTakenData = [
-  {
-    leavesApproved: "8",
-  },
-];
 
 export default function Dashboard() {
+  const [studentName, setStudentName] = useState("Student");
+  const [modules, setModules] = useState([
+    { moduleName: "Computational Mathematics", taken: 0, total: 8 },
+    { moduleName: "Interactive 3D Applications and Academic Skills", taken: 0, total: 8 },
+    { moduleName: "Introduction to Object-Oriented Programming", taken: 0, total: 8 },
+  ]);
+  const [leavesApproved, setLeavesApproved] = useState(0);
+  const [leavesPending, setLeavesPending] = useState(0);
+  const [leavesRejected, setLeavesRejected] = useState(0);
+  const [monthlyData, setMonthlyData] = useState([]);
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (!token) return;
+
+    const fetchDashboard = () => {
+      fetch("https://leave-management-backend-1-mp7s.onrender.com/api/profile", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.data?.studentname) setStudentName(data.data.studentname);
+        })
+        .catch((err) => console.error("Profile fetch error:", err));
+
+      fetch("https://leave-management-backend-1-mp7s.onrender.com/api/user/dashboard", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.data) {
+            setLeavesApproved(data.data.totalLeaveTaken || 0);
+            setLeavesPending(data.data.leavesPending || 0);
+            setLeavesRejected(data.data.leavesRejected || 0);
+
+            // Update module progress bars
+            const updatedModules = data.data.moduleWiseStats.map((m) => ({
+              moduleName: m.module.Modulename,
+              taken: m.daysTaken,
+              total: m.daysTaken + m.remainingLeaves,
+            }));
+            setModules(updatedModules);
+
+            // Map moduleWiseStats to chart data
+            const chartData = data.data.moduleWiseStats.map((m) => ({
+              module: { Modulename: m.module.Modulename },
+              daysTaken: m.daysTaken,
+            }));
+            setMonthlyData(chartData);
+          }
+        })
+        .catch((err) => console.error("Dashboard fetch error:", err));
+    };
+
+    // Initial fetch
+    fetchDashboard();
+
+    // Auto-refresh every 5 seconds
+    const interval = setInterval(fetchDashboard, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   const today = new Date();
   const formattedDate = today.toLocaleDateString("en-US", {
     month: "long",
@@ -51,8 +95,8 @@ export default function Dashboard() {
             <img src={userImage} alt="user" />
           </div>
           <div className="user-text">
-            <p className="username">John Snow</p>
-            <p className="username-user">User</p>
+            <p className="username">{studentName}</p>
+            <p className="username-user">Student</p>
           </div>
         </div>
       </section>
@@ -66,18 +110,16 @@ export default function Dashboard() {
               <p className="date">{formattedDate}</p>
             </div>
             <div className="clg-logo">
-              <img src={clgLogo}></img>
+              <img src={clgLogo} alt="college logo" />
             </div>
           </div>
-
           <div className="user-info-card-details">
             <div className="course-details">
               <span className="course-label">Course</span>
               <p className="course-name">
-                Bachelor in computer science and technology
+                Bachelor in Computer Science and Technology
               </p>
             </div>
-
             <div className="intake-details">
               <span className="intake-label">Intake</span>
               <p className="intake-name">Winter</p>
@@ -87,126 +129,123 @@ export default function Dashboard() {
 
         <LeavePerModule>
           <span className="leave-per-module-label">Leave Per Module</span>
-          {dashboardLeaveData.map((value) => {
-            const [taken, total] = value.takenLeaves.split("/").map(Number);
-            const percentage = (taken / total) * 100;
-
-            return (
-              <LeavePerModuleProgressBar key={value.moduleName}>
-                <div className="text">
-                  <p className="module-name">{value.moduleName}</p>
-                  <p className="takenLeaves">{value.takenLeaves}</p>
-                </div>
-
-                <div className="progressbar">
-                  <div
-                    className="progress"
-                    style={{ width: `${percentage}%` }}
-                  ></div>
-                </div>
-              </LeavePerModuleProgressBar>
-            );
-          })}
+          {modules.length === 0 || modules.every((mod) => mod.taken === 0) ? (
+            <NoLeavesMessage>No leaves taken</NoLeavesMessage>
+          ) : (
+            modules.map((mod) => {
+              const percentage = (mod.taken / mod.total) * 100;
+              return (
+                <LeavePerModuleProgressBar key={mod.moduleName}>
+                  <div className="text">
+                    <p className="module-name">{mod.moduleName}</p>
+                    <p className="takenLeaves">
+                      {mod.taken} / {mod.total}
+                    </p>
+                  </div>
+                  <div className="progressbar">
+                    <div
+                      className="progress"
+                      style={{ width: `${percentage}%` }}
+                    ></div>
+                  </div>
+                </LeavePerModuleProgressBar>
+              );
+            })
+          )}
         </LeavePerModule>
       </MidTop>
+
       <Bottom>
         <LeavesTakenCard>
           <p className="leaves-taken-label">Leaves Taken</p>
           <div className="circular-progress-bar">
-            {leavesTakenData.map((value, index) => {
-              const taken = Number(value.leavesApproved);
-              return (
-                <CircularProgressBar key={index} taken={taken} total={24} />
-              );
-            })}
-            {/* <SemiCircularProgress/> */}
+            <CircularProgressBar taken={leavesApproved} total={24} />
           </div>
-          <p className="leaves-taken-pending-rejected-leaves">
-            Pending Leaves: 0{" "}
-          </p>
-          <p className="leaves-taken-pending-rejected-leaves">
-            Rejected Leaves: 3{" "}
-          </p>
         </LeavesTakenCard>
-        <MonthlyLeaveChart />
+
+        <MonthlyLeaveChart monthlyData={monthlyData} />
       </Bottom>
     </div>
   );
 }
 
+// Styled-components
 const MidTop = styled.section`
   display: flex;
-  flex-wrap: wrap; /* allows wrapping on small screens */
-  gap: 20px; /* space between cards */
-  padding-left: 30px;
-  padding-right: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 0 30px;
 `;
 
 const UserInfoCard = styled.div`
   background-color: white;
-  flex: 1 1 487px; /* flexible width, prefers 500px */
-  min-width: 300px; /* never shrink below this */
-  height: 210px;
+  flex: 1 1 487px;
+  min-width: 300px;
   padding: 25px 30px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   .inner-top {
-    /* border: 1px solid; */
-    margin: 0;
-    padding: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  .inner-top img {
-    /* border: 1px solid; */
-    border-radius: 12px;
-    width: 150px;
-    height: 75px;
-    margin-top: -30px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px; 
   }
 
   .level-date {
     display: flex;
     flex-direction: column;
-    margin-bottom: 50px;
+    gap: 15px; 
   }
+
   .level {
     font-size: 26px;
+    font-weight: bold;
   }
+
   .date {
     font-size: 14px;
+    color: #6b7280;
   }
+
+  .clg-logo img {
+    border-radius: 12px;
+    width: 150px;
+    height: 75px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  }
+
   .user-info-card-details {
     display: flex;
     justify-content: space-between;
+    margin-top: 20px; 
   }
-  .course-label {
-    display: block;
+
+  .course-details, .intake-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px; 
+  }
+
+  .course-label, .intake-label {
     font-size: 14px;
-    margin-bottom: 5px;
+    color: #6b7280;
+    font-weight: 500;
   }
-  .course-name {
+
+  .course-name, .intake-name {
     font-size: 16px;
-    font-weight: bold;
-  }
-  .intake-label {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 5px;
-  }
-  .intake-name {
-    font-size: 16px;
-    font-weight: bold;
+    color: #111827;
   }
 `;
 
 const LeavePerModule = styled.div`
   background-color: white;
-  flex: 1 1 437px; /* flexible width, prefers 350px */
-  min-width: 250px; /* never shrink below this */
+  flex: 1 1 437px;
+  min-width: 250px;
   min-height: 210px;
   padding: 25px 30px;
   border-radius: 12px;
@@ -251,35 +290,52 @@ const LeavePerModuleProgressBar = styled.div`
 
 const LeavesTakenCard = styled.div`
   max-width: 250px;
-  /* max-height: 353px; */
-  margin-top: 30px;
-  margin-bottom: 30px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 30px 20px;
   flex: 1 1 350px;
   background: white;
-  padding: 16px;
+  padding: 25px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-  .leaves-taken-label {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* make card take enough height for vertical centering */
+  height: 300px; 
+
+ .leaves-taken-label {
     font-size: 22px;
     font-weight: bold;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px; 
   }
-  .leaves-taken-pending-rejected-leaves {
-    display: grid;
+
+  .circular-progress-bar {
+    width: 150px;
+    height: 150px;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    margin-top: 30px;
-    font-size: 18px;
-    font-weight: 500;
-    color: hsla(0, 0%, 0%, 0.525);
+    justify-content: center; 
+    margin: auto 0; 
   }
 `;
 
+
 const Bottom = styled.section`
   display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+`;
+
+const NoLeavesMessage = styled.div`
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+  height: 100%;           
+  color: #37ac39ff;
+  font-size: 25px;
+  font-weight: 500;
+  text-align: center;    
 `;
