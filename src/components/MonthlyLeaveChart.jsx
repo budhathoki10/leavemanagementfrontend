@@ -11,46 +11,33 @@ import {
 import styled from "styled-components";
 import { Bar } from "react-chartjs-2";
 
-// Register Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
-const MonthlyLeaveChart = () => {
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+const MonthlyLeaveChart = ({ monthlyData }) => {
+  const labels = monthlyData.map((item) => item.module.Modulename);
+  const values = monthlyData.map((item) => item.daysTaken);
+
   const data = {
-    labels: [
-      
-      "Full Stack Development",
-      "Concepts and technologies of AI",
-      "Object Oriented Programming",
-      
-    ],
+    labels,
     datasets: [
       {
         label: "Leaves Taken",
-        data: [2, 8, 2, 3, 2, 2, 3, 1, 2, 1, 2, 2], // Example data
+        data: values,
         backgroundColor: "rgba(16, 185, 129, 0.7)", // teal
         borderRadius: 6,
-        barThickness: 60,
+        barThickness: 50, 
       },
     ],
   };
 
   const options = {
     responsive: true,
-    maintainAspectRatio: false, // allows custom height
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
-        labels: {
-          color: "#374151",
-          // font: {size: 14, weight: "bold"}
-        },
+        labels: { color: "#374151" },
       },
       title: {
         display: true,
@@ -68,30 +55,33 @@ const MonthlyLeaveChart = () => {
         ticks: { color: "#6b7280" },
         grid: { color: "#e5e7eb" },
         beginAtZero: true,
+        suggestedMax: 8,
       },
     },
   };
 
   return (
-    <>
-      <ChartBg>
-        {" "}
-        <div
-          className="flex-1 bg-white p-60 rounded-2xl shadow"
-          style={{ height: "340px", width: "920px" }}
-        >
-          <Bar data={data} options={options} />
-        </div>
-      </ChartBg>
-    </>
+    <ChartBg>
+      <ChartContainer>
+        <Bar data={data} options={options} />
+      </ChartContainer>
+    </ChartBg>
   );
 };
 
 export default MonthlyLeaveChart;
+
 
 const ChartBg = styled.div`
   margin: 30px 0px;
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+`;
+
+const ChartContainer = styled.div`
+  width: 900px; /* fixed wide width */
+  height: 400px; /* taller for better bar visibility */
+  padding: 20px;
+  margin: auto; /* center horizontally */
 `;
