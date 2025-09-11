@@ -15,7 +15,6 @@ const Profile = () => {
   });
   const navigate = useNavigate();   
 
-
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -51,6 +50,11 @@ const Profile = () => {
       }
     };
     fetchProfile();
+
+    const storedPic = localStorage.getItem("profilePic");
+    if (storedPic) {
+      setUser((prev) => ({ ...prev, profilePic: storedPic }));
+    }
   }, [navigate]);
 
   const handleFileChange = (event) => {
@@ -58,12 +62,13 @@ const Profile = () => {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setUser((prev) => ({ ...prev, profilePic: imageUrl }));
+
+      localStorage.setItem("profilePic", imageUrl);
     }
   };
 
   const handleSave = () => {
     setEditing(false);
-
   };
 
   return (
