@@ -175,7 +175,7 @@ export default function Dashboard() {
           <div className="circular-progress-bar">
             <CircularProgressBar taken={leavesApproved} total={24} />
           </div>
-          <p className="leaves-taken-this-semester">This semester.</p>
+          <p className="leaves-taken-this-semester">This semester: 3</p>
         </LeavesTakenCard>
 
         <MonthlyLeaveChart monthlyData={monthlyData} />
