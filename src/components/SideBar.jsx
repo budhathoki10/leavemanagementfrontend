@@ -3,13 +3,19 @@ import "../CSS/SideBar.css";
 import leavoLogo from "../assets/leavo-logo.png";
 import { useState } from "react";
 import SettingSideBar from "./SettingSideBar";
-import { Navigate } from "react-router-dom";
 import LeaveHistoryBar from "./LeaveHistoryBar";
+import Cookies from "js-cookie";
 
 const SideBar = () => {
   const [showSettingMenu, setShowSettingMenu] = useState(false);
   const [showLeaveHisotryMenu, setShowLeaveHistoryMenu] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    Cookies.remove("token", { path: "/" });
+    navigate("/login");
+  };
 
   return (
     <div className="sidebar">
@@ -25,6 +31,7 @@ const SideBar = () => {
       >
         <img src={leavoLogo} alt="leavo-logo" />
       </div>
+
       <ul className="sidebar-ul">
         <li className="dashboard-sidebar">
           <NavLink
@@ -33,7 +40,8 @@ const SideBar = () => {
               isActive ? "sidebar-link active" : "sidebar-link"
             }
           >
-            <span class="material-symbols-outlined">dashboard</span>Dashboard
+            <span className="material-symbols-outlined">dashboard</span>
+            Dashboard
           </NavLink>
         </li>
 
@@ -44,33 +52,22 @@ const SideBar = () => {
               isActive ? "sidebar-link active" : "sidebar-link"
             }
           >
-            <span class="material-symbols-outlined">post_add</span>Apply For
-            Leave
+            <span className="material-symbols-outlined">post_add</span>
+            Apply For Leave
           </NavLink>
         </li>
-
-        {/* <li className="calendar">
-          <NavLink
-            to="/calendar"
-            className={({ isActive }) =>
-              isActive ? "sidebar-link active" : "sidebar-link"
-            }
-          >
-            <span class="material-symbols-outlined">calendar_month</span>
-            Calendarssss
-          </NavLink>
-        </li> */}
 
         <li
           className="leave-history"
           onClick={() => setShowLeaveHistoryMenu(!showLeaveHisotryMenu)}
         >
-          <span class="material-symbols-outlined">history_2</span>Leave history{" "}
+          <span className="material-symbols-outlined">history_2</span>
+          Leave history{" "}
           <div className={`right-arrow ${showLeaveHisotryMenu ? "open" : ""}`}>
-            {" "}
             <span className="material-symbols-outlined">arrow_forward_ios</span>
           </div>
         </li>
+
         {showLeaveHisotryMenu && (
           <LeaveHistoryBar onClose={() => setShowLeaveHistoryMenu(false)} />
         )}
@@ -80,17 +77,47 @@ const SideBar = () => {
             className="settings"
             onClick={() => setShowSettingMenu(!showSettingMenu)}
           >
-            <span class="material-symbols-outlined">settings</span>Settings
+            <span className="material-symbols-outlined">settings</span>
+            Settings
           </li>
+
           {showSettingMenu && (
             <SettingSideBar onClose={() => setShowSettingMenu(false)} />
           )}
 
-          <li className="signout">
-            <span class="material-symbols-outlined">exit_to_app</span>Signout
+          <li
+            className="signout"
+            onClick={() => setShowLogoutConfirm(true)}
+            style={{ cursor: "pointer" }}
+          >
+            <span className="material-symbols-outlined">exit_to_app</span>
+            Signout
           </li>
         </div>
       </ul>
+
+      {/* Custom Logout Confirmation Dialog */}
+      {showLogoutConfirm && (
+        <div className="logout-confirm-overlay">
+          <div className="logout-confirm-dialog">
+            <p>Do you really want to sign out ?</p>
+            <div className="logout-confirm-buttons">
+              <button
+                className="logout-yes"
+                onClick={handleLogout}
+              >
+                Yes
+              </button>
+              <button
+                className="logout-no"
+                onClick={() => setShowLogoutConfirm(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

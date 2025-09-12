@@ -24,16 +24,6 @@ const ApprovedLeave = () => {
         <p className="approved-requests-header">Approved Leaves</p>
         <div className="approved-leave-bar">
           <ApprovedLeaveBarDetails />
-          <ApprovedLeaveBarDetails
-            moduleName="Software Engineering"
-            week={6}
-            classType="Lab"
-            leaveType="Personal"
-            leavesTaken="8/24"
-            reason="Family function"
-            postedTime="2:30 PM"
-            documents={[]}
-          />
         </div>
       </section>
     </div>

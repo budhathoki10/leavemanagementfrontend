@@ -1,117 +1,129 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300;400;500;600&display=swap");
 
-* {
-  font-family: "Roboto Flex", sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* Main container for the pending leaves list */
+.leave-bar-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.no-pending {
+  text-align: center;
+  padding: 40px;
+  color: #FFD700;
+  background-color: white;
+  border-radius: 8px;
+  margin: 20px;
+  font-size: larger;
 }
 
 .pending-leave-bar-details {
   position: relative;
-  margin-top: 30px;
-  margin-left: 50px;
-  margin-right: 30px;
-  max-width: auto;
-  height: 121px;
+  margin: 20px auto;
+  max-width: 90%;
   background-color: white;
-  padding: 20px 30px;
+  padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.pending-leave-bar-details:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px #FFD700;
 }
 
 .pending-leave-bar-details:before {
   content: "";
   position: absolute;
   height: 100%;
-  width: 10px;
-  background: hsl(43, 100%, 50%);
+  width: 8px;
+  background: linear-gradient(to bottom, #FFD700, #FFD700);
   top: 0;
   left: 0;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 
 .leave-bar-top {
-  margin-top: -10px;
-  width: 100%;
-  /* border: 1px solid; */
+  margin-bottom: 15px;
 }
+
 .pending-view {
   display: flex;
   justify-content: space-between;
-  font-size: 16px;
-  margin-right: 40px;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-left: 0;
+  padding-right: 60px;
 }
 
 .pending-label {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 187px;
-  height: 30px;
-  background-color: hsl(64, 100%, 85%);
-  font-weight: bold;
-  color: hsl(43, 100%, 50%);
+  padding: 6px 12px;
+  background-color: #a4a2a0;
+  font-weight: 600;
+  color: #FFD700;
+  border-radius: 16px;
+  font-size: 0.85rem;
 }
 
 .view-details {
-  margin-right: -40px;
-  width: 80px;
-  height: 34px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 8px 20px;
   background-color: transparent;
-  color: #1f7f37;
-  font-weight: bold;
-  border: 2px solid #1f7f37;
-  border-radius: 17px;
-  transition: 0.3s ease;
+  color: #FFD700;
+  font-weight: 600;
+  border: 2px solid #FFD700;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 0.9rem;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0; 
 }
 
 .view-details:hover {
-  cursor: pointer;
-  background-color: #1f7f37;
+  background-color: #FFD700;
   color: white;
+  transform: scale(1.05);
 }
 
 .leave-bar-bottom {
-  display: flex;
-  gap: 70px;
-  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 15px;
 }
 
 .details-label-info {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .details-label {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
+  font-weight: 500;
+  color: #424242;
+  font-size: 0.9rem;
 }
 
 .details-label span {
-  color: #1f7f37;
+  color:#FFD700;
+  font-size: 1.1rem;
 }
 
 .module {
-  color: rgba(0, 0, 0, 0.578);
-  font-weight: 100;
-  font-size: 14px;
-  margin-left: 20px;
-}
-
-.leaves-taken {
-  margin-left: auto;
-  width: 128px;
-  height: 23px;
-  background-color: hsl(242, 100%, 94%, 0.85);
-  color: rgb(104, 101, 101);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: transparent;
-  border-radius: 30px;
+  font-weight: 400;
+  font-size: 0.95rem;
+  margin-left: 28px;
 }

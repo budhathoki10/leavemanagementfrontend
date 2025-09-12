@@ -152,6 +152,7 @@ const ApplyForLeave = () => {
             <option>Medical Leave</option>
             <option>Personal Leave</option>
             <option>Professional Leave</option>
+ 
           </select>
         </div>
 

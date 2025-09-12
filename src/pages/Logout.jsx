@@ -6,13 +6,18 @@ function Logout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Remove the token cookie
+    // Clear token cookie
     Cookies.remove("token", { path: "/" });
-    // Redirect to login page
-    navigate("/login");
+
+    // Optional: clear other storage
+    localStorage.removeItem("user");
+    const timer = setTimeout(() => {
+      navigate("/login");
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, [navigate]);
 
-  // Optional: show something while redirecting
   return <p>Logging out...</p>;
 }
 
