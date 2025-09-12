@@ -35,7 +35,7 @@ function LoginPage() {
       setLoading(true);
       const response = await fetch(
         // "https://devplat.heraldcollege.edu.np/leavo-api/api/user/login",
-      "https://leave-management-backend-1-mp7s.onrender.com/api/user/login",
+        "https://leave-management-backend-1-mp7s.onrender.com/api/user/login",
         // "http://localhost:5000/api/user/login",
         {
           method: "POST",
@@ -54,8 +54,8 @@ function LoginPage() {
       }
 
       const data = await response.json();
-    console.log(data)
-Cookies.set("token", data.token, { expires: 90, path: "/" });
+      console.log(data);
+      Cookies.set("token", data.token, { expires: 90, path: "/" });
       if (!response.ok) {
         const errorMsg = data.error || "Unknown error";
         console.error("Login failed:", errorMsg);
@@ -75,7 +75,13 @@ Cookies.set("token", data.token, { expires: 90, path: "/" });
         localStorage.removeItem("password");
       }
 
-      navigate("/dashboard");
+      //admin email
+      if (email === "registrytimetableexamination@gmail.com") {
+        navigate("/adminDashboard");
+      } else {
+        navigate("/dashboard");
+      }
+
       return true;
     } catch (error) {
       console.error("Error during login:", error);
@@ -99,21 +105,27 @@ Cookies.set("token", data.token, { expires: 90, path: "/" });
 
       const response = await axios.post(
         // "https://devplat.heraldcollege.edu.np/leavo-api/api/loginwithmicrosoft",
-       "https://leave-management-backend-1-mp7s.onrender.com/api/loginwithmicrosoft",
+        "https://leave-management-backend-1-mp7s.onrender.com/api/loginwithmicrosoft",
         // "http://localhost:5000/api/loginwithmicrosoft",
         userData,
         {
-           withCredentials: true,
+          withCredentials: true,
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-console.log(response)
+      console.log(response);
       const data = response.data;
       console.log("Microsoft login response:", data);
       Cookies.set("token", data.token, { expires: 90, path: "/" });
-      navigate("/dashboard");
+
+      //based on admin email
+      if (user.email === "testemail1234@heraldcollege.edu.np") {
+        navigate("/adminDashboard");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (error) {
       console.error("Microsoft sign-in error:", error);
       alert("An error occurred during Microsoft sign-in. Please try again.");
@@ -225,7 +237,7 @@ console.log(response)
             </button>
           </form>
 
-          <p>
+          <p className="login-text">
             Don't have an account? <Link to="/">Register here</Link>
           </p>
 

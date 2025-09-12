@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "../CSS/AdmoinDashboard.css";
+import "../CSS/AdminDashboard.css";
 import userImage from "../assets/user.jpeg";
 
 export default function Dashboard() {

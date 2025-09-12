@@ -18,6 +18,21 @@ import Notification from "./setting-pages/Notification";
 
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 
+{
+  /* Admin route */
+}
+
+import AdminSettingSideBar from "./adminPanel/AdminSettingSideBar";
+import AdminApplyForLeavePage from "./adminPanel/AdminApplyForLeavePage";
+import AdminApprovedLeave from "./adminPanel/AdminApprovedLeave";
+import AdminDashboard from "./adminPanel/AdminDashboard";
+import AdminLeaveHistoryBar from "./adminPanel/AdminLeaveHistoryBar";
+import AdminLeaveRequests from "./adminPanel/AdminLeaveRequests";
+import AdminLogout from "./adminPanel/AdminLogout";
+import AdminPendingLeave from "./adminPanel/AdminPendingLeave";
+import AdminRejectedLeave from "./adminPanel/AdminRejectedLeave";
+import AdminSettings from "./adminPanel/AdminSettings";
+
 // Layout with sidebar
 function MainLayout() {
   return (
@@ -37,11 +52,9 @@ function App() {
     <Routes>
       {/* Render Register page at /leavo (root of basename) */}
       <Route path="/" element={<RegisterPage />} />
-
       {/* Authentication routes */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/logout" element={<Logout />} />
-
       {/* Main app routes */}
       <Route element={<MainLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
@@ -57,6 +70,21 @@ function App() {
         <Route path="/changeprofile" element={<ChangePassword />} />
       </Route>
 
+      {/* Admin route */}
+      <Route path="/adminSettingSideBar" element={<AdminSettingSideBar />} />
+      <Route
+        path="/adminApplyForLeavePage"
+        element={<AdminApplyForLeavePage />}
+      />
+      <Route path="/adminApplyApprovedLeave" element={<AdminApprovedLeave />} />
+      <Route path="/adminDashboard" element={<AdminDashboard />} />
+      <Route path="/adminLeaveHistoryBar" element={<AdminLeaveHistoryBar />} />
+      <Route path="/adminLeaveRequests" element={<AdminLeaveRequests />} />
+      <Route path="/adminLogout" element={<AdminLogout />} />
+      <Route path="/adminPendingLeave" element={<AdminPendingLeave />} />
+      <Route path="/adminRejectedLeave" element={<AdminRejectedLeave />} />
+      <Route path="/adminSettings" element={<AdminSettings />} />
+
       {/* Catch all */}
       <Route path="*" element={<RegisterPage />} />
     </Routes>
@@ -64,3 +92,4 @@ function App() {
 }
 
 export default App;
+//registrytimetableexamination@gmail.com yo mail rakhyo vane matrai admin ma janxa
