@@ -11,8 +11,16 @@ export default function Dashboard() {
   const [studentName, setStudentName] = useState("Student");
   const [modules, setModules] = useState([
     { moduleName: "Computational Mathematics", taken: 0, total: 8 },
-    { moduleName: "Interactive 3D Applications and Academic Skills", taken: 0, total: 8 },
-    { moduleName: "Introduction to Object-Oriented Programming", taken: 0, total: 8 },
+    {
+      moduleName: "Interactive 3D Applications and Academic Skills",
+      taken: 0,
+      total: 8,
+    },
+    {
+      moduleName: "Introduction to Object-Oriented Programming",
+      taken: 0,
+      total: 8,
+    },
   ]);
   const [leavesApproved, setLeavesApproved] = useState(0);
   const [leavesPending, setLeavesPending] = useState(0);
@@ -24,20 +32,26 @@ export default function Dashboard() {
     if (!token) return;
 
     const fetchDashboard = () => {
-      fetch("https://leave-management-backend-1-mp7s.onrender.com/api/profile", {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      fetch(
+        "https://leave-management-backend-1-mp7s.onrender.com/api/profile",
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           if (data?.data?.studentname) setStudentName(data.data.studentname);
         })
         .catch((err) => console.error("Profile fetch error:", err));
 
-      fetch("https://leave-management-backend-1-mp7s.onrender.com/api/user/dashboard", {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      fetch(
+        "https://leave-management-backend-1-mp7s.onrender.com/api/user/dashboard",
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           if (data?.data) {
@@ -161,6 +175,7 @@ export default function Dashboard() {
           <div className="circular-progress-bar">
             <CircularProgressBar taken={leavesApproved} total={24} />
           </div>
+          <p className="leaves-taken-this-semester">This semester.</p>
         </LeavesTakenCard>
 
         <MonthlyLeaveChart monthlyData={monthlyData} />
@@ -192,13 +207,13 @@ const UserInfoCard = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
   }
 
   .level-date {
     display: flex;
     flex-direction: column;
-    gap: 15px; 
+    gap: 15px;
   }
 
   .level {
@@ -221,22 +236,25 @@ const UserInfoCard = styled.div`
   .user-info-card-details {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px; 
+    margin-top: 20px;
   }
 
-  .course-details, .intake-details {
+  .course-details,
+  .intake-details {
     display: flex;
     flex-direction: column;
-    gap: 4px; 
+    gap: 4px;
   }
 
-  .course-label, .intake-label {
+  .course-label,
+  .intake-label {
     font-size: 14px;
     color: #6b7280;
     font-weight: 500;
   }
 
-  .course-name, .intake-name {
+  .course-name,
+  .intake-name {
     font-size: 16px;
     color: #111827;
   }
@@ -290,38 +308,35 @@ const LeavePerModuleProgressBar = styled.div`
 
 const LeavesTakenCard = styled.div`
   max-width: 250px;
-  margin: 30px 20px;
+  max-height: 353px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
   flex: 1 1 350px;
   background: white;
-  padding: 25px;
+  padding: 16px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  /* make card take enough height for vertical centering */
-  height: 300px; 
-
- .leaves-taken-label {
+  .leaves-taken-label {
     font-size: 22px;
     font-weight: bold;
     width: 100%;
     text-align: center;
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
   }
 
-  .circular-progress-bar {
-    width: 150px;
-    height: 150px;
-    display: flex;
+  .leaves-taken-this-semester {
+    display: grid;
     align-items: center;
-    justify-content: center; 
-    margin: auto 0; 
+    justify-content: center;
+    margin-top: 40px;
+    font-size: 20px;
+    font-weight: 700;
+    color: hsla(0, 0%, 0%, 0.725);
   }
 `;
-
 
 const Bottom = styled.section`
   display: flex;
@@ -331,11 +346,11 @@ const Bottom = styled.section`
 
 const NoLeavesMessage = styled.div`
   display: flex;
-  justify-content: center; 
-  align-items: center;     
-  height: 100%;           
+  justify-content: center;
+  align-items: center;
+  height: 100%;
   color: #37ac39ff;
   font-size: 25px;
   font-weight: 500;
-  text-align: center;    
+  text-align: center;
 `;
