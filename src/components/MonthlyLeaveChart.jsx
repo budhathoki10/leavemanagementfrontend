@@ -80,8 +80,8 @@ const ChartBg = styled.div`
 `;
 
 const ChartContainer = styled.div`
-  width: 900px; /* fixed wide width */
-  height: 400px; /* taller for better bar visibility */
+  width: 920px; /* fixed wide width */
+  height: 350px; /* taller for better bar visibility */
   padding: 20px;
   margin: auto; /* center horizontally */
 `;
