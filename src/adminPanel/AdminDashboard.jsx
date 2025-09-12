@@ -77,6 +77,19 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
+
+          {/* Latest Leave Requests */}
+          <div className="latest-requests-box">
+            <h3>Latest Leave Requests</h3>
+            <p>Leave request from John Snow</p>
+            <p>Reason = Medical Reasons</p>
+            <button
+              className="view-all-btn"
+              onClick={() => navigate("/admin-view-leave")}
+            >
+              View All
+            </button>
+          </div>
         </div>
 
         {/* Right Panel */}

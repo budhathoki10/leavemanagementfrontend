@@ -1,0 +1,119 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300;400;500;600&display=swap");
+
+* {
+  font-family: "Roboto Flex", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: hsl(216, 33%, 97%);
+  color: #333;
+}
+
+.admin-view-container {
+  padding: 20px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.admin-view-header {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.admin-view-container p {
+  text-align: center;
+  color: gray;
+  margin-bottom: 30px;
+}
+
+.leave-list {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.leave-card {
+  background: #ffffff;
+  padding: 36px 32px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: grid;
+  grid-template-columns: 220px 1fr 220px;
+  align-items: center;
+  gap: 24px;
+}
+
+.leave-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.leave-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.leave-user {
+  font-size: 22px;
+  font-weight: 600;
+  color: #2c3e50;
+  flex-shrink: 0;
+}
+
+.leave-date {
+  font-size: 14px;
+  color: #888;
+  letter-spacing: 0.5px;
+}
+
+.leave-details {
+  grid-column: 2 / 3;
+  text-align: center;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.leave-details p {
+  margin: 8px 0;
+  font-size: 15px;
+  color: #555;
+}
+
+.leave-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;           
+  margin-top: 15px;
+  margin-right: 5px;   
+}
+
+.leave-actions button {
+  padding: 10px 18px;  
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 85px;     
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.approve-btn {
+  background-color: #27ae60;
+  color: #fff;
+}
+
+.reject-btn {
+  background-color: #e74c3c;
+  color: #fff;
+}

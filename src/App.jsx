@@ -32,6 +32,7 @@ import AdminLogout from "./adminPanel/AdminLogout";
 import AdminPendingLeave from "./adminPanel/AdminPendingLeave";
 import AdminRejectedLeave from "./adminPanel/AdminRejectedLeave";
 import AdminSettings from "./adminPanel/AdminSettings";
+import AdminViewLeave from "./adminPanel/AdminViewLeave";
 
 // Layout with sidebar
 function MainLayout() {
@@ -68,6 +69,7 @@ function App() {
         <Route path="/settings/profile" element={<Profile />} />
         <Route path="/settings/feedback" element={<Feedback />} />
         <Route path="/changeprofile" element={<ChangePassword />} />
+        
       </Route>
 
       {/* Admin route */}
@@ -84,6 +86,7 @@ function App() {
       <Route path="/adminPendingLeave" element={<AdminPendingLeave />} />
       <Route path="/adminRejectedLeave" element={<AdminRejectedLeave />} />
       <Route path="/adminSettings" element={<AdminSettings />} />
+       <Route path="/admin-view-leave" element={<AdminViewLeave />} />
 
       {/* Catch all */}
       <Route path="*" element={<RegisterPage />} />
