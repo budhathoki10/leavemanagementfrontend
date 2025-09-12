@@ -76,7 +76,7 @@ function LoginPage() {
       }
 
       //admin email
-      if (email === "registrytimetableexamination@gmail.com") {
+      if (email === "testemail1234@heraldcollege.edu.np") {
         navigate("/adminDashboard");
       } else {
         navigate("/dashboard");
