@@ -1,75 +1,72 @@
 import React from "react";
 import "../CSS/ApprovedLeaveBarViewDetails.css";
 
-const ApprovedLeaveBarViewDetails = ({ onClose }) => {
+const ApprovedLeaveBarViewDetails = ({ leave, onClose }) => {
+  if (!leave) return null;
+
+  const formattedDate = new Date(leave.createdAt).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
   return (
-    <>
-      <div className="approved-expanded-view">
-        <div className="leave-bar-top">
-          <div className="approved-view">
-            <p className="approved-label">Approved</p>
-            <div className="lbvb-close-btn">
-              <span className="material-symbols-outlined" onClick={onClose}>
-                close
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="leave-bar-bottom">
-          <div className="details-label-info">
-            <div className="details-label">
-              <span className="material-symbols-outlined">view_module</span>
-              <p className="details-label">Module Name</p>
-            </div>
-            <p className="module">Internet Software Architecture</p>
-          </div>
+    <div className="approved-modal-backdrop">
+      <div className="approved-modal-card">
+        <button className="approved-modal-close-btn" onClick={onClose}>
+          ✖
+        </button>
+        <h2>Leave Details</h2>
 
-          <div className="details-label-info">
-            <div className="details-label">
-              <span className="material-symbols-outlined">calendar_today</span>
-              <p className="details-label">Week</p>
-            </div>
-            <p className="module">5</p>
-          </div>
-
-          <div className="details-label-info">
-            <div className="details-label">
-              <span className="material-symbols-outlined">view_module</span>
-              <p className="details-label">Class type</p>
-            </div>
-            <p className="module">Lecture</p>
-          </div>
-
-          <div className="details-label-info">
-            <div className="details-label">
-              <span className="material-symbols-outlined">view_module</span>
-              <p className="details-label">Leave Type</p>
-            </div>
-            <p className="module">Sick</p>
-          </div>
-          <p className="leaves-taken">5/24</p>
-        </div>
-
-        <div className="approved-reason-box">
-          <p className="approved-reason-label">Reason</p>
-          <p className="approved-reason-brief">
-            I would like to inform you that I will not be able to attend classes
-            from July 21st to July 28th due to high fever along with persistent
-            cough. Pictures of prescribed medicine and lab reports are attached
-            below. Sorry for the inconvenience.
-            {/* sssssssssssssssssssssssssssssssssssssssssssssss
-            sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaa */}
+        <div className="approved-modal-leave-info">
+          <p>
+            <strong>Level:</strong> 5
           </p>
-          <p className="posted-time">posted at 12:00 PM</p>
+          <p>
+            <strong>Leave Type:</strong> {leave.leaveType}
+          </p>
+          <p>
+            <strong>Status:</strong> {leave.status}
+          </p>
+          <p>
+            <strong>Created At:</strong> {formattedDate}
+          </p>
+          <p>
+            <strong>Reason:</strong> {leave.reason}
+          </p>
         </div>
 
-        <div className="attached-document">
-          <img src="#" alt="img_1"></img>
-          <img src="#" alt="img_2"></img>
-          <p className="document-count">2 files attached.</p>
+        <div className="approved-modal-leave-modules">
+          <h3>Modules</h3>
+          {leave.modules.map((mod) => (
+            <div key={mod._id} className="approved-modal-module-item">
+              <p>
+                <strong>Module:</strong>{" "}
+                {mod.moduledetails?.Modulename || mod.moduledetails}
+              </p>
+              <p>
+                <strong>Week:</strong> {mod.week}
+              </p>
+              <p>
+                <strong>Class Type:</strong> {mod.classtype}
+              </p>
+              <p>
+                <strong>Leave Day:</strong> {mod.leaveday}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="approved-modal-leave-image">
+          <h3>Attached Image</h3>
+          {leave.image_data ? (
+            <p>{leave.image_data.secure_url}</p>
+          ) : (
+            <p>No image provided</p>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
