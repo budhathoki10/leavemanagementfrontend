@@ -69,7 +69,6 @@ function App() {
         <Route path="/settings/profile" element={<Profile />} />
         <Route path="/settings/feedback" element={<Feedback />} />
         <Route path="/changeprofile" element={<ChangePassword />} />
-        
       </Route>
 
       {/* Admin route */}
@@ -86,7 +85,7 @@ function App() {
       <Route path="/adminPendingLeave" element={<AdminPendingLeave />} />
       <Route path="/adminRejectedLeave" element={<AdminRejectedLeave />} />
       <Route path="/adminSettings" element={<AdminSettings />} />
-       <Route path="/admin-view-leave" element={<AdminViewLeave />} />
+      <Route path="/admin-view-leave" element={<AdminViewLeave />} />
 
       {/* Catch all */}
       <Route path="*" element={<RegisterPage />} />

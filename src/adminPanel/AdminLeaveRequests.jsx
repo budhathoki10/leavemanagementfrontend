@@ -123,7 +123,9 @@ export default function LeaveRequests() {
                     <td>{req.date}</td>
                     <td>
                       <a href="#">Untitled.pdf</a>
-                      <span className="material-symbols-outlined">open_in_new</span>
+                      <span className="material-symbols-outlined">
+                        open_in_new
+                      </span>
                     </td>
                   </tr>
                 ))}
@@ -136,7 +138,10 @@ export default function LeaveRequests() {
         {view === "cards" && (
           <div className="cards-container">
             {requests.map((req, i) => (
-              <div key={i} className={`leave-card-box ${req.status.toLowerCase()}`}>
+              <div
+                key={i}
+                className={`leave-card-box ${req.status.toLowerCase()}`}
+              >
                 <div className="card-header">{req.status}</div>
                 <div className="card-body">
                   <span className="material-symbols-outlined profile-icon">

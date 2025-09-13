@@ -1,4 +1,3 @@
-import React from "react";
 import "../CSS/LeaveHistoryBar.css";
 import { NavLink } from "react-router-dom";
 

@@ -66,11 +66,12 @@ const SideBar = () => {
           <div className={`right-arrow ${showLeaveHisotryMenu ? "open" : ""}`}>
             <span className="material-symbols-outlined">arrow_forward_ios</span>
           </div>
+          <div className="leave-history-toggle-bar">
+            {showLeaveHisotryMenu && (
+              <LeaveHistoryBar onClose={() => setShowLeaveHistoryMenu(false)} />
+            )}
+          </div>
         </li>
-
-        {showLeaveHisotryMenu && (
-          <LeaveHistoryBar onClose={() => setShowLeaveHistoryMenu(false)} />
-        )}
 
         <div className="gap-li">
           <li
@@ -102,10 +103,7 @@ const SideBar = () => {
           <div className="logout-confirm-dialog">
             <p>Do you really want to sign out ?</p>
             <div className="logout-confirm-buttons">
-              <button
-                className="logout-yes"
-                onClick={handleLogout}
-              >
+              <button className="logout-yes" onClick={handleLogout}>
                 Yes
               </button>
               <button
