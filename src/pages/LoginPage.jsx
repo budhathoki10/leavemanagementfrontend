@@ -76,7 +76,7 @@ function LoginPage() {
       }
 
       //admin email
-      if (email === "testemail1234@heraldcollege.edu.np") {
+      if (email === "registrytimetableexamination@heraldcollege.edu.np") {
         navigate("/adminDashboard");
       } else {
         navigate("/dashboard");
@@ -121,7 +121,7 @@ function LoginPage() {
       Cookies.set("token", data.token, { expires: 90, path: "/" });
 
       //based on admin email
-      if (user.email === "testemail1234@heraldcollege.edu.np") {
+      if (user.email === "registrytimetableexamination@heraldcollege.edu.np ") {
         navigate("/adminDashboard");
       } else {
         navigate("/dashboard");

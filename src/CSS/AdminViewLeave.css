@@ -91,20 +91,20 @@ body {
 .leave-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;           
+  gap: 10px;
   margin-top: 15px;
-  margin-right: 5px;   
+  margin-right: 5px;
 }
 
 .leave-actions button {
-  padding: 10px 18px;  
+  padding: 10px 18px;
   border: none;
   border-radius: 10px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 85px;     
+  min-width: 85px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -116,4 +116,42 @@ body {
 .reject-btn {
   background-color: #e74c3c;
   color: #fff;
+}
+
+/* Additional styles from previous response */
+.approve-btn:disabled,
+.reject-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 600px) {
+  .leave-card {
+    padding: 12px;
+    grid-template-columns: 1fr; /* Stack columns vertically on small screens */
+    gap: 16px;
+  }
+  .leave-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .leave-header {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+/* Resolve conflicting styles by prioritizing your layout */
+.leave-list {
+  display: grid; /* Override flex to grid for consistent card layout */
+  gap: 20px; /* Keep grid gap from previous suggestion */
 }
