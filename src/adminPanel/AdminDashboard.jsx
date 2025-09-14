@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { format } from "date-fns";
 import "../CSS/AdminDashboard.css";
+import userImage from "../assets/user.jpeg";
 
 export default function AdminDashboard() {
   const [leaveRequests, setLeaveRequests] = useState([]);
@@ -11,11 +13,16 @@ export default function AdminDashboard() {
   const [filter, setFilter] = useState("all");
   const [selectedLeave, setSelectedLeave] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
+  const navigate = useNavigate();
   const API_BASE = "https://leave-management-backend-1-mp7s.onrender.com/api";
 
-  // Fetch leave requests with status filter
+  // Fetch leave requests (with optional status filter)
   const fetchLeaves = async (statusFilter = "all") => {
+    setLoading(true);
+    setError(null);
     try {
       const token = Cookies.get("token");
       if (!token) {
@@ -24,25 +31,22 @@ export default function AdminDashboard() {
         return;
       }
 
-      // Build query parameters
       const params = {};
-      if (statusFilter !== "all") {
-        params.status = statusFilter;
-      }
+      if (statusFilter !== "all") params.status = statusFilter;
 
       const response = await axios.get(`${API_BASE}/task/viewleave`, {
         headers: { Authorization: `Bearer ${token}` },
-        params: params
+        params,
       });
-      
+
       if (response.data?.success && Array.isArray(response.data.data)) {
         setLeaveRequests(response.data.data);
       } else {
         setLeaveRequests([]);
       }
     } catch (err) {
-      setError("Failed to fetch leave requests.");
       console.error("Fetch error:", err);
+      setError("Failed to fetch leave requests.");
     } finally {
       setLoading(false);
     }
@@ -50,6 +54,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchLeaves(filter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
   const handleApprove = async (id) => {
@@ -63,9 +68,9 @@ export default function AdminDashboard() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Refresh the data after update
       fetchLeaves(filter);
     } catch (error) {
+      console.error("Approve error:", error);
       setError(
         `Failed to approve leave: ${
           error.response?.data?.message || error.message
@@ -85,9 +90,9 @@ export default function AdminDashboard() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Refresh the data after update
       fetchLeaves(filter);
     } catch (error) {
+      console.error("Reject error:", error);
       setError(
         `Failed to reject leave: ${
           error.response?.data?.message || error.message
@@ -96,29 +101,78 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleLogout = () => {
+    Cookies.remove("token");
+    setShowLogoutConfirm(false);
+    navigate("/login");
+  };
+
   const handleFilterChange = (newFilter) => {
-    setLoading(true);
     setFilter(newFilter);
   };
 
   return (
     <div className="admin-dashboard">
-      <header className="dashboard-header">
-        <div className="header-content">
-          <h1>Leave Management Dashboard</h1>
-          <div className="user-info">
-            <div className="user-avatar">
-              <span className="material-icons">account_circle</span>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      />
+
+      {/* HEADER */}
+      <section className="dashboard-header">
+        <p className="dashboard">Dashboard</p>
+        <div className="icons">
+          <div
+            className="notifications"
+            onClick={() => setShowSettings((prev) => !prev)}
+          >
+            <span className="material-symbols-outlined">settings</span>
+          </div>
+
+          {showSettings && (
+            <div className="settings-dropdown">
+              <p className="dropdown-item" onClick={() => navigate("/profile")}>
+                Profile
+              </p>
+              <p
+                className="dropdown-item"
+                onClick={() => navigate("/changeprofilePassword")}
+              >
+                Change Password
+              </p>
+              <p
+                className="dropdown-item"
+                onClick={() => navigate("/notifications")}
+              >
+                Notifications
+              </p>
+              <p className="dropdown-item" onClick={() => navigate("/feedback")}>
+                Feedback and Support
+              </p>
+              <hr />
+              <p
+                className="dropdown-item signout"
+                onClick={() => setShowLogoutConfirm(true)}
+              >
+                Sign Out
+              </p>
             </div>
-            <div className="user-details">
-              <p className="user-name">John Snow</p>
-              <p className="user-role">Administrator</p>
-            </div>
+          )}
+
+          <div className="user-pfp">
+            <img src={userImage} alt="user" />
+          </div>
+          <div className="user-text">
+            <p className="username">Student Service Department </p>
+            <p className="username-user">Admin</p>
           </div>
         </div>
-      </header>
+      </section>
 
-      <div className="dashboard-content">
+      <hr className="parting-line" />
+
+      {/* BODY */}
+      <div className="dashboard-body">
         <div className="content-header">
           <h2>Leave Requests</h2>
           <div className="filter-controls">
@@ -146,7 +200,12 @@ export default function AdminDashboard() {
           <div className="error-state">
             <span className="material-icons">error</span>
             <p>{error}</p>
-            <button onClick={() => fetchLeaves(filter)} className="retry-btn">
+            <button
+              className="retry-btn"
+              onClick={() => {
+                fetchLeaves(filter);
+              }}
+            >
               Retry
             </button>
           </div>
@@ -155,7 +214,10 @@ export default function AdminDashboard() {
             <span className="material-icons">inbox</span>
             <p>No {filter !== "all" ? filter : ""} leave requests found</p>
             {filter !== "all" && (
-              <button onClick={() => handleFilterChange("all")} className="view-all-btn">
+              <button
+                onClick={() => handleFilterChange("all")}
+                className="view-all-btn"
+              >
                 View All Requests
               </button>
             )}
@@ -168,8 +230,10 @@ export default function AdminDashboard() {
                 { month: "long", day: "numeric", year: "numeric" }
               );
 
+              const cardStatusClass = `leave-card status-${leave.status}`;
+
               return (
-                <div key={leave._id} className="leave-card">
+                <div key={leave._id} className={cardStatusClass}>
                   <div className="card-header">
                     <div className="student-info">
                       <h3 className="student-name">
@@ -187,18 +251,24 @@ export default function AdminDashboard() {
                       <span className="detail-label">Leave Type:</span>
                       <span className="detail-value">{leave.leaveType}</span>
                     </div>
+
                     <div className="detail-row">
-                      <span className="detail-label">Reason:</span>
-                      <span className="detail-value">{leave.reason}</span>
+                      <span className="detail-label">Module:</span>
+                      <span className="detail-value">
+                        {leave.modules?.[0]?.moduledetails?.Modulename || "N/A"}
+                      </span>
                     </div>
+
                     <div className="detail-row">
                       <span className="detail-label">Level:</span>
                       <span className="detail-value">{leave.level}</span>
                     </div>
+
                     <div className="detail-row">
                       <span className="detail-label">Status:</span>
                       <span className={`status-badge status-${leave.status}`}>
-                        {leave.status.charAt(0).toUpperCase() + leave.status.slice(1)}
+                        {leave.status.charAt(0).toUpperCase() +
+                          leave.status.slice(1)}
                       </span>
                     </div>
                   </div>
@@ -251,75 +321,110 @@ export default function AdminDashboard() {
         )}
       </div>
 
-      {/* Modal for Detailed View */}
+      {/* Logout confirmation */}
+      {showLogoutConfirm && (
+        <div className="logout-confirm-overlay">
+          <div className="logout-confirm-dialog">
+            <p>Do you really want to sign out?</p>
+            <div className="logout-confirm-buttons">
+              <button className="logout-yes" onClick={handleLogout}>
+                Yes
+              </button>
+              <button
+                className="logout-no"
+                onClick={() => setShowLogoutConfirm(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal (detailed view) */}
       {showModal && selectedLeave && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>Leave Request Details</h2>
-              <button className="btn-close" onClick={() => setShowModal(false)}>
+              <button
+                className="btn-close"
+                onClick={() => setShowModal(false)}
+                aria-label="Close"
+              >
                 <span className="material-icons">close</span>
               </button>
             </div>
+
             <div className="modal-body">
               <div className="modal-section">
                 <h3>Student Information</h3>
                 <div className="detail-row">
                   <span className="detail-label">Name:</span>
                   <span className="detail-value">
-                    {selectedLeave.studentdetail?.studentname || "Unknown Student"}
+                    {selectedLeave.studentdetail?.studentname ||
+                      "Unknown Student"}
                   </span>
                 </div>
+
                 <div className="detail-row">
                   <span className="detail-label">Email:</span>
                   <span className="detail-value">
                     {selectedLeave.studentdetail?.email || "No email provided"}
                   </span>
                 </div>
-                <div className="detail-row">
-                  <span className="detail-label">Student ID:</span>
-                  <span className="detail-value">
-                    {selectedLeave.studentdetail?._id || "N/A"}
-                  </span>
-                </div>
               </div>
-              
+
               <div className="modal-section">
                 <h3>Leave Information</h3>
                 <div className="detail-row">
                   <span className="detail-label">Level:</span>
                   <span className="detail-value">{selectedLeave.level}</span>
                 </div>
+
                 <div className="detail-row">
                   <span className="detail-label">Leave Type:</span>
-                  <span className="detail-value">{selectedLeave.leaveType}</span>
-                </div>
-                <div className="detail-row">
-                  <span className="detail-label">Status:</span>
-                  <span className={`status-badge status-${selectedLeave.status}`}>
-                    {selectedLeave.status.charAt(0).toUpperCase() + selectedLeave.status.slice(1)}
+                  <span className="detail-value">
+                    {selectedLeave.leaveType}
                   </span>
                 </div>
+
+                <div className="detail-row">
+                  <span className="detail-label">Status:</span>
+                  <span
+                    className={`status-badge status-${selectedLeave.status}`}
+                  >
+                    {selectedLeave.status.charAt(0).toUpperCase() +
+                      selectedLeave.status.slice(1)}
+                  </span>
+                </div>
+
                 <div className="detail-row">
                   <span className="detail-label">Reason:</span>
                   <span className="detail-value">{selectedLeave.reason}</span>
                 </div>
+
                 <div className="detail-row">
                   <span className="detail-label">Submitted On:</span>
                   <span className="detail-value">
-                    {format(new Date(selectedLeave.createdAt), "MMMM dd, yyyy 'at' hh:mm a")}
+                    {format(
+                      new Date(selectedLeave.createdAt),
+                      "MMMM dd, yyyy 'at' hh:mm a"
+                    )}
                   </span>
                 </div>
               </div>
 
               <div className="modal-section">
-                <h3>Affected Modules</h3>
+                <h3>Modules Details</h3>
                 {selectedLeave.modules?.length > 0 ? (
                   selectedLeave.modules.map((mod, idx) => (
                     <div key={idx} className="module-card">
                       <div className="detail-row">
                         <span className="detail-label">Module:</span>
-                        <span className="detail-value">{mod.moduleName || "N/A"}</span>
+                        <span className="detail-value">
+                          {mod.moduledetails?.Modulename || "N/A"}
+                        </span>
                       </div>
                       <div className="detail-row">
                         <span className="detail-label">Week:</span>
@@ -327,11 +432,15 @@ export default function AdminDashboard() {
                       </div>
                       <div className="detail-row">
                         <span className="detail-label">Class Type:</span>
-                        <span className="detail-value">{mod.classType || "N/A"}</span>
+                        <span className="detail-value">
+                          {mod.classtype || "N/A"}
+                        </span>
                       </div>
                       <div className="detail-row">
-                        <span className="detail-label">Leave Day(s):</span>
-                        <span className="detail-value">{mod.leaveDays || "N/A"}</span>
+                        <span className="detail-label">Leave Day:</span>
+                        <span className="detail-value">
+                          {mod.leaveday || "N/A"}
+                        </span>
                       </div>
                     </div>
                   ))
@@ -349,9 +458,9 @@ export default function AdminDashboard() {
                       alt="Attached Leave Document"
                       className="attached-image"
                     />
-                    <a 
-                      href={selectedLeave.image_data.secure_url} 
-                      target="_blank" 
+                    <a
+                      href={selectedLeave.image_data.secure_url}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="view-full-link"
                     >
@@ -362,11 +471,6 @@ export default function AdminDashboard() {
                   <p className="no-data">No document provided</p>
                 )}
               </div>
-            </div>
-            <div className="modal-footer">
-              <button className="btn-secondary" onClick={() => setShowModal(false)}>
-                Close
-              </button>
             </div>
           </div>
         </div>

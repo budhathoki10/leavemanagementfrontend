@@ -160,13 +160,15 @@
 }
 
 .logout-confirm-dialog {
-  background-color: #423f3f;
+  background-color: #3f4042;
   padding: 20px 30px;
   border-radius: 8px;
   text-align: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
-
+.logout-confirm-dialog p{
+  color: black;
+}
 .logout-confirm-buttons {
   margin-top: 20px;
   display: flex;
