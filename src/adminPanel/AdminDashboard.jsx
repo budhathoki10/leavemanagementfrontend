@@ -4,15 +4,21 @@ import Cookies from "js-cookie";
 import { format } from "date-fns";
 import "../CSS/AdminDashboard.css";
 import userImage from "../assets/user.jpeg";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("all");
-  const [selectedLeave, setSelectedLeave] = useState(null); // ✅ store selected leave
-  const [showModal, setShowModal] = useState(false); // ✅ modal visibility
+  const [selectedLeave, setSelectedLeave] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
+  // ✅ Logout confirmation toggle
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+  const navigate = useNavigate();
   const API_BASE = "https://leave-management-backend-1-mp7s.onrender.com/api";
 
   useEffect(() => {
@@ -40,7 +46,7 @@ export default function Dashboard() {
     fetchLeaves();
   }, []);
 
-  // ✅ Approve
+  // ✅ Approve leave
   const handleApprove = async (id) => {
     try {
       const token = Cookies.get("token");
@@ -69,7 +75,7 @@ export default function Dashboard() {
     }
   };
 
-  // ✅ Reject
+  // ✅ Reject leave
   const handleReject = async (id) => {
     try {
       const token = Cookies.get("token");
@@ -98,6 +104,14 @@ export default function Dashboard() {
     }
   };
 
+  // ✅ Logout handler
+  const handleLogout = () => {
+    Cookies.remove("token"); // remove auth token
+    setShowLogoutConfirm(false);
+    navigate("/login"); // redirect to login
+  };
+
+  // ✅ Filtered requests
   const filteredRequests =
     filter === "all"
       ? leaveRequests
@@ -112,9 +126,48 @@ export default function Dashboard() {
       <section className="dashboard-header">
         <p className="dashboard">Dashboard</p>
         <div className="icons">
-          <div className="notifications">
-            <span className="material-symbols-outlined">settings</span>{" "}
+          {/* ⚡ Settings Icon */}
+          <div
+            className="notifications"
+            onClick={() => setShowSettings((prev) => !prev)}
+          >
+            <span className="material-symbols-outlined">settings</span>
           </div>
+
+          {/* ✅ Settings Dropdown */}
+          {showSettings && (
+            <div className="settings-dropdown">
+              <p className="dropdown-item" onClick={() => navigate("/profile")}>
+                Profile
+              </p>
+              <p
+                className="dropdown-item"
+                onClick={() => navigate("/changeprofilePassword")}
+              >
+                Change Password
+              </p>
+              <p
+                className="dropdown-item"
+                onClick={() => navigate("/notifications")}
+              >
+                Notifications
+              </p>
+              <p
+                className="dropdown-item"
+                onClick={() => navigate("/feedback")}
+              >
+                Feedback and Support
+              </p>
+              <hr />
+              <p
+                className="dropdown-item signout"
+                onClick={() => setShowLogoutConfirm(true)}
+              >
+                Sign Out
+              </p>
+            </div>
+          )}
+
           <div className="user-pfp">
             <img src={userImage} alt="user" />
           </div>
@@ -219,6 +272,26 @@ export default function Dashboard() {
           </div>
         )}
       </div>
+
+      {/* ✅ Logout Confirmation */}
+      {showLogoutConfirm && (
+        <div className="logout-confirm-overlay">
+          <div className="logout-confirm-dialog">
+            <p>Do you really want to sign out?</p>
+            <div className="logout-confirm-buttons">
+              <button className="logout-yes" onClick={handleLogout}>
+                Yes
+              </button>
+              <button
+                className="logout-no"
+                onClick={() => setShowLogoutConfirm(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ✅ MODAL */}
       {showModal && selectedLeave && (
