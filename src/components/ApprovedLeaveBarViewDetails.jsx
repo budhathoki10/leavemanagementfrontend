@@ -59,10 +59,20 @@ const ApprovedLeaveBarViewDetails = ({ leave, onClose }) => {
 
         <div className="approved-modal-leave-image">
           <h3>Attached Image</h3>
-          {leave.image_data ? (
-            <p>{leave.image_data.secure_url}</p>
+          {leave.image_data != null ? (
+            <>
+              <img src={leave.image_data.secure_url} />
+              <a
+                href={leave.image_data.secure_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="view-full-link"
+              >
+                View full image
+              </a>
+            </>
           ) : (
-            <p>No image provided</p>
+            <p>{"No image provided"}</p>
           )}
         </div>
       </div>
