@@ -99,7 +99,7 @@ export default function Dashboard() {
         rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
       />
-      <section className="dashboard-header">
+      <section className="dashboard-headers">
         <p className="dashboard">Dashboard</p>
         <div className="icons">
           <div className="notifications">
