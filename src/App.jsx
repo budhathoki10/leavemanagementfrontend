@@ -86,6 +86,12 @@ function App() {
       <Route path="/adminRejectedLeave" element={<AdminRejectedLeave />} />
       <Route path="/adminSettings" element={<AdminSettings />} />
       <Route path="/admin-view-leave" element={<AdminViewLeave />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/changeprofilePassword" element={<ChangePassword />} />
+      <Route path="/feedback" element={<Feedback />} />
+      <Route path="/notifications" element={<Notification />} />
+        <Route path="/feedback" element={<Feedback />} />
+
 
       {/* Catch all */}
       <Route path="*" element={<RegisterPage />} />
