@@ -15,6 +15,8 @@ export default function AdminDashboard() {
   const [showModal, setShowModal] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(6);
 
   const navigate = useNavigate();
   const API_BASE = "https://leave-management-backend-1-mp7s.onrender.com/api";
@@ -109,7 +111,16 @@ export default function AdminDashboard() {
 
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
+    setCurrentPage(1); // Reset to first page when filter changes
   };
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = leaveRequests.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(leaveRequests.length / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="admin-dashboard">
@@ -146,7 +157,10 @@ export default function AdminDashboard() {
               >
                 Notifications
               </p>
-              <p className="dropdown-item" onClick={() => navigate("/feedback")}>
+              <p
+                className="dropdown-item"
+                onClick={() => navigate("/feedback")}
+              >
                 Feedback and Support
               </p>
               <hr />
@@ -223,101 +237,135 @@ export default function AdminDashboard() {
             )}
           </div>
         ) : (
-          <div className="leave-requests-grid">
-            {leaveRequests.map((leave) => {
-              const formattedDate = new Date(leave.createdAt).toLocaleDateString(
-                "en-US",
-                { month: "long", day: "numeric", year: "numeric" }
-              );
+          <>
+            <div className="leave-requests-grid">
+              {currentItems.map((leave) => {
+                const formattedDate = new Date(
+                  leave.createdAt
+                ).toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                });
 
-              const cardStatusClass = `leave-card status-${leave.status}`;
+                const cardStatusClass = `leave-card status-${leave.status}`;
 
-              return (
-                <div key={leave._id} className={cardStatusClass}>
-                  <div className="card-header">
-                    <div className="student-info">
-                      <h3 className="student-name">
-                        {leave.studentdetail?.studentname || "Unknown Student"}
-                      </h3>
-                      <p className="student-email">
-                        {leave.studentdetail?.email || "No email provided"}
-                      </p>
-                    </div>
-                    <div className="request-date">{formattedDate}</div>
-                  </div>
-
-                  <div className="card-body">
-                    <div className="detail-row">
-                      <span className="detail-label">Leave Type:</span>
-                      <span className="detail-value">{leave.leaveType}</span>
-                    </div>
-
-                    <div className="detail-row">
-                      <span className="detail-label">Module:</span>
-                      <span className="detail-value">
-                        {leave.modules?.[0]?.moduledetails?.Modulename || "N/A"}
-                      </span>
+                return (
+                  <div key={leave._id} className={cardStatusClass}>
+                    <div className="card-header">
+                      <div className="student-info">
+                        <h3 className="student-name">
+                          {leave.studentdetail?.studentname ||
+                            "Unknown Student"}
+                        </h3>
+                        <p className="student-email">
+                          {leave.studentdetail?.email || "No email provided"}
+                        </p>
+                      </div>
+                      <div className="request-date">{formattedDate}</div>
                     </div>
 
-                    <div className="detail-row">
-                      <span className="detail-label">Level:</span>
-                      <span className="detail-value">{leave.level}</span>
+                    <div className="card-body">
+                      <div className="detail-row">
+                        <span className="detail-label">Leave Type:</span>
+                        <span className="detail-value">{leave.leaveType}</span>
+                      </div>
+
+                      <div className="detail-row">
+                        <span className="detail-label">Module:</span>
+                        <span className="detail-value">
+                          {leave.modules?.[0]?.moduledetails?.Modulename ||
+                            "N/A"}
+                        </span>
+                      </div>
+
+                      <div className="detail-row">
+                        <span className="detail-label">Level:</span>
+                        <span className="detail-value">{leave.level}</span>
+                      </div>
+
+                      <div className="detail-row">
+                        <span className="detail-label">Status:</span>
+                        <span className={`status-badge status-${leave.status}`}>
+                          {leave.status.charAt(0).toUpperCase() +
+                            leave.status.slice(1)}
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="detail-row">
-                      <span className="detail-label">Status:</span>
-                      <span className={`status-badge status-${leave.status}`}>
-                        {leave.status.charAt(0).toUpperCase() +
-                          leave.status.slice(1)}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="card-actions">
-                    <button
-                      className="btn-details"
-                      onClick={() => {
-                        setSelectedLeave(leave);
-                        setShowModal(true);
-                      }}
-                    >
-                      <span className="material-icons">visibility</span>
-                      View Details
-                    </button>
-
-                    {leave.status === "approve" ? (
-                      <button className="btn-approved" disabled>
-                        <span className="material-icons">check_circle</span>
-                        Approved
+                    <div className="card-actions">
+                      <button
+                        className="btn-details"
+                        onClick={() => {
+                          setSelectedLeave(leave);
+                          setShowModal(true);
+                        }}
+                      >
+                        <span className="material-icons">visibility</span>
+                        View Details
                       </button>
-                    ) : leave.status === "reject" ? (
-                      <button className="btn-rejected" disabled>
-                        <span className="material-icons">cancel</span>
-                        Rejected
-                      </button>
-                    ) : (
-                      <>
-                        <button
-                          className="btn-approve"
-                          onClick={() => handleApprove(leave._id)}
-                        >
+
+                      {leave.status === "approve" ? (
+                        <button className="btn-approved" disabled>
                           <span className="material-icons">check_circle</span>
-                          Approve
+                          Approved
                         </button>
-                        <button
-                          className="btn-reject"
-                          onClick={() => handleReject(leave._id)}
-                        >
+                      ) : leave.status === "reject" ? (
+                        <button className="btn-rejected" disabled>
                           <span className="material-icons">cancel</span>
-                          Reject
+                          Rejected
                         </button>
-                      </>
-                    )}
+                      ) : (
+                        <>
+                          <button
+                            className="btn-approve"
+                            onClick={() => handleApprove(leave._id)}
+                          >
+                            <span className="material-icons">check_circle</span>
+                            Approve
+                          </button>
+                          <button
+                            className="btn-reject"
+                            onClick={() => handleReject(leave._id)}
+                          >
+                            <span className="material-icons">cancel</span>
+                            Reject
+                          </button>
+                        </>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+            <div className="pagination">
+              <button
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="pagination-btn"
+              >
+                &lt;
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => (
+                <button
+                  key={i + 1}
+                  onClick={() => paginate(i + 1)}
+                  className={`pagination-btn ${
+                    currentPage === i + 1 ? "active" : ""
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+              <button
+                onClick={() => paginate(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="pagination-btn"
+              >
+                &gt;
+              </button>
+            </div>
+          </>
         )}
       </div>
 
@@ -428,7 +476,9 @@ export default function AdminDashboard() {
                       </div>
                       <div className="detail-row">
                         <span className="detail-label">Week:</span>
-                        <span className="detail-value">{mod.week || "N/A"}</span>
+                        <span className="detail-value">
+                          {mod.week || "N/A"}
+                        </span>
                       </div>
                       <div className="detail-row">
                         <span className="detail-label">Class Type:</span>
