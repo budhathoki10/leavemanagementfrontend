@@ -162,7 +162,6 @@ function LoginPage() {
       {loading && (
         <div className="loading-overlay">
           <div className="loading">
-            <p>Loading...</p>
           </div>
         </div>
       )}
