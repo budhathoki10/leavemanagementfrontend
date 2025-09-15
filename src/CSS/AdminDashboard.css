@@ -444,16 +444,14 @@ body {
   border-radius: 8px;
 }
 .btn-close:hover {
-  background-color: rgb(107, 158, 107);
+  background-color: rgb(239, 235, 235);
   border-radius: 50%;
-  color: rgb(18, 19, 21);
+  color: rgb(62, 62, 63);
 }
 .btn-close .material-icons {
-  color: #333333;
+  color: #4f4c4c;
 }
-.btn-close .material-icons:hover {
-  color: white;
-}
+
 
 /* modal body */
 .modal-body {
