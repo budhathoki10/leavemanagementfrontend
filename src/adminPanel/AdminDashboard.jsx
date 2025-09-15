@@ -512,7 +512,7 @@ export default function AdminDashboard() {
                       href={selectedLeave.image_data.secure_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="view-full-link"
+                      className="view-full-links"
                     >
                       View full image
                     </a>

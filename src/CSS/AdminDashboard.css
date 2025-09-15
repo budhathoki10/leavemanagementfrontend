@@ -490,7 +490,7 @@ body {
   margin-top: 10px;
 }
 
-.view-full-link {
+.view-full-links {
   display: block;
   margin-top: 10px;
   color: #2c67b4;
@@ -498,7 +498,7 @@ body {
   font-weight: 400;
 }
 
-.view-full-link:hover {
+.view-full-links:hover {
   text-decoration: underline;
 }
 

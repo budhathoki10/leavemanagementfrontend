@@ -167,6 +167,10 @@
   font-size: 1rem;
 }
 .view-full-link{
-  color:green;
+  color:rgb(67, 76, 158);
   margin-left: 42%;
+  text-decoration: none;
+}
+.view-full-link:hover{
+  text-decoration: underline;
 }
