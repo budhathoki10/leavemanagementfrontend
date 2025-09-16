@@ -212,9 +212,7 @@ const ApplyForLeave = () => {
       fetchLeaveStats();
     } catch (error) {
       console.error("Error submitting leave:", error.response?.data || error);
-      alert(
-        "Failed to submit leave request. Please check your login or try again."
-      );
+      alert(error.response?.data.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -280,7 +278,7 @@ const ApplyForLeave = () => {
             <option value="Medical">Medical Leave</option>
             <option value="Personal">Personal Leave</option>
             <option value="Emergency">Emergency Leave</option>
-             <option value="Others">Others</option>
+            <option value="Others">Others</option>
           </select>
         </div>
 
@@ -319,7 +317,7 @@ const ApplyForLeave = () => {
                   <option value="">Select</option>
                   {Array.from({ length: 12 }, (_, i) => (
                     <option key={i + 1} value={i + 1}>
-                     {i+1}
+                      {i + 1}
                     </option>
                   ))}
                 </select>
