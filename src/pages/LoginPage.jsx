@@ -35,7 +35,7 @@ function LoginPage() {
       setLoading(true);
       const response = await fetch(
         // "https://devplat.heraldcollege.edu.np/leavo-api/api/user/login",
-        "https://leave-management-backend-1-mp7s.onrender.com/api/user/login",
+        "https://leave-management-backend-final.onrender.com/api/user/login",
         // "http://localhost:5000/api/user/login",
         {
           method: "POST",
@@ -76,7 +76,7 @@ function LoginPage() {
       }
 
       //admin email
-      if (email === "registrytimetableexamination@heraldcollege.edu.np") {
+      if (email === "studentservicedepartment@heraldcollege.edu.np") {
         navigate("/adminDashboard");
       } else {
         navigate("/dashboard");
@@ -105,7 +105,7 @@ function LoginPage() {
 
       const response = await axios.post(
         // "https://devplat.heraldcollege.edu.np/leavo-api/api/loginwithmicrosoft",
-        "https://leave-management-backend-1-mp7s.onrender.com/api/loginwithmicrosoft",
+        "https://leave-management-backend-final.onrender.com/api/loginwithmicrosoft",
         // "http://localhost:5000/api/loginwithmicrosoft",
         userData,
         {
@@ -121,7 +121,7 @@ function LoginPage() {
       Cookies.set("token", data.token, { expires: 90, path: "/" });
 
       //based on admin email
-      if (user.email === "registrytimetableexamination@heraldcollege.edu.np ") {
+      if (user.email === "studentservicedepartment@heraldcollege.edu.np") {
         navigate("/adminDashboard");
       } else {
         navigate("/dashboard");

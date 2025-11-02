@@ -12,10 +12,6 @@ const ApprovedLeave = () => {
           <div className="user">
             <span class="material-symbols-outlined">account_circle</span>{" "}
           </div>
-          <div className="user-text">
-            <p className="username">John Snow</p>
-            <p className="username-user">User</p>
-          </div>
         </div>
       </section>
       <hr className="parting-line"></hr>

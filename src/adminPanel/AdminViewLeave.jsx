@@ -11,7 +11,7 @@ export default function AdminViewLeave() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const API_BASE = "https://leave-management-backend-1-mp7s.onrender.com/api";
+  const API_BASE = "https://leave-management-backend-final.onrender.com/api";
 
   useEffect(() => {
     const token = Cookies.get("token");

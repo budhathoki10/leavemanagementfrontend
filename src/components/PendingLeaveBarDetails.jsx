@@ -14,7 +14,7 @@ const LeaveBarDetails = () => {
       if (!token) return console.error("Token not found");
 
       const res = await fetch(
-        "https://leave-management-backend-1-mp7s.onrender.com/api/task/filterviewownleave?status=pending",
+        "https://leave-management-backend-final.onrender.com/api/task/filterviewownleave?status=pending",
         {
           method: "GET",
           headers: {

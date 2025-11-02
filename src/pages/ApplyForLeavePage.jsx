@@ -35,7 +35,7 @@ const ApplyForLeave = () => {
       if (!token) return;
 
       const res = await axios.get(
-        "https://leave-management-backend-1-mp7s.onrender.com/api/user/dashboard",
+        "https://leave-management-backend-final.onrender.com/api/user/dashboard",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -55,7 +55,7 @@ const ApplyForLeave = () => {
       if (!token) return;
 
       const res = await axios.get(
-        "https://leave-management-backend-1-mp7s.onrender.com/api/profile",
+        "https://leave-management-backend-final.onrender.com/api/profile",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -168,7 +168,7 @@ const ApplyForLeave = () => {
         formData.append("myfile", pictures[0]);
 
         response = await axios.post(
-          "https://leave-management-backend-1-mp7s.onrender.com/api/task/create",
+          "https://leave-management-backend-final.onrender.com/api/task/create",
           formData,
           {
             headers: {
@@ -191,7 +191,7 @@ const ApplyForLeave = () => {
         };
 
         response = await axios.post(
-          "https://leave-management-backend-1-mp7s.onrender.com/api/task/create",
+          "https://leave-management-backend-final.onrender.com/api/task/create",
           payload,
           {
             headers: {

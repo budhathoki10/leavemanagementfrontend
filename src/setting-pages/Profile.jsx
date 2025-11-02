@@ -26,7 +26,7 @@ const Profile = () => {
         }
 
         const res = await fetch(
-          "https://leave-management-backend-1-mp7s.onrender.com/api/profile",
+          "https://leave-management-backend-final.onrender.com/api/profile",
           {
             method: "GET",
             headers: {
