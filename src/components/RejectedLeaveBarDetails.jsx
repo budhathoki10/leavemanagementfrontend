@@ -13,7 +13,7 @@ const RejectedLeaveDetails = () => {
       if (!token) return console.error("Token not found");
 
       const res = await fetch(
-        "https://leave-management-backend-final.onrender.com/api/task/filterviewownleave?status=reject",
+        "https://leave-management-backend-kkk.onrender.com/api/task/filterviewownleave?status=reject",
         {
           method: "GET",
           headers: {
