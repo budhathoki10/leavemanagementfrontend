@@ -35,7 +35,7 @@ function LoginPage() {
       setLoading(true);
       const response = await fetch(
         // "https://devplat.heraldcollege.edu.np/leavo-api/api/user/login",
-        "https://leavesssssssssssssss.onrender.com,
+        "https://leavesssssssssssssss.onrender.com/user/login",
         // "http://localhost:5000/api/user/login",
         {
           method: "POST",
