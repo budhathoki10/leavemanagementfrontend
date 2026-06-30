@@ -32,7 +32,7 @@ function RegisterPage() {
     try {
       const response = await fetch(
         // "https://devplat.heraldcollege.edu.np/leavo-api/api/user/register",
-          "https://leave-management-backend-kkk.onrender.com/api/user/register",
+          "https://leavesssssssssssssss.onrender.com/user/register",
               // "http://localhost:5000/api/user/register",
         {
           method: "POST",

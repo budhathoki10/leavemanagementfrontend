@@ -19,7 +19,7 @@ export default function AdminDashboard() {
   const [itemsPerPage] = useState(6);
 
   const navigate = useNavigate();
-  const API_BASE = "https://leave-management-backend-kkk.onrender.com/api";
+  const API_BASE = "https://leavesssssssssssssss.onrender.com";
 
   // Fetch leave requests (with optional status filter)
   const fetchLeaves = async (statusFilter = "all") => {

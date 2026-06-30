@@ -13,7 +13,7 @@ const ApprovedLeaveBarDetails = () => {
       if (!token) return console.error("Token not found");
 
       const res = await fetch(
-        "https://leave-management-backend-kkk.onrender.com/api/task/filterviewownleave?status=approve",
+        "https://leavesssssssssssssss.onrender.com/task/filterviewownleave?status=approve",
         {
           method: "GET",
           headers: {

@@ -11,7 +11,7 @@ export default function AdminViewLeave() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const API_BASE = "https://leave-management-backend-kkk.onrender.com/api";
+  const API_BASE = "https://leavesssssssssssssss.onrender.com";
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -48,7 +48,7 @@ export default function AdminViewLeave() {
           }
 
 
-          
+
         } else {
           setLeaveRequests([]);
           console.warn("API success is false or undefined:", response.data);

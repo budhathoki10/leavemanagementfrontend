@@ -35,7 +35,7 @@ function LoginPage() {
       setLoading(true);
       const response = await fetch(
         // "https://devplat.heraldcollege.edu.np/leavo-api/api/user/login",
-        "https://leave-management-backend-kkk.onrender.com/api/user/login",
+        "https://leavesssssssssssssss.onrender.com,
         // "http://localhost:5000/api/user/login",
         {
           method: "POST",
@@ -105,7 +105,7 @@ function LoginPage() {
 
       const response = await axios.post(
         // "https://devplat.heraldcollege.edu.np/leavo-api/api/loginwithmicrosoft",
-        "https://leave-management-backend-kkk.onrender.com/api/loginwithmicrosoft",
+        "https://leavesssssssssssssss.onrender.com/loginwithmicrosoft",
         // "http://localhost:5000/api/loginwithmicrosoft",
         userData,
         {

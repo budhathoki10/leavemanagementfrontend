@@ -33,7 +33,7 @@ export default function Dashboard() {
 
     const fetchDashboard = () => {
       fetch(
-        "https://leave-management-backend-kkk.onrender.com/api/profile",
+        "https://leavesssssssssssssss.onrender.com/profile",
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
@@ -46,7 +46,7 @@ export default function Dashboard() {
         .catch((err) => console.error("Profile fetch error:", err));
 
       fetch(
-        "https://leave-management-backend-kkk.onrender.com/api/user/dashboard",
+        "https://leavesssssssssssssss.onrender.com/user/dashboard",
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
