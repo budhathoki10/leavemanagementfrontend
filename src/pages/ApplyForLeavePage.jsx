@@ -6,6 +6,21 @@ import "../CSS/ApplyForLeavePage.css";
 import Cookies from "js-cookie";
 import { apiUrl } from "../config/auth";
 
+const FALLBACK_MODULES = [
+  {
+    _id: "688386b9b65720836a037725",
+    Modulename: "Computational Mathematics",
+  },
+  {
+    _id: "688386ecb65720836a037728",
+    Modulename: "Introduction to Object-Oriented Programming",
+  },
+  {
+    _id: "68838752b65720836a03772a",
+    Modulename: "Interactive 3D Applications and Academic Skills",
+  },
+];
+
 const ApplyForLeave = () => {
   const [studentName, setStudentName] = useState("Student");
   const [leaveType, setLeaveType] = useState("");
@@ -16,6 +31,7 @@ const ApplyForLeave = () => {
   const [pictures, setPictures] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [leaveStats, setLeaveStats] = useState(null);
+  const [availableModules, setAvailableModules] = useState(FALLBACK_MODULES);
 
   const totalLeaves = 24;
   const leavesTaken = leaveStats ? leaveStats.totalLeaveTaken : 0;
@@ -65,9 +81,27 @@ const ApplyForLeave = () => {
     }
   };
 
+  const fetchModules = async () => {
+    try {
+      const token = Cookies.get("token");
+      if (!token) return;
+
+      const res = await axios.get(apiUrl("/task/modules"), {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (res.data?.success && Array.isArray(res.data.data)) {
+        setAvailableModules(res.data.data);
+      }
+    } catch (err) {
+      console.error("Error fetching modules:", err.response?.data || err);
+    }
+  };
+
   useEffect(() => {
     fetchLeaveStats();
     fetchUserProfile();
+    fetchModules();
 
     const interval = setInterval(fetchLeaveStats, 10000);
     return () => clearInterval(interval);
@@ -288,15 +322,11 @@ const ApplyForLeave = () => {
                   }
                 >
                   <option value="">Enter Module name to be missed.</option>
-                  <option value="688386b9b65720836a037725">
-                    Computational Mathematics
-                  </option>
-                  <option value="688386ecb65720836a037728">
-                    Introduction to Object-Oriented Programming
-                  </option>
-                  <option value="68838752b65720836a03772a">
-                    Interactive 3D Applications and Academic Skills
-                  </option>
+                  {availableModules.map((availableModule) => (
+                    <option key={availableModule._id} value={availableModule._id}>
+                      {availableModule.Modulename}
+                    </option>
+                  ))}
                 </select>
               </div>
 
