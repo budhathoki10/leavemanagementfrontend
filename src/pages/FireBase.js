@@ -20,7 +20,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth=getAuth(app)
 const provider= new OAuthProvider('microsoft.com')
-provider.setCustomParameters({
-  tenant: '3a5b867f-95b7-4278-abe8-e76ea9dc53da' 
-});
 export {auth,provider}

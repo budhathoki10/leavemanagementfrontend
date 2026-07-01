@@ -189,7 +189,7 @@ function LoginPage() {
             <input
               type="email"
               id="email"
-              placeholder="your@heraldcollege.edu.np"
+              placeholder="your@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

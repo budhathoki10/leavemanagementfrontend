@@ -108,7 +108,7 @@ function RegisterPage() {
                 message: "Invalid email address",
               },
             })}
-            placeholder="your@heraldcollege.edu.np"
+            placeholder="your@email.com"
           />
           {errors.email && <p className="error">{errors.email.message}</p>}
 
