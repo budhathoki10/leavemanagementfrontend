@@ -5,7 +5,7 @@ import heraldLogo from "../assets/herald-logo.png";
 import wolverhamptonLogo from "../assets/wlv-logo.png";
 import axios from "axios"
 import microsoftLogo from "../assets/Mircosoft.png";
-import { auth, provider } from "./FireBase";
+import { auth, provider } from "../pages/FireBase";
 import Cookies from "js-cookie";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
 

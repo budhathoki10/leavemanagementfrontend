@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app"
-import {getAuth, OAuthProvider} from 'firebase/auth'
+import { getAuth, OAuthProvider } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,6 +18,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth=getAuth(app)
-const provider= new OAuthProvider('microsoft.com')
-export {auth,provider}
+const auth = getAuth(app);
+const provider = new OAuthProvider("microsoft.com");
+provider.setCustomParameters({
+  tenant: "e620b2cb-0129-44bb-9edd-aaa6e9057514",
+  prompt: "select_account",
+});
+
+export { auth, provider };

@@ -3,11 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import leavoLogo from "../assets/leavo-logo.png";
 import wolverhamptonLogo from "../assets/wlv-logo.png";
 import heraldLogo from "../assets/Logo.png";
-import microsoftLogo from "../assets/Mircosoft.png"; // Fix typo: "Mircosoft" -> "Microsoft"
 import axios from "axios";
 import { auth, provider } from "./FireBase";
 import Cookies from "js-cookie";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
+import microsoftLogo from "../assets/Mircosoft.png";
 import "./Login.css";
 import { signInWithPopup } from "firebase/auth";
 function LoginPage() {
@@ -143,19 +143,6 @@ function LoginPage() {
       setRememberMe(false);
     }
   };
-
-  useEffect(() => {
-    const attachEventListeners = () => {
-      const button = document.querySelector(".google-signin");
-      if (button) {
-        button.addEventListener("click", handleGoogleSignIn);
-        return () => button.removeEventListener("click", handleGoogleSignIn);
-      } else {
-        console.warn("Element '.google-signin' not found");
-      }
-    };
-    attachEventListeners();
-  }, []);
 
   return (
     <div className="login-container">

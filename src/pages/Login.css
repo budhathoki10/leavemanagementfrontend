@@ -242,7 +242,9 @@ button[type="submit"]:hover {
 }
 
 .google-signin img {
+  width: 30px;
   height: 30px;
+  flex-shrink: 0;
 }
 
 .google-signin:hover {
