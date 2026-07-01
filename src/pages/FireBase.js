@@ -21,6 +21,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new OAuthProvider("microsoft.com");
 provider.setCustomParameters({
+  
   tenant: "e620b2cb-0129-44bb-9edd-aaa6e9057514",
   prompt: "select_account",
 });
