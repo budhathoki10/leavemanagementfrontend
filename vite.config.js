@@ -4,9 +4,11 @@ import path from "path";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
+  const rawBase = env.VITE_BASE_URL || "/";
+  const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
   return {
-     base: env.VITE_BASE_URL || "/leavo/",
+    base,
     plugins: [react()],
     resolve: {
       alias: {
