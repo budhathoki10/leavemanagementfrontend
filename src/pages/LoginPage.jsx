@@ -3,13 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import leavoLogo from "../assets/leavo-logo.png";
 import wolverhamptonLogo from "../assets/wlv-logo.png";
 import heraldLogo from "../assets/Logo.png";
-import axios from "axios";
-import { auth, provider } from "./FireBase";
 import Cookies from "js-cookie";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
-import microsoftLogo from "../assets/Mircosoft.png";
+import googleLogo from "../assets/google.png";
+import { GOOGLE_AUTH_URL } from "../config/auth";
 import "./Login.css";
-import { signInWithPopup } from "firebase/auth";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -91,46 +89,10 @@ function LoginPage() {
     }
   };
 
-  // Microsoft sign-in
-  const handleGoogleSignIn = async () => {
-    try {
-      setLoading(true);
-      const loginResponse = await signInWithPopup(auth, provider);
-      const user = loginResponse.user;
-
-      const userData = {
-        email: user.email,
-        studentname: user.displayName,
-      };
-
-      const response = await axios.post(
-        // "https://devplat.heraldcollege.edu.np/leavo-api/api/loginwithmicrosoft",
-        "https://leavesssssssssssssss.onrender.com/loginwithmicrosoft",
-        // "http://localhost:5000/api/loginwithmicrosoft",
-        userData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(response);
-      const data = response.data;
-      console.log("Microsoft login response:", data);
-      Cookies.set("token", data.token, { expires: 90, path: "/" });
-
-      //based on admin email
-      if (user.email === "studentservicedepartment@heraldcollege.edu.np") {
-        navigate("/adminDashboard");
-      } else {
-        navigate("/dashboard");
-      }
-    } catch (error) {
-      console.error("Microsoft sign-in error:", error);
-      alert("An error occurred during Microsoft sign-in. Please try again.");
-      setLoading(false);
-    }
+  // Google sign-in
+  const handleGoogleSignIn = () => {
+    setLoading(true);
+    window.location.assign(GOOGLE_AUTH_URL);
   };
 
   // Handle form submission
@@ -234,8 +196,8 @@ function LoginPage() {
             onClick={handleGoogleSignIn}
             disabled={loading}
           >
-            <img src={microsoftLogo} alt="Microsoft logo" />
-            Sign in with Microsoft
+            <img src={googleLogo} alt="Google logo" />
+            Sign in with Google
           </button>
         </div>
       </div>

@@ -3,14 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import leavoLogo from "../assets/leavo-logo.png";
 import heraldLogo from "../assets/herald-logo.png";
 import wolverhamptonLogo from "../assets/wlv-logo.png";
-import axios from "axios"
-import microsoftLogo from "../assets/Mircosoft.png";
-import { auth, provider } from "../pages/FireBase";
 import Cookies from "js-cookie";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
+import googleLogo from "../assets/google.png";
+import { GOOGLE_AUTH_URL } from "../config/auth";
 
 import "./Login.css";
-import { signInWithPopup } from "firebase/auth"
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -67,34 +65,8 @@ function LoginPage() {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    try {
-      const loginResponse = await signInWithPopup(auth, provider);
-      const user = loginResponse.user;
-      const userData = {
-        email: user.email,
-      };
-
-      // Send to backend
-      const response = await axios.post(
-        "https://leavesssssssssssssss.onrender.com/api/loginwithmicrosoft",
-        userData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(response);
-      const data = response.data;
-      console.log(response);
-      console.log("Login successful:", data.message);
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Sign-in error:", error);
-      alert("An error occurred during sign-in. Please try again.");
-    }
+  const handleGoogleSignIn = () => {
+    window.location.assign(GOOGLE_AUTH_URL);
   };
 
   return (
@@ -175,8 +147,8 @@ function LoginPage() {
 
           <div className="or-divider">OR</div>
           <button className="google-signin" onClick={handleGoogleSignIn}>
-            <img src={microsoftLogo} alt="Microsoft logo" />
-            Sign in with Microsoft
+            <img src={googleLogo} alt="Google logo" />
+            Sign in with Google
           </button>
         </div>
       </div>
