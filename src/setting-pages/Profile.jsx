@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";   
 import Cookies from "js-cookie";
 import "../CSS/Profile.css";
+import { apiUrl } from "../config/auth";
 
 const Profile = () => {
   const [editing, setEditing] = useState(false);
@@ -26,7 +27,7 @@ const Profile = () => {
         }
 
         const res = await fetch(
-          "https://leavesssssssssssssss.onrender.com/profile",
+          apiUrl("/profile"),
           {
             method: "GET",
             headers: {

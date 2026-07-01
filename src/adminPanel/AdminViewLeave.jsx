@@ -4,14 +4,13 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { format } from "date-fns";
 import "../CSS/AdminViewLeave.css";
+import { apiUrl } from "../config/auth";
 
 export default function AdminViewLeave() {
   const navigate = useNavigate();
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const API_BASE = "https://leavesssssssssssssss.onrender.com";
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -22,7 +21,7 @@ export default function AdminViewLeave() {
 
     const fetchLeaves = async () => {
       try {
-        const response = await axios.get(`${API_BASE}/task/viewleave`, {
+        const response = await axios.get(apiUrl("/task/viewleave"), {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -81,7 +80,7 @@ export default function AdminViewLeave() {
       }
       console.log("Token:", token.substring(0, 10) + "..."); // Log partial token for verification
       const requestConfig = {
-        url: `${API_BASE}/task/updateleave/${id}`,
+        url: apiUrl(`/task/updateleave/${id}`),
         method: "put",
         data: { status: "approve" },
         headers: {
@@ -126,7 +125,7 @@ export default function AdminViewLeave() {
       }
       console.log("Token:", token.substring(0, 10) + "..."); // Log partial token for verification
       const requestConfig = {
-        url: `${API_BASE}/task/updateleave/${id}`,
+        url: apiUrl(`/task/updateleave/${id}`),
         method: "put",
         data: { status: "reject" },
         headers: {

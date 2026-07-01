@@ -6,7 +6,7 @@ import heraldLogo from "../assets/Logo.png";
 import Cookies from "js-cookie";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
 import googleLogo from "../assets/google.png";
-import { GOOGLE_AUTH_URL } from "../config/auth";
+import { apiUrl, GOOGLE_AUTH_URL } from "../config/auth";
 import "./Login.css";
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -27,14 +27,30 @@ function LoginPage() {
     }
   }, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const googleToken = params.get("token");
+    const redirect = params.get("redirect") || "/dashboard";
+    const authError = params.get("authError");
+
+    if (authError) {
+      alert(`Google sign-in failed: ${authError}`);
+      window.history.replaceState(null, "", window.location.pathname);
+      return;
+    }
+
+    if (googleToken) {
+      Cookies.set("token", googleToken, { expires: 90, path: "/" });
+      navigate(redirect, { replace: true });
+    }
+  }, [navigate]);
+
   // Regular login via email/password
   const loginAPI = async () => {
     try {
       setLoading(true);
       const response = await fetch(
-        // "https://devplat.heraldcollege.edu.np/leavo-api/api/user/login",
-        "https://leavesssssssssssssss.onrender.com/user/login",
-        // "http://localhost:5000/api/user/login",
+        apiUrl("/user/login"),
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -52,8 +68,6 @@ function LoginPage() {
       }
 
       const data = await response.json();
-      console.log(data);
-      Cookies.set("token", data.token, { expires: 90, path: "/" });
       if (!response.ok) {
         const errorMsg = data.error || "Unknown error";
         console.error("Login failed:", errorMsg);
@@ -61,6 +75,8 @@ function LoginPage() {
         setLoading(false);
         return false;
       }
+
+      Cookies.set("token", data.token, { expires: 90, path: "/" });
 
       console.log("Login response:", data);
 

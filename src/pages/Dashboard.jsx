@@ -6,6 +6,7 @@ import userImage from "../assets/user.jpeg";
 import clgLogo from "../assets/OIP.png";
 import CircularProgressBar from "../components/CircularProgressBar";
 import MonthlyLeaveChart from "../components/MonthlyLeaveChart";
+import { apiUrl } from "../config/auth";
 
 export default function Dashboard() {
   const [studentName, setStudentName] = useState("Student");
@@ -23,8 +24,6 @@ export default function Dashboard() {
     },
   ]);
   const [leavesApproved, setLeavesApproved] = useState(0);
-  const [leavesPending, setLeavesPending] = useState(0);
-  const [leavesRejected, setLeavesRejected] = useState(0);
   const [monthlyData, setMonthlyData] = useState([]);
 
   useEffect(() => {
@@ -33,7 +32,7 @@ export default function Dashboard() {
 
     const fetchDashboard = () => {
       fetch(
-        "https://leavesssssssssssssss.onrender.com/profile",
+        apiUrl("/profile"),
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
@@ -46,7 +45,7 @@ export default function Dashboard() {
         .catch((err) => console.error("Profile fetch error:", err));
 
       fetch(
-        "https://leavesssssssssssssss.onrender.com/user/dashboard",
+        apiUrl("/user/dashboard"),
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
@@ -56,9 +55,6 @@ export default function Dashboard() {
         .then((data) => {
           if (data?.data) {
             setLeavesApproved(data.data.totalLeaveTaken || 0);
-            setLeavesPending(data.data.leavesPending || 0);
-            setLeavesRejected(data.data.leavesRejected || 0);
-
             // Update module progress bars
             const updatedModules = data.data.moduleWiseStats.map((m) => ({
               moduleName: m.module.Modulename,

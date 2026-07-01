@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { format } from "date-fns";
 import "../CSS/AdminDashboard.css";
 import userImage from "../assets/user.jpeg";
+import { apiUrl } from "../config/auth";
 
 export default function AdminDashboard() {
   const [leaveRequests, setLeaveRequests] = useState([]);
@@ -19,8 +20,6 @@ export default function AdminDashboard() {
   const [itemsPerPage] = useState(6);
 
   const navigate = useNavigate();
-  const API_BASE = "https://leavesssssssssssssss.onrender.com";
-
   // Fetch leave requests (with optional status filter)
   const fetchLeaves = async (statusFilter = "all") => {
     setLoading(true);
@@ -36,7 +35,7 @@ export default function AdminDashboard() {
       const params = {};
       if (statusFilter !== "all") params.status = statusFilter;
 
-      const response = await axios.get(`${API_BASE}/task/viewleave`, {
+      const response = await axios.get(apiUrl("/task/viewleave"), {
         headers: { Authorization: `Bearer ${token}` },
         params,
       });
@@ -56,7 +55,6 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchLeaves(filter);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
   const handleApprove = async (id) => {
@@ -65,7 +63,7 @@ export default function AdminDashboard() {
       if (!token) throw new Error("No authentication token available");
 
       await axios.put(
-        `${API_BASE}/task/updateleave/${id}`,
+        apiUrl(`/task/updateleave/${id}`),
         { status: "approve" },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -87,7 +85,7 @@ export default function AdminDashboard() {
       if (!token) throw new Error("No authentication token available");
 
       await axios.put(
-        `${API_BASE}/task/updateleave/${id}`,
+        apiUrl(`/task/updateleave/${id}`),
         { status: "reject" },
         { headers: { Authorization: `Bearer ${token}` } }
       );

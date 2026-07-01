@@ -6,9 +6,9 @@ import wolverhamptonLogo from "../assets/wlv-logo.png";
 import Cookies from "js-cookie";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
 import googleLogo from "../assets/google.png";
-import { GOOGLE_AUTH_URL } from "../config/auth";
+import { apiUrl, GOOGLE_AUTH_URL } from "../config/auth";
 
-import "./Login.css";
+import "../CSS/AdminLogin.css";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -22,7 +22,7 @@ function LoginPage() {
   const loginAPI = async () => {
     try {
       const response = await fetch(
-        "https://leavesssssssssssssss.onrender.com/api/user/login",
+        apiUrl("/admin/login"),
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -44,9 +44,9 @@ function LoginPage() {
       }
 
       const data = await response.json();
-      Cookies.set("token", data.accessToken);
+      Cookies.set("token", data.token, { expires: 90, path: "/" });
 
-      navigate("/dashboard");
+      navigate("/adminDashboard");
       return true;
     } catch (error) {
       alert("Error during login: " + error.message);
@@ -142,7 +142,7 @@ function LoginPage() {
           </form>
 
           <p>
-            Don't have an account? <Link to="/">Register here</Link>
+            Don't have an account? <Link to="/admin-register">Register here</Link>
           </p>
 
           <div className="or-divider">OR</div>

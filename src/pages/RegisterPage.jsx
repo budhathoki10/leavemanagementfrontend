@@ -10,6 +10,7 @@ import leavoLogo from "../assets/leavo-logo.png";
 import wolverhamptonLogo from "../assets/wlv-logo.png";
 
 import heraldLogo from "../assets/herald-logo.png";
+import { apiUrl } from "../config/auth";
 
 function RegisterPage() {
   const {
@@ -28,12 +29,10 @@ function RegisterPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const registerAPI = async (data) => {
-    const { firstname, lastname, email, password, confirm_password } = data;
+    const { email, password, confirm_password } = data;
     try {
       const response = await fetch(
-        // "https://devplat.heraldcollege.edu.np/leavo-api/api/user/register",
-          "https://leavesssssssssssssss.onrender.com/user/register",
-              // "http://localhost:5000/api/user/register",
+        apiUrl("/user/register"),
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

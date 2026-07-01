@@ -9,6 +9,7 @@ import ApprovedLeave from "./pages/ApprovedLeave.jsx";
 import RejectedLeave from "./pages/RejectedLeave.jsx";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import Logout from "./pages/Logout";
 import Settings from "./pages/Settings";
 import Profile from "./setting-pages/Profile.jsx";
@@ -33,6 +34,8 @@ import AdminPendingLeave from "./adminPanel/AdminPendingLeave";
 import AdminRejectedLeave from "./adminPanel/AdminRejectedLeave";
 import AdminSettings from "./adminPanel/AdminSettings";
 import AdminViewLeave from "./adminPanel/AdminViewLeave";
+import AdminLoginPage from "./adminPanel/AdminLoginPage";
+import AdminRegisterPage from "./adminPanel/AdminRegisterPage";
 
 // Layout with sidebar
 function MainLayout() {
@@ -55,6 +58,7 @@ function App() {
       <Route path="/" element={<RegisterPage />} />
       {/* Authentication routes */}
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/logout" element={<Logout />} />
       {/* Main app routes */}
       <Route element={<MainLayout />}>
@@ -72,6 +76,8 @@ function App() {
       </Route>
 
       {/* Admin route */}
+      <Route path="/admin-login" element={<AdminLoginPage />} />
+      <Route path="/admin-register" element={<AdminRegisterPage />} />
       <Route path="/adminSettingSideBar" element={<AdminSettingSideBar />} />
       <Route
         path="/adminApplyForLeavePage"
@@ -90,8 +96,6 @@ function App() {
       <Route path="/changeprofilePassword" element={<ChangePassword />} />
       <Route path="/feedback" element={<Feedback />} />
       <Route path="/notifications" element={<Notification />} />
-        <Route path="/feedback" element={<Feedback />} />
-
 
       {/* Catch all */}
       <Route path="*" element={<RegisterPage />} />

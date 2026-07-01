@@ -4,11 +4,15 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 
 const baseUrl = import.meta.env.BASE_URL;
-const basename = baseUrl === "/" ? undefined : baseUrl.replace(/\/$/, "");
+const configuredBasename = baseUrl === "/" ? "" : baseUrl.replace(/\/$/, "");
+const runtimeBasename =
+  window.location.pathname === "/leavo" || window.location.pathname.startsWith("/leavo/")
+    ? "/leavo"
+    : configuredBasename;
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter basename={basename}>
+    <BrowserRouter basename={runtimeBasename || undefined}>
       <App />
     </BrowserRouter>
   </React.StrictMode>

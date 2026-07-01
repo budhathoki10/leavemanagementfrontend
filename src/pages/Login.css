@@ -126,6 +126,7 @@ form label {
 }
 
 form input[type="email"],
+form input[type="text"],
 form input[type="password"],
 .password-field input {
   width: 100%;

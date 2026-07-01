@@ -10,6 +10,7 @@ import leavoLogo from "../assets/leavo-logo.png";
 import wolverhamptonLogo from "../assets/wlv-logo.png";
 
 import heraldLogo from "../assets/herald-logo.png";
+import { apiUrl } from "../config/auth";
 
 function RegisterPage() {
   const {
@@ -31,7 +32,7 @@ function RegisterPage() {
     const { firstname, lastname, email, password, confirm_password } = data;
     try {
       const response = await fetch(
-        "https://leavesssssssssssssss.onrender.com/api/user/register",
+        apiUrl("/admin/register"),
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -71,7 +72,7 @@ function RegisterPage() {
     const success = await registerAPI(data);
     if (success) {
       reset();
-      navigate("/login", { replace: true });
+      navigate("/admin-login", { replace: true });
     }
   };
 
@@ -186,7 +187,7 @@ function RegisterPage() {
           </button>
 
           <p className="login-link">
-            Already have an account? <Link to="/login">Sign in</Link>
+            Already have an account? <Link to="/admin-login">Sign in</Link>
           </p>
         </form>
       </div>

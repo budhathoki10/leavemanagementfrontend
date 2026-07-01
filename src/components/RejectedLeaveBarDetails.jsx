@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../CSS/RejectedLeaveBarDetails.css";
 import RejectedLeaveViewModal from "./RejectedLeaveBarViewDetails";
 import Cookies from "js-cookie";
+import { apiUrl } from "../config/auth";
 
 const RejectedLeaveDetails = () => {
   const [rejectedLeaves, setRejectedLeaves] = useState([]);
@@ -13,7 +14,7 @@ const RejectedLeaveDetails = () => {
       if (!token) return console.error("Token not found");
 
       const res = await fetch(
-        "https://leavesssssssssssssss.onrender.com/task/filterviewownleave?status=reject",
+        apiUrl("/task/filterviewownleave?status=reject"),
         {
           method: "GET",
           headers: {

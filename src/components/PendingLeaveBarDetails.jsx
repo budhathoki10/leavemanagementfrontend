@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import "../CSS/PendingLeaveBarDetails.css";
 import PendingLeaveBarViewDetails from "./PendingLeaveBarViewDetails";
 import Cookies from "js-cookie";
+import { apiUrl } from "../config/auth";
 
 const LeaveBarDetails = () => {
   const [pendingLeaves, setPendingLeaves] = useState([]);
@@ -14,7 +15,7 @@ const LeaveBarDetails = () => {
       if (!token) return console.error("Token not found");
 
       const res = await fetch(
-        "https://leavesssssssssssssss.onrender.com/task/filterviewownleave?status=pending",
+        apiUrl("/task/filterviewownleave?status=pending"),
         {
           method: "GET",
           headers: {

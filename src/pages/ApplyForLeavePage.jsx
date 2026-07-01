@@ -3,8 +3,8 @@ import { PieChart, Pie, Cell } from "recharts";
 import axios from "axios";
 import userImage from "../assets/user.jpeg";
 import "../CSS/ApplyForLeavePage.css";
-import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { apiUrl } from "../config/auth";
 
 const ApplyForLeave = () => {
   const [studentName, setStudentName] = useState("Student");
@@ -16,7 +16,6 @@ const ApplyForLeave = () => {
   const [pictures, setPictures] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [leaveStats, setLeaveStats] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const totalLeaves = 24;
   const leavesTaken = leaveStats ? leaveStats.totalLeaveTaken : 0;
@@ -27,22 +26,19 @@ const ApplyForLeave = () => {
   ];
   const COLORS = ["#00571e", "#e0e0e0"];
 
-  const navigate = useNavigate();
-
   const fetchLeaveStats = async () => {
     try {
       const token = Cookies.get("token");
       if (!token) return;
 
       const res = await axios.get(
-        "https://leavesssssssssssssss.onrender.com/user/dashboard",
+        apiUrl("/user/dashboard"),
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (res.data && res.data.success) {
         setLeaveStats(res.data.data);
-        setIsLoggedIn(true);
       }
     } catch (err) {
       console.error("Error fetching leave stats:", err.response?.data || err);
@@ -55,7 +51,7 @@ const ApplyForLeave = () => {
       if (!token) return;
 
       const res = await axios.get(
-        "https://leavesssssssssssssss.onrender.com/profile",
+        apiUrl("/profile"),
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -147,8 +143,6 @@ const ApplyForLeave = () => {
         return;
       }
 
-      let response;
-
       if (pictures.length > 0) {
         const formData = new FormData();
         formData.append("level", 6);
@@ -167,8 +161,8 @@ const ApplyForLeave = () => {
 
         formData.append("myfile", pictures[0]);
 
-        response = await axios.post(
-          "https://leavesssssssssssssss.onrender.com/task/create",
+        await axios.post(
+          apiUrl("/task/create"),
           formData,
           {
             headers: {
@@ -190,8 +184,8 @@ const ApplyForLeave = () => {
           })),
         };
 
-        response = await axios.post(
-          "https://leavesssssssssssssss.onrender.com/task/create",
+        await axios.post(
+          apiUrl("/task/create"),
           payload,
           {
             headers: {

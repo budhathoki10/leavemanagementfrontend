@@ -8,7 +8,6 @@ import LeaveHistoryBar from "./AdminLeaveHistoryBar.jsx";
 
 const SideBar = () => {
   const [showSettingMenu, setShowSettingMenu] = useState(false);
-  const [showLeaveHisotryMenu, setShowLeaveHistoryMenu] = useState(false);
   const navigate = useNavigate();
 
   return (

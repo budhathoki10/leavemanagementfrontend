@@ -1,7 +1,7 @@
 import React from "react";
 import "../CSS/AdminLeaveHistoryBar.css";
 import { NavLink } from "react-router-dom";
-const LeaveHistoryBar = ({ onClose }) => {
+const LeaveHistoryBar = () => {
   return (
     <div className="leave-history-panel">
       <ul className="leave-history-links">
